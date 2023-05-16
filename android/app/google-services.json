@@ -1,0 +1,62 @@
+{
+  "project_info": {
+    "project_number": "142242859895",
+    "project_id": "shwe-thiri-khit",
+    "storage_bucket": "shwe-thiri-khit.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:142242859895:android:463badfe04b5d48e2e6f72",
+        "android_client_info": {
+          "package_name": "com.kzn.shwethirikhit"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "142242859895-h8sl7kb90h7i562sgu4rrpn0oul7mtvr.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kzn.shwethirikhit",
+            "certificate_hash": "0cace59864e260a684ebebf2cc33b999f2950cd4"
+          }
+        },
+        {
+          "client_id": "142242859895-kt02kq3v159a09825ljd5gkc7a2g0nm8.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.kzn.shwethirikhit",
+            "certificate_hash": "b86efdadef2c92de55916ff46cb465aca5f03f00"
+          }
+        },
+        {
+          "client_id": "142242859895-6tfj01no1mc188ss9ddnkq6oj2ssknrk.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBuVgrNZaTpTMxCrq8XYxVc2GlCu5qvXg0"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "142242859895-6tfj01no1mc188ss9ddnkq6oj2ssknrk.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "142242859895-ardenv7omhg2podfneugvun90ou87u7b.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.kzn.shwethirikhit"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
