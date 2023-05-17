@@ -6,6 +6,7 @@ import 'consultant_appointant/screen/view/home.dart';
 import 'controller/main_controller.dart';
 import 'therapy/therapy.dart';
 import 'vlog/vlog.dart';
+import 'vlog/vlog_controller.dart';
 
 class BottomBar extends StatefulWidget {
   static final routeName = "bottomBar";
@@ -31,6 +32,18 @@ class _BottomBarState extends State<BottomBar> {
     return Scaffold(
       body: _widgetOption.elementAt(_currentindex),
       bottomNavigationBar: BottomNavigationBar(
+        onTap: (v) {
+          //Everytime Nav change
+          if (v != 1) {
+            //if Nav is not Vlog,need to despose VlogController
+            Get.delete<VlogController>(force: true);
+          } else {
+            Get.put(VlogController());
+          }
+          setState(() {
+            _currentindex = v;
+          });
+        },
         items: [
           // BottomNavigationBarItem(icon: Icon(Icons.video_collection_outlined), label: 'Vlog'),
           BottomNavigationBarItem(
@@ -89,14 +102,7 @@ class _BottomBarState extends State<BottomBar> {
         currentIndex: _currentindex,
         selectedItemColor: Colors.black,
         unselectedItemColor: Colors.black,
-        onTap: _changeItem,
       ),
     );
-  }
-
-  void _changeItem(int value) {
-    setState(() {
-      _currentindex = value;
-    });
   }
 }

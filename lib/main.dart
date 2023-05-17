@@ -16,6 +16,7 @@ import 'package:kzn/ui/routes/privacy-policy.dart';
 import 'package:kzn/ui/routes/subscription_check_route.dart';
 import 'package:kzn/ui/routes/subscription_route.dart';
 import 'package:kzn/ui/routes/tnc_route.dart';
+import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:provider/provider.dart';
 import 'controller/main_controller.dart';
 import 'ui/routes/enroll_form_route.dart';
@@ -61,6 +62,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     Get.put(MainController()); //Make Globle,
     Get.put(HomeController());
+    Get.put(VlogController());
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Shwe Thiri Khit",
