@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:kzn/consultant_appointant/controller/home_controller.dart';
 import 'package:kzn/model/vlog_video.dart';
 import 'package:video_player/video_player.dart';
+import 'dart:developer';
 
 class VlogController extends GetxController {
   Rxn<VlogVideo> selectedVideo = Rxn<VlogVideo>(null);
@@ -17,6 +18,8 @@ class VlogController extends GetxController {
     if (chewieController.value?.isPlaying == true) {
       chewieController.value?.pause();
     }
+    chewieController.value?.videoPlayerController.dispose();
+    chewieController.value?.dispose();
     chewieController.value = null;
     chewieController.value = ChewieController(
         videoPlayerController: VideoPlayerController.network(v.videoURL),
@@ -49,8 +52,8 @@ class VlogController extends GetxController {
 
   @override
   void onClose() {
-    chewieController.value!.videoPlayerController.dispose();
-    chewieController.value!.dispose();
+    chewieController.value?.videoPlayerController.dispose();
+    chewieController.value?.dispose();
     worker?.dispose();
     super.onClose();
   }
@@ -60,7 +63,7 @@ class VlogController extends GetxController {
   }
 
   initializeImplementation(List<VlogVideo> v) {
-    if (v.isNotEmpty && (chewieController == null)) {
+    if (v.isNotEmpty && (chewieController.value == null)) {
       selectedVideo.value = _homeController.vlogVideos.first;
       isLoading.value = false;
       debugPrint("Vlog Page Is Loading: ${isLoading.value}");
@@ -84,6 +87,8 @@ class VlogController extends GetxController {
               ),
             );
           });
+      log("Vlog Page Is Loading: ${isLoading.value}");
+      log("Vlog Page ChewieController is Null: ${chewieController.value == null}");
     }
   }
 }
