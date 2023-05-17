@@ -7,17 +7,18 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:video_player/video_player.dart';
+import '../model/therapy_video.dart';
 import "colors.dart" as color;
 
 class VideoInfo extends StatefulWidget {
-  const VideoInfo({Key? key}) : super(key: key);
+  final List<TherapyVideo> videoList;
+  const VideoInfo({Key? key, required this.videoList}) : super(key: key);
 
   @override
   _VideoInfoState createState() => _VideoInfoState();
 }
 
 class _VideoInfoState extends State<VideoInfo> {
-  List<Video> videoList = [];
   bool _playArea = false;
   bool _isPlaying = true;
   bool _disposed = false;
@@ -27,26 +28,6 @@ class _VideoInfoState extends State<VideoInfo> {
   String _videoTime = "00:00";
   VideoPlayerController? _controller;
   Future<void>? _initializeVideoPlayerFuture;
-
-  _initData() async {
-    if (_controller != null) {
-      //如果视频控制器存在，清理掉重新创建
-      _controller?.removeListener(_videoListener);
-      _controller?.dispose();
-      _controller = null;
-    }
-    if (_initializeVideoPlayerFuture != null) {
-      _initializeVideoPlayerFuture = null;
-    }
-    var res =
-        await DefaultAssetBundle.of(context).loadString("json/videoinfo.json");
-    var resInfo = json.decode(res);
-
-    setState(() {
-      videoList = List<Video>.from(resInfo.map((x) => Video.fromJson(x)));
-      // print(videoList);
-    });
-  }
 
   void _videoListener() {
     print("_videoListener");
@@ -63,12 +44,12 @@ class _VideoInfoState extends State<VideoInfo> {
         curPosition == totalPosition) {
       setState(() {
         _isPlayingIndex = _isPlayingIndex + 1;
-        if (_isPlayingIndex >= videoList.length) {
+        if (_isPlayingIndex >= widget.videoList.length) {
           //循环回到第一首
           _isPlayingIndex = 0;
         }
       });
-      _playVideo(videoList.elementAt(_isPlayingIndex).videoUrl!);
+      _playVideo(widget.videoList.elementAt(_isPlayingIndex).videoURL);
     }
   }
 
@@ -92,12 +73,6 @@ class _VideoInfoState extends State<VideoInfo> {
   }
 
   @override
-  void initState() {
-    _initData();
-    super.initState();
-  }
-
-  @override
   void dispose() {
     _disposed = true;
     _controller?.removeListener(_videoListener);
@@ -111,17 +86,16 @@ class _VideoInfoState extends State<VideoInfo> {
   Widget build(BuildContext context) {
     return SafeArea(
         child: Scaffold(
-            backgroundColor: Color.fromRGBO(85,38,38, 1),
-            body: CustomScrollView(
-                slivers: [
+            backgroundColor: Color.fromRGBO(85, 38, 38, 1),
+            body: CustomScrollView(slivers: [
               SliverPadding(
                   padding: EdgeInsets.symmetric(
-                    vertical: 0.h,
-                    horizontal: 0.w,
+                    vertical: 0.2 /* 0 */,
+                    horizontal: 0.2 /* 0.w */,
                   ),
                   sliver: SliverToBoxAdapter(
                       child: Container(
-                    margin: EdgeInsets.only(top: 0.h, bottom: 25.h),
+                    margin: EdgeInsets.only(top: 0.2, bottom: 25.0),
                     decoration: BoxDecoration(
                         gradient: LinearGradient(
                       colors: [
@@ -136,8 +110,8 @@ class _VideoInfoState extends State<VideoInfo> {
                         _playArea == false
                             ? Container(
                                 padding: EdgeInsets.only(
-                                    top: 30.h, left: 30.w, right: 30.w),
-                                height: 300.h,
+                                    top: 30, left: 30, right: 30),
+                                height: 300,
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -153,17 +127,20 @@ class _VideoInfoState extends State<VideoInfo> {
                                                   .secondPageIconColor),
                                         ),
                                         Expanded(child: Container()),
-
                                         SizedBox(
                                           width: 30,
                                           child: ElevatedButton(
                                             style: ButtonStyle(
                                               alignment: Alignment.center,
-                                              backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                                              elevation: MaterialStateProperty.resolveWith<double>(
+                                              backgroundColor:
+                                                  MaterialStateProperty.all(
+                                                      Colors.transparent),
+                                              elevation: MaterialStateProperty
+                                                  .resolveWith<double>(
                                                 // As you said you dont need elevation. I'm returning 0 in both case
-                                                    (Set<MaterialState> states) {
-                                                  if (states.contains(MaterialState.disabled)) {
+                                                (Set<MaterialState> states) {
+                                                  if (states.contains(
+                                                      MaterialState.disabled)) {
                                                     return 0;
                                                   }
                                                   return 0; // Defer to the widget's default.
@@ -172,13 +149,15 @@ class _VideoInfoState extends State<VideoInfo> {
                                             ),
                                             onPressed: () async {
                                               try {
-                                                await launch('https://m.me/selfmasterywithkhit');
+                                                await launch(
+                                                    'https://m.me/selfmasterywithkhit');
                                               } catch (e) {
                                                 print(e);
                                               }
                                             },
                                             child: FaIcon(
-                                              FontAwesomeIcons.facebookMessenger,
+                                              FontAwesomeIcons
+                                                  .facebookMessenger,
                                               color: Colors.blue,
                                               size: 23,
                                             ),
@@ -187,33 +166,33 @@ class _VideoInfoState extends State<VideoInfo> {
                                       ],
                                     ),
                                     SizedBox(
-                                      height: 30.h,
+                                      height: 30,
                                     ),
                                     Text(
                                       "Increased Self-Esteem and Achieve Your True Potential.",
                                       style: TextStyle(
-                                          fontSize: 12.sp,
+                                          fontSize: 12,
                                           color: color
                                               .AppColor.secondPageTitleColor),
                                     ),
                                     SizedBox(
-                                      height: 5.h,
+                                      height: 5,
                                     ),
                                     Text(
                                       "Be YOU that you've always wanted to be...",
                                       style: TextStyle(
-                                          fontSize: 12.sp,
+                                          fontSize: 12,
                                           color: color
                                               .AppColor.secondPageTitleColor),
                                     ),
                                     SizedBox(
-                                      height: 50.h,
+                                      height: 50,
                                     ),
                                     Row(
                                       children: [
                                         Container(
-                                          width: 90.w,
-                                          height: 30.h,
+                                          width: 90,
+                                          height: 30,
                                           decoration: BoxDecoration(
                                               borderRadius:
                                                   BorderRadius.circular(10),
@@ -243,7 +222,7 @@ class _VideoInfoState extends State<VideoInfo> {
                                               Text(
                                                 "",
                                                 style: TextStyle(
-                                                    fontSize: 14.sp,
+                                                    fontSize: 14,
                                                     color: color.AppColor
                                                         .secondPageIconColor),
                                               )
@@ -251,12 +230,12 @@ class _VideoInfoState extends State<VideoInfo> {
                                           ),
                                         ),
                                         SizedBox(
-                                          width: 20.w,
+                                          width: 20,
                                         ),
                                         Expanded(
                                           child: Container(
-                                            width: 200.w,
-                                            height: 30.h,
+                                            width: 200,
+                                            height: 30,
                                             decoration: BoxDecoration(
                                                 borderRadius:
                                                     BorderRadius.circular(10),
@@ -275,23 +254,24 @@ class _VideoInfoState extends State<VideoInfo> {
                                                   MainAxisAlignment.center,
                                               children: [
                                                 Icon(
-                                                  Icons.video_collection_outlined,
+                                                  Icons
+                                                      .video_collection_outlined,
                                                   size: 20,
                                                   color: color.AppColor
                                                       .secondPageIconColor,
                                                 ),
                                                 SizedBox(
-                                                  width: 5.w,
+                                                  width: 5,
                                                 ),
                                                 Container(
-                                                  width: 100.w,
+                                                  width: 100,
                                                   child: Text(
                                                     "Art Therapy",
                                                     overflow: TextOverflow.fade,
                                                     maxLines: 1,
                                                     softWrap: false,
                                                     style: TextStyle(
-                                                        fontSize: 14.sp,
+                                                        fontSize: 14,
                                                         color: color.AppColor
                                                             .secondPageIconColor),
                                                   ),
@@ -305,14 +285,13 @@ class _VideoInfoState extends State<VideoInfo> {
                                   ],
                                 ))
                             : Container(
-                                padding:
-                                    EdgeInsets.only(top: 5.h, bottom:20.h),
+                                padding: EdgeInsets.only(top: 5, bottom: 20),
                                 child: Column(
                                   children: [
                                     Container(
                                         padding: EdgeInsets.only(
-                                            left: 20.w, right: 20.w),
-                                        margin: EdgeInsets.only(bottom: 5.h),
+                                            left: 20, right: 20),
+                                        margin: EdgeInsets.only(bottom: 5),
                                         child: Row(
                                           children: [
                                             InkWell(
@@ -325,17 +304,23 @@ class _VideoInfoState extends State<VideoInfo> {
                                                     color: color.AppColor
                                                         .secondPageTopIconColor)),
                                             Expanded(child: Container()),
-
                                             SizedBox(
                                               width: 40,
                                               child: ElevatedButton(
                                                 style: ButtonStyle(
                                                   alignment: Alignment.center,
-                                                  backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                                                  elevation: MaterialStateProperty.resolveWith<double>(
+                                                  backgroundColor:
+                                                      MaterialStateProperty.all(
+                                                          Colors.transparent),
+                                                  elevation:
+                                                      MaterialStateProperty
+                                                          .resolveWith<double>(
                                                     // As you said you dont need elevation. I'm returning 0 in both case
-                                                        (Set<MaterialState> states) {
-                                                      if (states.contains(MaterialState.disabled)) {
+                                                    (Set<MaterialState>
+                                                        states) {
+                                                      if (states.contains(
+                                                          MaterialState
+                                                              .disabled)) {
                                                         return 0;
                                                       }
                                                       return 0; // Defer to the widget's default.
@@ -344,13 +329,15 @@ class _VideoInfoState extends State<VideoInfo> {
                                                 ),
                                                 onPressed: () async {
                                                   try {
-                                                    await launch('https://m.me/selfmasterywithkhit');
+                                                    await launch(
+                                                        'https://m.me/selfmasterywithkhit');
                                                   } catch (e) {
                                                     print(e);
                                                   }
                                                 },
                                                 child: FaIcon(
-                                                  FontAwesomeIcons.facebookMessenger,
+                                                  FontAwesomeIcons
+                                                      .facebookMessenger,
                                                   color: Colors.blue,
                                                   size: 23,
                                                 ),
@@ -359,8 +346,8 @@ class _VideoInfoState extends State<VideoInfo> {
                                           ],
                                         )),
                                     Container(
-                                      width: 325.w,
-                                      height: 200.h,
+                                      width: 325,
+                                      height: 200,
                                       child: FutureBuilder(
                                         future: _initializeVideoPlayerFuture,
                                         builder: (context, snapshot) {
@@ -403,7 +390,7 @@ class _VideoInfoState extends State<VideoInfo> {
                                 )),
                         Container(
                           decoration: BoxDecoration(
-                              color: Color.fromRGBO(85,38,38, 1),
+                              color: Color.fromRGBO(85, 38, 38, 1),
                               borderRadius: BorderRadius.only(
                                   topRight: Radius.circular(70))),
                           child: Column(
@@ -411,18 +398,18 @@ class _VideoInfoState extends State<VideoInfo> {
                               Row(
                                 children: [
                                   SizedBox(
-                                    width: 30.w,
+                                    width: 30,
                                   ),
                                   Text(
                                     "Lesson 1 : Art Therapy",
                                     style: TextStyle(
-                                        fontSize: 14.sp,
+                                        fontSize: 14,
                                         fontWeight: FontWeight.bold,
                                         color: Colors.white),
                                   ),
 
                                   SizedBox(
-                                    height: 30.w,
+                                    height: 30,
                                   ),
                                   Expanded(child: Container()),
                                   // Row(
@@ -443,7 +430,7 @@ class _VideoInfoState extends State<VideoInfo> {
                                   //   ],
                                   // ),
                                   SizedBox(
-                                    width: 20.w,
+                                    width: 20,
                                   ),
                                 ],
                               ),
@@ -455,17 +442,17 @@ class _VideoInfoState extends State<VideoInfo> {
                   ))),
               SliverPadding(
                 padding: EdgeInsets.symmetric(
-                  vertical: 0.h,
-                  horizontal: 25.w,
+                  vertical: 0,
+                  horizontal: 25,
                 ),
                 sliver: SliverList(
                     delegate: SliverChildBuilderDelegate(
                   (content, index) {
-                    var item = videoList.elementAt(index);
+                    var item = widget.videoList.elementAt(index);
                     print(item);
                     return _buildCard(content, index, item);
                   },
-                  childCount: videoList.length,
+                  childCount: widget.videoList.length,
                 )),
               ),
             ])));
@@ -475,16 +462,16 @@ class _VideoInfoState extends State<VideoInfo> {
     final noMute = (_controller?.value.volume ?? 0) > 0;
     return Column(mainAxisSize: MainAxisSize.min, children: [
       // Container(
-      //   height: 40.h,
+      //   height: 40,
       //   width: MediaQuery.of(context).size.width,
-      //   margin: EdgeInsets.only(bottom: 5.h, top: 15.h),
+      //   margin: EdgeInsets.only(bottom: 5, top: 15),
       //   child: Row(
       //     mainAxisAlignment: MainAxisAlignment.center,
       //     crossAxisAlignment: CrossAxisAlignment.center,
       //     children: [
       //       InkWell(
       //         child: Padding(
-      //           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+      //           padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8),
       //           child: Container(
       //             decoration: BoxDecoration(shape: BoxShape.circle, boxShadow: [
       //               BoxShadow(
@@ -623,7 +610,7 @@ class _VideoInfoState extends State<VideoInfo> {
     ]);
   }
 
-  _buildCard(BuildContext context, int index, Video item) {
+  _buildCard(BuildContext context, int index, TherapyVideo item) {
     return GestureDetector(
         onTap: () {
           setState(() {
@@ -632,53 +619,54 @@ class _VideoInfoState extends State<VideoInfo> {
             }
             _isPlayingIndex = index;
           });
-          if (item.videoUrl != null) {
-            _playVideo(item.videoUrl!);
-          }
+          /* if (item.videoURL != null) { */
+          _playVideo(item.videoURL);
+          /*  } */
         },
         child: Container(
-          color: Color.fromRGBO(85,38,38, 1),
-          margin: EdgeInsets.only(bottom: 20.h),
+          color: Color.fromRGBO(85, 38, 38, 1),
+          margin: EdgeInsets.only(bottom: 20),
           child: Column(
             children: [
               Row(
                 children: [
                   Container(
-                    width: 80.w,
-                    height: 80.w,
+                    width: 80,
+                    height: 80,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                            image: AssetImage(
-                                videoList.elementAt(index).thumbnail ?? ""),
+                            image: NetworkImage(
+                                widget.videoList.elementAt(index).image),
                             fit: BoxFit.cover)),
                   ),
                   SizedBox(
-                    width: 10.w,
+                    width: 10,
                   ),
                   Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                          width: 160.w,
+                          width: 160,
                           child: Text(
-                            "${videoList.elementAt(index).title}",
+                            "${widget.videoList.elementAt(index).title}",
                             overflow: TextOverflow.ellipsis,
                             maxLines: 2,
                             style: TextStyle(
-                              color: Colors.white,
-                              wordSpacing: 1,
+                                color: Colors.white,
+                                wordSpacing: 1,
                                 letterSpacing: 1,
-                                fontSize: 14, fontWeight: FontWeight.bold),
+                                fontSize: 14,
+                                fontWeight: FontWeight.bold),
                           )),
                       SizedBox(
-                        height: 10.h,
+                        height: 10,
                       ),
                       Padding(
-                        padding: EdgeInsets.only(top: 3.h),
+                        padding: EdgeInsets.only(top: 3),
                         child: Text(
-                          "${videoList.elementAt(index).time}",
+                          "${widget.videoList.elementAt(index).minutes}",
                           style: TextStyle(color: Colors.white),
                         ),
                       )
@@ -687,13 +675,13 @@ class _VideoInfoState extends State<VideoInfo> {
                 ],
               ),
               SizedBox(
-                height: 18.h,
+                height: 18,
               ),
               Row(
                 children: [
                   Container(
-                    width: 80.h,
-                    height: 20.h,
+                    width: 80,
+                    height: 20,
                     decoration: BoxDecoration(
                       color: Color(0xFFeaeefc),
                       borderRadius: BorderRadius.circular(10),
@@ -728,7 +716,7 @@ class _VideoInfoState extends State<VideoInfo> {
   }
 }
 
-class Video {
+/* class Video {
   String? title;
   String? time;
   String? thumbnail;
@@ -748,3 +736,4 @@ class Video {
         videoUrl: json["videoUrl"],
       );
 }
+ */

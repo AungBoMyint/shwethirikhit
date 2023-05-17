@@ -64,7 +64,8 @@ class HomeView extends StatelessWidget {
                       ),
                       GestureDetector(
                         onTap: () {
-                          Get.to(() => ViewAllScreen(typeString: type.id));
+                          mainController.importAllData();
+                          /* Get.to(() => ViewAllScreen(typeString: type.id)); */
                         },
                         child: Text(
                           "See All",

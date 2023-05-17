@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:kzn/services/database/database.dart';
 import '../affirmations/models/music.dart';
 import '../consultant_appointant/model/expert.dart';
+import '../model/therapy_video.dart';
 import '../model/type.dart';
 import '../model/category.dart';
 import '../model/vlog_video.dart';
@@ -35,10 +36,49 @@ class MainController extends GetxController {
   }
 
   Future<void> importAllData() async {
-    await importAffirmationsCategoryJson();
+    await importTherapyCategoryJson();
+    await importTherapyVideoJson();
   }
 
-  ///Import VlogVideo
+  Future<void> importTherapyCategoryJson() async {
+    debugPrint("******Writing Therapy Category");
+    try {
+      String jsonString =
+          await rootBundle.loadString('assets/dummy/therapy_category.json');
+      List<dynamic> jsonData = jsonDecode(jsonString);
+      List<Category> categories =
+          jsonData.map((e) => Category.fromJson(e)).toList();
+      final batch = FirebaseFirestore.instance.batch();
+      for (var element in categories) {
+        batch.set(therapyCategoryDocument(element.id), element);
+      }
+      await batch.commit();
+      debugPrint("******finish Therapy Category");
+    } catch (e) {
+      debugPrint("Therapy Category Document Error: $e");
+    }
+  }
+
+  Future<void> importTherapyVideoJson() async {
+    debugPrint("******Writing Therapy Video");
+    try {
+      String jsonString =
+          await rootBundle.loadString('assets/dummy/therapy_videos.json');
+      List<dynamic> jsonData = jsonDecode(jsonString);
+      List<TherapyVideo> categories =
+          jsonData.map((e) => TherapyVideo.fromJson(e)).toList();
+      final batch = FirebaseFirestore.instance.batch();
+      for (var element in categories) {
+        batch.set(therapyVideoDocument(element.id), element);
+      }
+      await batch.commit();
+      debugPrint("******finish Therapy Video");
+    } catch (e) {
+      debugPrint("Therapy Video Document Error: $e");
+    }
+  }
+
+  /*  ///Import VlogVideo
   Future<void> importVlogVideoJson() async {
     debugPrint("******Writing Vlog Video");
     try {
@@ -156,4 +196,5 @@ class MainController extends GetxController {
       log("Affiration Music Document Error: $e");
     }
   }
+ */
 }

@@ -115,6 +115,7 @@ class AffHome extends GetView<HomeController> {
       padding: EdgeInsets.all(10),
       height: 280,
       child: GridView.count(
+        physics: const NeverScrollableScrollPhysics(),
         childAspectRatio: 5 / 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
@@ -175,6 +176,7 @@ class AffHome extends GetView<HomeController> {
         color: Color.fromRGBO(85, 38, 38, 1),
         child: ListView(
           shrinkWrap: true,
+          physics: const NeverScrollableScrollPhysics(),
           children: [
             createAppBar(
               'Shwe Thiri Khit',
@@ -185,6 +187,7 @@ class AffHome extends GetView<HomeController> {
             createGrid(),
             ListView.builder(
               shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
               itemCount: controller.affirmationsTypes.length,
               itemBuilder: (context, i) {
                 final affType = controller.affirmationsTypes[i];
@@ -207,6 +210,7 @@ class AffHome extends GetView<HomeController> {
                         child: ListView.builder(
                           //padding: EdgeInsets.all(5),
                           scrollDirection: Axis.horizontal,
+                          physics: const BouncingScrollPhysics(),
                           itemBuilder: (ctx, index) {
                             final music =
                                 controller.getMusicByType(affType.id)[index];

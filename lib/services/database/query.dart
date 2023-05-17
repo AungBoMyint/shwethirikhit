@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 
 import '../../affirmations/models/music.dart';
 import '../../model/category.dart';
+import '../../model/therapy_video.dart';
 import '../../model/type.dart';
 import '../../model/vlog_video.dart';
 import 'reference.dart';
@@ -17,3 +18,7 @@ Query<ItemType> affirmationsTypeQuery =
 Query<Music> musicQuery = musicCollection();
 Query<VlogVideo> vlogVideoQuery =
     vlogVideoCollection().orderBy("order", descending: true);
+Query<Category> therapyCategoryQuery =
+    therapyCategoryCollection().orderBy("order", descending: true);
+Query<TherapyVideo> therapyVideoQuery =
+    therapyVideoCollection().orderBy("order", descending: true);

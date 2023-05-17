@@ -3,6 +3,8 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kzn/therapy/therapy_video.dart';
+import '../consultant_appointant/controller/home_controller.dart';
+import '../controller/main_controller.dart';
 import 'colors.dart' as color;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -15,7 +17,7 @@ class Therapy extends StatefulWidget {
 }
 
 class _TherapyState extends State<Therapy> {
-  List<Info> info = [];
+  /* List<Info> info = [];
   _initData() async {
     var res = await DefaultAssetBundle.of(context).loadString("json/info.json");
     var resInfo = json.decode(res);
@@ -29,9 +31,10 @@ class _TherapyState extends State<Therapy> {
     _initData();
     super.initState();
   }
-
+ */
   @override
   Widget build(BuildContext context) {
+    final HomeController _homeController = Get.find();
     return SafeArea(
         child: Scaffold(
       backgroundColor: color.AppColor.homePageBackground,
@@ -46,39 +49,40 @@ class _TherapyState extends State<Therapy> {
               margin: EdgeInsets.only(top: 30),
               child: Row(
                 children: [
-              CircleAvatar(
-                backgroundColor: Colors.white,
-              backgroundImage: new AssetImage('assets/user.png'),
-                  radius: 15,
-                  // child: new Container(
-                  //   padding: const EdgeInsets.all(0.0),
-                  //   child: new Text('Sight'),
-                  // ),
-                ),
+                  CircleAvatar(
+                    backgroundColor: Colors.white,
+                    backgroundImage: new AssetImage('assets/user.png'),
+                    radius: 15,
+                    // child: new Container(
+                    //   padding: const EdgeInsets.all(0.0),
+                    //   child: new Text('Sight'),
+                    // ),
+                  ),
                   SizedBox(
                     width: 20,
                   ),
-
-                  Text('Shwe Thiri Khit', style: TextStyle(
-                    fontWeight: FontWeight.bold,
-                    fontSize: 18,
-                    wordSpacing: 1,
-                    letterSpacing: 1,
-
-                  ),),
+                  Text(
+                    'Shwe Thiri Khit',
+                    style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      wordSpacing: 1,
+                      letterSpacing: 1,
+                    ),
+                  ),
                   SizedBox(
                     width: 90,
                   ),
-
                   SizedBox(
                     width: 40,
                     child: ElevatedButton(
                       style: ButtonStyle(
                         alignment: Alignment.center,
-                        backgroundColor: MaterialStateProperty.all(Colors.transparent),
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.transparent),
                         elevation: MaterialStateProperty.resolveWith<double>(
                           // As you said you dont need elevation. I'm returning 0 in both case
-                              (Set<MaterialState> states) {
+                          (Set<MaterialState> states) {
                             if (states.contains(MaterialState.disabled)) {
                               return 0;
                             }
@@ -104,12 +108,12 @@ class _TherapyState extends State<Therapy> {
               ),
             ))),
         SliverPadding(
-            padding: EdgeInsets.symmetric(
-              vertical: 10,
-              horizontal: 20,
-            ),
-            sliver: SliverToBoxAdapter(
-                child: Row(
+          padding: EdgeInsets.symmetric(
+            vertical: 10,
+            horizontal: 20,
+          ),
+          sliver: SliverToBoxAdapter(
+            child: Row(
               children: [
                 Expanded(child: Container()),
                 // InkWell(
@@ -134,7 +138,7 @@ class _TherapyState extends State<Therapy> {
                 //     ))
               ],
             ),
-            ),
+          ),
         ),
         SliverPadding(
             padding: EdgeInsets.symmetric(
@@ -170,32 +174,25 @@ class _TherapyState extends State<Therapy> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-
                         Expanded(
-                          child: Image.asset(
-                            'assets/intro-illustration1.png'),
+                          child: Image.asset('assets/intro-illustration1.png'),
                         ),
-
                         SizedBox(
                           width: 15,
                         ),
-
-                        
                         Expanded(
                           child: Text(
                             "Increased Self-Esteem and Achieve Your True Potential.Be YOU that you've always wanted to be...",
                             style: TextStyle(
-                              wordSpacing: 1,
+                                wordSpacing: 1,
                                 letterSpacing: 1,
                                 fontSize: 14,
-                                color: color.AppColor.homePageContainerTextSmall),
+                                color:
+                                    color.AppColor.homePageContainerTextSmall),
                           ),
                         ),
-
-
                       ],
                     ),
-
                     Row(
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -207,8 +204,8 @@ class _TherapyState extends State<Therapy> {
                                 wordSpacing: 1,
                                 letterSpacing: 1,
                                 fontSize: 14,
-                                color: color
-                                    .AppColor.homePageContainerTextSmall),
+                                color:
+                                    color.AppColor.homePageContainerTextSmall),
                           ),
                         ),
                         Expanded(child: Container()),
@@ -222,14 +219,16 @@ class _TherapyState extends State<Therapy> {
                                     offset: Offset(4, 8))
                               ]),
                           child: InkWell(
-                              onTap: () {
-                                Get.to(() => VideoInfo());
-                              },
-                              child: Icon(
-                                Icons.play_circle_fill,
-                                color: Colors.white,
-                                size: 60,
-                              ),
+                            onTap: () {
+                              /* ///
+                              TODO
+                              Get.to(() => VideoInfo()); */
+                            },
+                            child: Icon(
+                              Icons.play_circle_fill,
+                              color: Colors.white,
+                              size: 60,
+                            ),
                           ),
                         ),
                       ],
@@ -318,7 +317,6 @@ class _TherapyState extends State<Therapy> {
         //       ),
         //     ))),
 
-
         SliverPadding(
             padding: EdgeInsets.symmetric(
               vertical: 30,
@@ -338,7 +336,6 @@ class _TherapyState extends State<Therapy> {
               ),
             ))),
 
-
         SliverPadding(
             padding: EdgeInsets.symmetric(
               vertical: 0,
@@ -353,39 +350,46 @@ class _TherapyState extends State<Therapy> {
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (BuildContext context, int index) {
-                    return Container(
-                      height: 200,
-                      padding: EdgeInsets.only(bottom: 5),
-                      decoration: BoxDecoration(
-                          color: Colors.white,
-                          borderRadius: BorderRadius.circular(15),
-                          image: DecorationImage(
-                            image: AssetImage(info.elementAt(index).img ?? ""),
+                    final category = _homeController.therapyCategories[index];
+                    return InkWell(
+                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => VideoInfo(
+                              videoList: _homeController
+                                  .getTherapyVideoByCategory(category.id)))),
+                      child: Container(
+                        height: 200,
+                        padding: EdgeInsets.only(bottom: 5),
+                        decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(15),
+                            image: DecorationImage(
+                              image: NetworkImage(category.image),
+                            ),
+                            boxShadow: [
+                              BoxShadow(
+                                  blurRadius: 3,
+                                  offset: Offset(5, 5),
+                                  color: color.AppColor.gradientSecond
+                                      .withOpacity(0.1)),
+                              BoxShadow(
+                                  blurRadius: 3,
+                                  offset: Offset(-5, -5),
+                                  color: color.AppColor.gradientSecond
+                                      .withOpacity(0.1))
+                            ]),
+                        child: Center(
+                          child: Align(
+                            child: Text(category.name,
+                                style: TextStyle(
+                                    fontSize: 20,
+                                    color: color.AppColor.homePageDetail)),
+                            alignment: Alignment.topCenter,
                           ),
-                          boxShadow: [
-                            BoxShadow(
-                                blurRadius: 3,
-                                offset: Offset(5, 5),
-                                color: color.AppColor.gradientSecond
-                                    .withOpacity(0.1)),
-                            BoxShadow(
-                                blurRadius: 3,
-                                offset: Offset(-5, -5),
-                                color: color.AppColor.gradientSecond
-                                    .withOpacity(0.1))
-                          ]),
-                      child: Center(
-                        child: Align(
-                          child: Text(info.elementAt(index).title ?? "",
-                              style: TextStyle(
-                                  fontSize: 20,
-                                  color: color.AppColor.homePageDetail)),
-                          alignment: Alignment.bottomCenter,
                         ),
                       ),
                     );
                   },
-                  childCount: info.length,
+                  childCount: _homeController.therapyCategories.length,
                 ))),
       ]),
     ));

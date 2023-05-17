@@ -104,14 +104,6 @@ class _VlogState extends State<Vlog> {
                   vlogVideo.title, vlogVideo.image, 'locked', width);
             },
           ),
-          /*  getLessonTile('Energy ပိတ်နေတဲ့ ရုံးအမှိုက်ပုံရှင်း Decluttering',
-              'assets/1.jpg', 'locked', width),
-          getLessonTile('လျှမ်းလျှမ်းတောက်အရွယ် Prime Age', 'assets/2.jpg',
-              'locked', width),
-          getLessonTile(
-              'ကိုယ့်ကိုယ်ကို အချိန်ပေးပါ', 'assets/3.jpg', 'locked', width),
-          getLessonTile('ကြည်တောက်နေတဲ့ မျက်ဝန်းပိုင်ရှင်ဖြစ်ဖို့…..',
-              'assets/4.jpg', 'locked', width), */
         ],
       ),
     );

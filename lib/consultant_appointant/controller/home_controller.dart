@@ -5,6 +5,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../affirmations/models/music.dart';
+import '../../model/therapy_video.dart';
 import '../../model/type.dart';
 import '../../model/vlog_video.dart';
 import '../../services/database/query.dart';
@@ -23,11 +24,13 @@ class HomeController extends GetxController {
   //--All Data List
   final RxList<Category> homeCategories = <Category>[].obs;
   final RxList<Category> affirmationsCategories = <Category>[].obs;
+  final RxList<Category> therapyCategories = <Category>[].obs;
   final RxList<ItemType> homeTypes = <ItemType>[].obs;
   final RxList<ItemType> affirmationsTypes = <ItemType>[].obs;
   final RxList<ExpertModel> experts = <ExpertModel>[].obs;
   final RxList<Music> musics = <Music>[].obs;
   final RxList<VlogVideo> vlogVideos = <VlogVideo>[].obs;
+  final RxList<TherapyVideo> therapyVideos = <TherapyVideo>[].obs;
   //---------//
   final RxBool authorized = false.obs;
   final Rx<AuthUser> user = AuthUser().obs;
@@ -157,10 +160,12 @@ class HomeController extends GetxController {
     _vlogVideoListener();
     _homeCategoryListener();
     _affirmationsCategoryListener();
+    _therapyCategoryListener();
     _homeTypeListener();
     _affirmationsTypeListener();
     _expertsListener();
     _musicListener();
+    _therapyVideoListener();
   }
 
   _homeCategoryListener() => homeCategoryQuery.snapshots().listen((event) {
@@ -210,6 +215,23 @@ class HomeController extends GetxController {
           vlogVideos.clear();
         } else {
           vlogVideos.value = event.docs.map((e) => e.data()).toList();
+        }
+      });
+
+  _therapyVideoListener() => therapyVideoQuery.snapshots().listen((event) {
+        if (event.docs.isEmpty) {
+          therapyVideos.clear();
+        } else {
+          therapyVideos.value = event.docs.map((e) => e.data()).toList();
+        }
+      });
+
+  _therapyCategoryListener() =>
+      therapyCategoryQuery.snapshots().listen((event) {
+        if (event.docs.isEmpty) {
+          therapyCategories.clear();
+        } else {
+          therapyCategories.value = event.docs.map((e) => e.data()).toList();
         }
       });
 
@@ -263,6 +285,12 @@ class HomeController extends GetxController {
 
   List<Music> getMusicByType(String typeID) =>
       musics.where((p0) => p0.type == typeID).toList();
+
+  List<TherapyVideo> getTherapyVideoByCategory(String categoryID) {
+    final list = therapyVideos.where((v) => v.parentID == categoryID).toList();
+    debugPrint("TherapyVideoList: ${list.length}");
+    return list;
+  }
 
   Future<void> deleteExpert(String id) async {
     if (isloading.value) return;

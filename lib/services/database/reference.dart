@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import '../../affirmations/models/music.dart';
 import '../../consultant_appointant/model/expert.dart';
 import '../../model/category.dart';
+import '../../model/therapy_video.dart';
 import '../../model/type.dart';
 import '../../model/vlog_video.dart';
 
@@ -48,3 +49,22 @@ CollectionReference<VlogVideo> vlogVideoCollection() => FirebaseFirestore
 
 DocumentReference<VlogVideo> vlogVideoDocument(String id) =>
     vlogVideoCollection().doc(id);
+
+CollectionReference<Category> therapyCategoryCollection() =>
+    FirebaseFirestore.instance
+        .collection("therapy_category")
+        .withConverter<Category>(
+          fromFirestore: (snap, __) => Category.fromJson(snap.data()!),
+          toFirestore: (cat, __) => cat.toJson(),
+        );
+DocumentReference<Category> therapyCategoryDocument(String id) =>
+    therapyCategoryCollection().doc(id);
+CollectionReference<TherapyVideo> therapyVideoCollection() =>
+    FirebaseFirestore.instance
+        .collection("therapy_video")
+        .withConverter<TherapyVideo>(
+          fromFirestore: (snap, __) => TherapyVideo.fromJson(snap.data()!),
+          toFirestore: (cat, __) => cat.toJson(),
+        );
+DocumentReference<TherapyVideo> therapyVideoDocument(String id) =>
+    therapyVideoCollection().doc(id);
