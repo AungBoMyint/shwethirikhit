@@ -6,8 +6,9 @@ import '../../model/therapy_video.dart';
 import '../../model/type.dart';
 import '../../model/vlog_video.dart';
 
-CollectionReference<Category> categoryCollection() =>
-    FirebaseFirestore.instance.collection("category").withConverter<Category>(
+CollectionReference<Category> categoryCollection() => FirebaseFirestore.instance
+    .collection("home_category")
+    .withConverter<Category>(
         fromFirestore: (snap, __) => Category.fromJson(snap.data()!),
         toFirestore: (cat, snap) => cat.toJson());
 DocumentReference<Category> categoryDocument(String id) =>
@@ -24,6 +25,7 @@ CollectionReference<ItemType> affirmationsTypeCollection() =>
         .withConverter<ItemType>(
             fromFirestore: (snap, __) => ItemType.fromJson(snap.data()!),
             toFirestore: (itemType, snap) => itemType.toJson());
+
 DocumentReference<ItemType> affirmationsTypeDocument(String id) =>
     affirmationsTypeCollection().doc(id);
 CollectionReference<ItemType> homeTypeCollection() =>
@@ -37,6 +39,7 @@ CollectionReference<ExpertModel> expertsCollection() =>
         fromFirestore: (snap, __) =>
             ExpertModel.fromJson(snap.data()!, snap.id),
         toFirestore: (itemType, snap) => itemType.toJson());
+
 DocumentReference<ExpertModel> expertsDocument(String id) =>
     expertsCollection().doc(id);
 
@@ -68,3 +71,13 @@ CollectionReference<TherapyVideo> therapyVideoCollection() =>
         );
 DocumentReference<TherapyVideo> therapyVideoDocument(String id) =>
     therapyVideoCollection().doc(id);
+
+CollectionReference<Category> affirmationsCategoryCollection() =>
+    FirebaseFirestore.instance
+        .collection("affirmations_category")
+        .withConverter<Category>(
+          fromFirestore: (snap, __) => Category.fromJson(snap.data()!),
+          toFirestore: (cat, __) => cat.toJson(),
+        );
+DocumentReference<Category> affirmationsCategoryDocument(String id) =>
+    affirmationsCategoryCollection().doc(id);

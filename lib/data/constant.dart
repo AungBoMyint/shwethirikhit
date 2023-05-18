@@ -13,11 +13,14 @@ final String courseEndpoint = apiVersion + '/courses/?limit=100';
 final String subscriptionEndpoint = apiVersion + '/subscriptions/';
 
 final String appIconAsset = "assets/logo.png";
-final String appIconUrl = "https://grace.sgp1.cdn.digitaloceanspaces.com/logo.png";
+final String appIconUrl =
+    "https://grace.sgp1.cdn.digitaloceanspaces.com/logo.png";
 
 final Color tileColor = Colors.yellow;
 final Color? iconColor = Colors.indigo[900];
 
+const musicCover =
+    "https://img.informer.com/articles_uploads/2/2340/cool-backgrounds-hd-music-7773.jpg";
 final String fbProtocolUrl = "fb://page/432554843785776";
 final String fallbackUrl = "https://www.facebook.com/selfmasterywithkhit";
 

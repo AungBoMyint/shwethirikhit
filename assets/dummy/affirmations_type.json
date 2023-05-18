@@ -1,2 +1,5 @@
-[{"id":"86a7c73c-efe1-45fe-9352-c8a7f939b457","name":"For you","order":1,"dateTime":"2022-09-08T09:39:49Z"},
-{"id":"8c2aab84-1c8b-4e8e-8f84-13c41c8f944d","name":"Popular PlayList","order":2,"dateTime":"2023-05-13T02:38:08Z"}]
+[{"id":"69fa894b-6548-4fad-9c5b-cb93af85a35c","name":"For You","dateTime":"2022-11-16T17:50:59Z","order":1},
+{"id":"d3acdcea-61f6-42d8-807a-9a2fd6b6e6a3","name":"New Releases","dateTime":"2022-12-29T11:57:27Z","order":2},
+{"id":"12b7a9e2-6593-454e-8d30-a810fe773fef","name":"For You","dateTime":"2022-05-23T05:16:14Z","order":3},
+{"id":"73d5d18b-a364-43e8-a618-61309648fefb","name":"Featured","dateTime":"2022-05-21T21:59:41Z","order":4},
+{"id":"9da15299-2f8c-47f1-840a-be68fde60408","name":"Popular","dateTime":"2022-11-25T11:01:27Z","order":5}]

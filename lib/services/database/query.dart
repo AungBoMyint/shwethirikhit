@@ -8,9 +8,8 @@ import '../../model/vlog_video.dart';
 import 'reference.dart';
 
 Query<Category> homeCategoryQuery =
-    categoryCollection().where('page', isEqualTo: "Home");
-Query<Category> affirmationsCategoryQuery =
-    categoryCollection().where('page', isEqualTo: "Affirmations");
+    categoryCollection().orderBy('order', descending: true);
+Query<Category> affirmationsCategoryQuery = affirmationsCategoryCollection();
 Query<ItemType> homeTypeQuery =
     homeTypeCollection().orderBy('order', descending: true);
 Query<ItemType> affirmationsTypeQuery =

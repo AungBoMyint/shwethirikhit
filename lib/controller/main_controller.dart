@@ -36,11 +36,13 @@ class MainController extends GetxController {
   }
 
   Future<void> importAllData() async {
-    await importTherapyCategoryJson();
-    await importTherapyVideoJson();
+    await importHomeCategoryJson();
+    await importAffirmationsCategoryJson();
+    await importAffirmationTypeJson();
+    await importAffirmationMusicJson();
   }
 
-  Future<void> importTherapyCategoryJson() async {
+  /* Future<void> importTherapyCategoryJson() async {
     debugPrint("******Writing Therapy Category");
     try {
       String jsonString =
@@ -77,7 +79,7 @@ class MainController extends GetxController {
       debugPrint("Therapy Video Document Error: $e");
     }
   }
-
+ */
   /*  ///Import VlogVideo
   Future<void> importVlogVideoJson() async {
     debugPrint("******Writing Vlog Video");
@@ -138,6 +140,27 @@ class MainController extends GetxController {
     }
   }
  */
+*/
+  ///Import Home Category
+  Future<void> importHomeCategoryJson() async {
+    debugPrint("******Writing affirmations category");
+    try {
+      String jsonString =
+          await rootBundle.loadString('assets/dummy/home_category.json');
+      List<dynamic> jsonData = jsonDecode(jsonString);
+      List<Category> categories =
+          jsonData.map((e) => Category.fromJson(e)).toList();
+      final batch = FirebaseFirestore.instance.batch();
+      for (var element in categories) {
+        batch.set(categoryDocument(element.id), element);
+      }
+      await batch.commit();
+      debugPrint("******finish affirmations category");
+    } catch (e) {
+      debugPrint("Affirmations Category Document Error: $e");
+    }
+  }
+
   ///Import Affirmations Category
   Future<void> importAffirmationsCategoryJson() async {
     debugPrint("******Writing affirmations category");
@@ -149,7 +172,7 @@ class MainController extends GetxController {
           jsonData.map((e) => Category.fromJson(e)).toList();
       final batch = FirebaseFirestore.instance.batch();
       for (var element in categories) {
-        batch.set(categoryDocument(element.id), element);
+        batch.set(affirmationsCategoryDocument(element.id), element);
       }
       await batch.commit();
       debugPrint("******finish affirmations category");
@@ -196,5 +219,4 @@ class MainController extends GetxController {
       log("Affiration Music Document Error: $e");
     }
   }
- */
 }

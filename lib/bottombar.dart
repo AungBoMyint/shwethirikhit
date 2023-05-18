@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kzn/ui/routes/main_route.dart';
@@ -33,6 +35,7 @@ class _BottomBarState extends State<BottomBar> {
       body: _widgetOption.elementAt(_currentindex),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (v) {
+          log("*****On Tap Call");
           //Everytime Nav change
           if (v != 1) {
             //if Nav is not Vlog,need to despose VlogController

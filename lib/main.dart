@@ -18,6 +18,7 @@ import 'package:kzn/ui/routes/subscription_route.dart';
 import 'package:kzn/ui/routes/tnc_route.dart';
 import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:provider/provider.dart';
+import 'affirmations/controller/affirmations_controller.dart';
 import 'controller/main_controller.dart';
 import 'ui/routes/enroll_form_route.dart';
 import 'package:kzn/bottombar.dart';
@@ -63,6 +64,7 @@ class MyApp extends StatelessWidget {
     Get.put(MainController()); //Make Globle,
     Get.put(HomeController());
     Get.put(VlogController());
+    Get.put(AffirmationsController());
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
         title: "Shwe Thiri Khit",

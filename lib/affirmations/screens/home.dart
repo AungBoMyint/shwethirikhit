@@ -6,33 +6,48 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../consultant_appointant/controller/home_controller.dart';
 import '../../model/category.dart';
 import '../models/music.dart';
+import '../widgets/widgets.dart';
+import 'category_viewall.dart';
+import 'music_playlist.dart';
 
 class AffHome extends GetView<HomeController> {
   Function _miniPlayer;
   AffHome(this._miniPlayer); // Dart Constructor ShortHand
   // const Home({Key? key}) : super(key: key);
-  Widget createCategory(Category category) {
-    return Container(
+  Widget createCategory(Category category, BuildContext context) {
+    return InkWell(
+      onTap: () =>
+          Navigator.push(context, route(MusicPlayList(category: category))),
+      child: Container(
         color: Colors.blueGrey.shade400,
         child: Row(
           children: [
-            Image.network(category.image, fit: BoxFit.cover),
-            Padding(
-              padding: EdgeInsets.only(left: 10),
+            Expanded(
+                flex: 2,
+                child: Image.network(category.image, fit: BoxFit.fitHeight)),
+            Expanded(
               child: Text(
                 category.name,
+                maxLines: 3,
+                overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: Colors.white),
               ),
-            )
+            ),
+            const SizedBox(width: 10),
           ],
-        ));
+        ),
+      ),
+    );
   }
 
-  List<Widget> createListOfCategories() {
+  List<Widget> createListOfCategories(BuildContext context) {
     // Convert Data to Widget Using map function
-    List<Widget> categories = controller.affirmationsCategories
-        .map((category) => createCategory(category))
-        .toList();
+    List<Widget> categories = controller.affirmationsCategories.isNotEmpty
+        ? List.generate(6, (index) {
+            return createCategory(
+                controller.affirmationsCategories[index], context);
+          }).toList()
+        : [];
     return categories;
   }
 
@@ -110,16 +125,16 @@ class AffHome extends GetView<HomeController> {
   
   } */
 
-  Widget createGrid() {
+  Widget createGrid(BuildContext context) {
     return Container(
-      padding: EdgeInsets.all(10),
-      height: 280,
+      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
+      height: 250,
       child: GridView.count(
         physics: const NeverScrollableScrollPhysics(),
         childAspectRatio: 5 / 2,
         crossAxisSpacing: 10,
         mainAxisSpacing: 10,
-        children: createListOfCategories(),
+        children: createListOfCategories(context),
         crossAxisCount: 2,
       ),
     );
@@ -184,7 +199,23 @@ class AffHome extends GetView<HomeController> {
             SizedBox(
               height: 5,
             ),
-            createGrid(),
+            Align(
+              alignment: Alignment.bottomRight,
+              child: IconButton(
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (c) => AffirmationsCategoryViewAll(),
+                  ),
+                ),
+                icon: Icon(
+                  FontAwesomeIcons.chevronRight,
+                  color: Colors.white,
+                  size: 15,
+                ),
+              ),
+            ),
+            createGrid(context),
             ListView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -196,14 +227,34 @@ class AffHome extends GetView<HomeController> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        affType.name,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            letterSpacing: 1,
-                            wordSpacing: 1),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            affType.name,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 18,
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 1,
+                                wordSpacing: 1),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(right: 10),
+                            child: TextButton(
+                              onPressed: () => Navigator.push(
+                                  context, route(MusicPlayList(type: affType))),
+                              child: Text(
+                                "See All",
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 15,
+                                    letterSpacing: 1,
+                                    wordSpacing: 1),
+                              ),
+                            ),
+                          ),
+                        ],
                       ),
                       Container(
                         height: 230,

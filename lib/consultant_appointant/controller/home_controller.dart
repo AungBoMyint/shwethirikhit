@@ -285,6 +285,8 @@ class HomeController extends GetxController {
 
   List<Music> getMusicByType(String typeID) =>
       musics.where((p0) => p0.type == typeID).toList();
+  List<Music> getMusicByCategory(String categoryID) =>
+      musics.where((p0) => p0.categoryID == categoryID).toList();
 
   List<TherapyVideo> getTherapyVideoByCategory(String categoryID) {
     final list = therapyVideos.where((v) => v.parentID == categoryID).toList();

@@ -5,6 +5,8 @@ class Music {
   final String desc;
   final String audioURL;
   final String type;
+  final String categoryID;
+  final DateTime dateTime;
   const Music({
     required this.id,
     required this.name,
@@ -12,6 +14,8 @@ class Music {
     required this.desc,
     required this.audioURL,
     required this.type,
+    required this.categoryID,
+    required this.dateTime,
   });
   Map<String, dynamic> toJson() => {
         'id': id,
@@ -20,6 +24,8 @@ class Music {
         'desc': desc,
         'audioURL': audioURL,
         'type': type,
+        'categoryID': categoryID,
+        'dateTime': dateTime.toIso8601String(),
       };
   factory Music.fromJson(Map<String, dynamic> json) => Music(
         id: json["id"],
@@ -28,5 +34,7 @@ class Music {
         desc: json["desc"],
         audioURL: json["audioURL"],
         type: json["type"],
+        categoryID: json["categoryID"],
+        dateTime: DateTime.tryParse(json["dateTime"]) as DateTime,
       );
 }

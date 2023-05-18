@@ -7,10 +7,10 @@ import 'dart:developer';
 import '../consultant_appointant/controller/home_controller.dart';
 import '../model/vlog_video.dart';
 
-class Vlog extends GetView<VlogController> {
+class Vlog extends StatelessWidget /* GetView<VlogController> */ {
   final HomeController _homeController = Get.find();
 
-  nestedAppBar(width, height) {
+  /*  nestedAppBar(width, height) {
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
@@ -138,7 +138,7 @@ class Vlog extends GetView<VlogController> {
               height: 80.0,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(img),
+                  image: NetworkImage(img),
                   fit: BoxFit.fill,
                 ),
                 borderRadius: BorderRadius.circular(8),
@@ -204,7 +204,7 @@ class Vlog extends GetView<VlogController> {
         ),
       ),
     );
-  }
+  } */
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +212,7 @@ class Vlog extends GetView<VlogController> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        body: nestedAppBar(width, height),
+        body: Container() /* nestedAppBar(width, height) */,
       ),
     );
   }
