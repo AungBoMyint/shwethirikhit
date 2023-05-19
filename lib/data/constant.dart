@@ -18,11 +18,13 @@ final String appIconUrl =
 
 final Color tileColor = Colors.yellow;
 final Color? iconColor = Colors.indigo[900];
-
+final logoColor = Color.fromRGBO(85, 38, 38, 1);
 const musicCover =
     "https://img.informer.com/articles_uploads/2/2340/cool-backgrounds-hd-music-7773.jpg";
 final String fbProtocolUrl = "fb://page/432554843785776";
 final String fallbackUrl = "https://www.facebook.com/selfmasterywithkhit";
+const playIcon = "assets/play.png";
+const soundWaveAnimation = "assets/animations/sound_wave.riv";
 
 final List<String> introSliderImages = [
   "assets/1.jpg",

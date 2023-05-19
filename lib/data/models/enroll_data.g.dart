@@ -8,8 +8,8 @@ part of 'enroll_data.dart';
 
 EnrollData _$EnrollDataFromJson(Map<String, dynamic> json) => EnrollData(
       name: json['name'] as String,
-      gmail: json['gmail'] as String,
       phoneNumber: json['phoneNumber'] as String,
+      gmail: json['gmail'] as String,
       courseList: (json['courseList'] as List<dynamic>)
           .map((e) => e as Map<String, dynamic>)
           .toList(),
@@ -20,17 +20,17 @@ EnrollData _$EnrollDataFromJson(Map<String, dynamic> json) => EnrollData(
       dateTime: json['dateTime'] == null
           ? null
           : DateTime.parse(json['dateTime'] as String),
-);
+    );
 
 Map<String, dynamic> _$EnrollDataToJson(EnrollData instance) =>
     <String, dynamic>{
-          'name': instance.name,
-          'phoneNumber': instance.phoneNumber,
-          'gmail': instance.gmail,
-          'courseList': instance.courseList,
-          'paymentAccName': instance.paymentAccName,
-          'bankSsImage': instance.bankSsImage,
-          'facebookProfileSsImage': instance.facebookProfileSsImage,
-          'totalPrice': instance.totalPrice,
-          'dateTime': instance.dateTime?.toIso8601String(),
+      'name': instance.name,
+      'phoneNumber': instance.phoneNumber,
+      'gmail': instance.gmail,
+      'courseList': instance.courseList,
+      'paymentAccName': instance.paymentAccName,
+      'bankSsImage': instance.bankSsImage,
+      'facebookProfileSsImage': instance.facebookProfileSsImage,
+      'totalPrice': instance.totalPrice,
+      'dateTime': instance.dateTime?.toIso8601String(),
     };

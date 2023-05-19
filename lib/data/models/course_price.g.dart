@@ -12,13 +12,13 @@ CoursePrice _$CoursePriceFromJson(Map<String, dynamic> json) => CoursePrice(
       coursePrice: json['coursePrice'] as int,
       dateTime: DateTime.parse(json['dateTime'] as String),
       isSelected: json['isSelected'] as bool? ?? false,
-);
+    );
 
 Map<String, dynamic> _$CoursePriceToJson(CoursePrice instance) =>
     <String, dynamic>{
-          'id': instance.id,
-          'courseName': instance.courseName,
-          'coursePrice': instance.coursePrice,
-          'dateTime': instance.dateTime.toIso8601String(),
-          'isSelected': instance.isSelected,
+      'id': instance.id,
+      'courseName': instance.courseName,
+      'coursePrice': instance.coursePrice,
+      'dateTime': instance.dateTime.toIso8601String(),
+      'isSelected': instance.isSelected,
     };

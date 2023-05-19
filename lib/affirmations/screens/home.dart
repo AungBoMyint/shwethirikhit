@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../consultant_appointant/controller/home_controller.dart';
 import '../../model/category.dart';
+import '../controller/affirmations_controller.dart';
 import '../models/music.dart';
 import '../widgets/widgets.dart';
 import 'category_viewall.dart';
@@ -16,8 +17,10 @@ class AffHome extends GetView<HomeController> {
   // const Home({Key? key}) : super(key: key);
   Widget createCategory(Category category, BuildContext context) {
     return InkWell(
-      onTap: () =>
-          Navigator.push(context, route(MusicPlayList(category: category))),
+      onTap: () {
+        Get.put(AffirmationsController());
+        Navigator.push(context, route(MusicPlayList(category: category)));
+      },
       child: Container(
         color: Colors.blueGrey.shade400,
         child: Row(
@@ -242,8 +245,11 @@ class AffHome extends GetView<HomeController> {
                           Padding(
                             padding: const EdgeInsets.only(right: 10),
                             child: TextButton(
-                              onPressed: () => Navigator.push(
-                                  context, route(MusicPlayList(type: affType))),
+                              onPressed: () {
+                                Get.put(AffirmationsController());
+                                Navigator.push(context,
+                                    route(MusicPlayList(type: affType)));
+                              },
                               child: Text(
                                 "See All",
                                 style: TextStyle(

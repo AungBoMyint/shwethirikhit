@@ -5,10 +5,10 @@ packages:
     dependency: transitive
     description:
       name: _fe_analyzer_shared
-      sha256: "8880b4cfe7b5b17d57c052a5a3a8cc1d4f546261c7cc8fbd717bd53f48db0568"
+      sha256: "405666cd3cf0ee0a48d21ec67e65406aad2c726d9fa58840d3375e7bdcd32a07"
       url: "https://pub.dev"
     source: hosted
-    version: "59.0.0"
+    version: "60.0.0"
   _flutterfire_internals:
     dependency: transitive
     description:
@@ -21,10 +21,10 @@ packages:
     dependency: "direct main"
     description:
       name: analyzer
-      sha256: a89627f49b0e70e068130a36571409726b04dab12da7e5625941d2c8ec278b96
+      sha256: "1952250bd005bacb895a01bf1b4dc00e3ba1c526cf47dca54dfe24979c65f5b3"
       url: "https://pub.dev"
     source: hosted
-    version: "5.11.1"
+    version: "5.12.0"
   analyzer_plugin:
     dependency: transitive
     description:
@@ -65,6 +65,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "2.10.0"
+  audio_video_progress_bar:
+    dependency: "direct main"
+    description:
+      name: audio_video_progress_bar
+      sha256: "67f3a5ea70d48b48caaf29f5a0606284a6aa3a393736daf9e82bec985d2f9b70"
+      url: "https://pub.dev"
+    source: hosted
+    version: "1.0.1"
   audioplayers:
     dependency: "direct main"
     description:
@@ -422,10 +430,10 @@ packages:
     dependency: "direct dev"
     description:
       name: dart_code_metrics
-      sha256: "162c81dbd0a2ba182f38ca615335f3e8878f212ec7beea83d6bfad4e99eb541a"
+      sha256: "8d40e9fa6ba6b5f4f569768e267e9cb3e74350f98b30ac4b8160795792ce5414"
       url: "https://pub.dev"
     source: hosted
-    version: "5.7.3"
+    version: "5.7.4"
   dart_code_metrics_presets:
     dependency: transitive
     description:
@@ -934,6 +942,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "10.4.0"
+  freezed:
+    dependency: "direct main"
+    description:
+      name: freezed
+      sha256: "2edb9ef971d0f803860ecd9084afd48c717d002141ad77b69be3e976bee7190e"
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.3.4"
+  freezed_annotation:
+    dependency: "direct main"
+    description:
+      name: freezed_annotation
+      sha256: aeac15850ef1b38ee368d4c53ba9a847e900bb2c53a4db3f6881cbb3cb684338
+      url: "https://pub.dev"
+    source: hosted
+    version: "2.2.0"
   frontend_server_client:
     dependency: transitive
     description:
@@ -1487,6 +1511,22 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "3.2.1"
+  rive:
+    dependency: "direct main"
+    description:
+      name: rive
+      sha256: "5755eb9dc0f4d12371e9774cf6a407137d52a95beea6d7fbbf4c4f79e561da53"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.11.0"
+  rive_common:
+    dependency: transitive
+    description:
+      name: rive_common
+      sha256: "89c6264706b18e2526ff220bd23f3ab25ef152d57ebed4b9e4f5d72aebba4f97"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.0.6"
   rounded_loading_button:
     dependency: "direct main"
     description:

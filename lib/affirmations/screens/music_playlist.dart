@@ -1,3 +1,6 @@
+import 'dart:developer';
+import 'package:rive/rive.dart';
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -7,9 +10,9 @@ import 'package:kzn/model/category.dart';
 
 import '../../model/type.dart';
 import '../controller/affirmations_controller.dart';
-import '../widgets/widgets.dart';
+import '../models/playerstatus.dart';
 
-class MusicPlayList extends GetView<HomeController> {
+class MusicPlayList extends StatefulWidget {
   final Category? category;
   final ItemType? type;
   const MusicPlayList({
@@ -19,15 +22,28 @@ class MusicPlayList extends GetView<HomeController> {
   });
 
   @override
+  State<MusicPlayList> createState() => _MusicPlayListState();
+}
+
+class _MusicPlayListState extends State<MusicPlayList> {
+  @override
+  void dispose() {
+    Get.delete<AffirmationsController>();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    final HomeController controller = Get.find();
     final AffirmationsController afController = Get.find();
-    final musics = category == null
-        ? controller.getMusicByType(type!.id)
-        : controller.getMusicByCategory(category!.id);
+    final musics = widget.category == null
+        ? controller.getMusicByType(widget.type!.id)
+        : controller.getMusicByCategory(widget.category!.id);
     return Scaffold(
       /* appBar: createAppBar(""), */
+      backgroundColor: Color(0xFFEAE1D7),
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: Color(0xFFEAE1D7),
         automaticallyImplyLeading: true,
         elevation: 0,
         iconTheme: IconThemeData(
@@ -55,7 +71,9 @@ class MusicPlayList extends GetView<HomeController> {
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
                           child: Image.network(
-                            category == null ? musicCover : category!.image,
+                            widget.category == null
+                                ? musicCover
+                                : widget.category!.image,
                             fit: BoxFit.cover,
                           ),
                         ),
@@ -67,7 +85,7 @@ class MusicPlayList extends GetView<HomeController> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            category?.name ?? type?.name ?? "",
+                            widget.category?.name ?? widget.type?.name ?? "",
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.bold,
@@ -94,7 +112,7 @@ class MusicPlayList extends GetView<HomeController> {
                   width: 200,
                   child: ElevatedButton(
                     style: ElevatedButton.styleFrom(
-                      backgroundColor: Colors.white,
+                      backgroundColor: logoColor,
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.all(
                           Radius.circular(10),
@@ -110,12 +128,12 @@ class MusicPlayList extends GetView<HomeController> {
                         children: [
                           Icon(
                             FontAwesomeIcons.play,
-                            color: Colors.black,
+                            color: Colors.white,
                           ),
                           const SizedBox(width: 10),
                           Text("Play",
                               style: TextStyle(
-                                color: Colors.black,
+                                color: Colors.white,
                               )),
                         ],
                       ),
@@ -126,31 +144,55 @@ class MusicPlayList extends GetView<HomeController> {
             ),
             const SizedBox(height: 20),
             Obx(() {
+              final state = afController.playerStatus.value!
+                  .getOrElse(() => PlayerStatus.nothing());
               final selectedMusic = afController.selectedMusic.value;
+
               return ListView.separated(
                 shrinkWrap: true,
                 physics: const BouncingScrollPhysics(),
                 itemCount: musics.length,
                 separatorBuilder: (context, index) {
                   final currentMusic = musics[index];
-                  if (!(selectedMusic == null) &&
-                      (selectedMusic.id == currentMusic.id &&
-                          afController.playerLoading.value)) {
-                    return SizedBox(
-                      height: 15,
-                      child: LinearProgressIndicator(),
-                    );
+                  final isSelected = !(selectedMusic == null) &&
+                      (selectedMusic.id == currentMusic.id);
+                  if (isSelected && state == PlayerStatus.loading()) {
+                    return linerProgress();
                   }
-                  return const SizedBox(height: 15);
+                  return const Divider();
                 },
                 itemBuilder: (context, index) {
                   final music = musics[index];
-                  return ListTile(
-                    onTap: () => afController.setSelectedMusic(music),
-                    leading: Text("${index + 1}"),
-                    title: Text(music.name),
-                    subtitle: Text(music.desc),
-                    trailing: Text("${index + 2}"),
+                  final isSelected = !(selectedMusic == null) &&
+                      (selectedMusic.id == music.id);
+                  return Container(
+                    color: isSelected ? Colors.white : Color(0xFFEAE1D7),
+                    child: ListTile(
+                      /* selected: isSelected,
+                      selectedColor: Colors.white, */
+                      onTap: () => afController.setSelectedMusic(music),
+                      leading: afController.playerStatus.value!.fold(
+                        (l) => const SizedBox(),
+                        (r) => r.map(
+                          loading: (v) => !(selectedMusic == null) &&
+                                  (selectedMusic.id == music.id)
+                              ? circularProgress()
+                              : pauseImage(),
+                          playing: (v) => !(selectedMusic == null) &&
+                                  (selectedMusic.id == music.id)
+                              ? playingAnimation()
+                              : pauseImage(),
+                          pause: (v) => pauseImage(),
+                          nothing: (v) => pauseImage(),
+                        ),
+                      ),
+                      /* isPlaying
+                          ? Image.asset("assets/animations/cd.gif")
+                          : Text("${index + 1}"),*/
+                      title: Text(music.name),
+                      subtitle: Text(music.desc),
+                      trailing: Text("${index + 2}"),
+                    ),
                   );
                 },
               );
@@ -161,3 +203,16 @@ class MusicPlayList extends GetView<HomeController> {
     );
   }
 }
+
+linerProgress() => SizedBox(
+      height: 5,
+      child: LinearProgressIndicator(color: logoColor.withOpacity(0.5)),
+    );
+circularProgress() => SizedBox(
+      height: 15,
+      width: 15,
+      child: CircularProgressIndicator(color: logoColor.withOpacity(0.5)),
+    );
+
+pauseImage() => Image.asset(playIcon);
+playingAnimation() => RiveAnimation.asset(soundWaveAnimation);
