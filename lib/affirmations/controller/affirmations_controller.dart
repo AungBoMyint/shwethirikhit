@@ -3,12 +3,14 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:get/get.dart';
+import '../../utils/debouncer.dart';
 import '../models/music.dart';
 import 'package:audioplayers/audioplayers.dart';
 
 import '../models/playerstatus.dart';
 
 class AffirmationsController extends GetxController {
+  final _debouncer = Debouncer(milliseconds: 300);
   Rxn<Music> selectedMusic = Rxn<Music>(null);
   AudioPlayer? player;
   Rxn<Either<None, PlayerStatus>> playerStatus =
@@ -31,6 +33,12 @@ class AffirmationsController extends GetxController {
         playerStatus.value = right(PlayerStatus.playing());
       }
       return;
+    } else {
+      //if different sound
+      if (state == PlayerStatus.loading()) {
+        //but it is still loading,nothing do,return
+        return;
+      }
     }
     playerStatus.value = right(PlayerStatus.loading());
     selectedMusic.value = music;

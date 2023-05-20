@@ -51,9 +51,9 @@ class _MusicPlayListState extends State<MusicPlayList> {
         ),
       ),
       body: SafeArea(
-        child: ListView(
-          shrinkWrap: true,
-          physics: NeverScrollableScrollPhysics(),
+        child: Column(
+          /* shrinkWrap: true, */
+          /* physics: NeverScrollableScrollPhysics(), */
           children: [
             SizedBox(
               height: 150,
@@ -160,60 +160,62 @@ class _MusicPlayListState extends State<MusicPlayList> {
               ),
             ),
             const SizedBox(height: 20),
-            Obx(() {
-              final state = afController.playerStatus.value!
-                  .getOrElse(() => PlayerStatus.nothing());
-              final selectedMusic = afController.selectedMusic.value;
+            Expanded(
+              child: Obx(() {
+                final state = afController.playerStatus.value!
+                    .getOrElse(() => PlayerStatus.nothing());
+                final selectedMusic = afController.selectedMusic.value;
 
-              return ListView.separated(
-                shrinkWrap: true,
-                physics: const BouncingScrollPhysics(),
-                itemCount: musics.length,
-                separatorBuilder: (context, index) {
-                  final currentMusic = musics[index];
-                  final isSelected = !(selectedMusic == null) &&
-                      (selectedMusic.id == currentMusic.id);
-                  if (isSelected && state == PlayerStatus.loading()) {
-                    return linerProgress();
-                  }
-                  return const Divider();
-                },
-                itemBuilder: (context, index) {
-                  final music = musics[index];
-                  final isSelected = !(selectedMusic == null) &&
-                      (selectedMusic.id == music.id);
-                  return Container(
-                    color: isSelected ? Colors.white : Color(0xFFEAE1D7),
-                    child: ListTile(
-                      /* selected: isSelected,
-                      selectedColor: Colors.white, */
-                      onTap: () => afController.setSelectedMusic(music),
-                      leading: Text("${index + 1}"),
-                      /* isPlaying
-                          ? Image.asset("assets/animations/cd.gif")
-                          : Text("${index + 1}"),*/
-                      title: Text(music.name),
-                      subtitle: Text(music.desc),
-                      trailing: afController.playerStatus.value!.fold(
-                        (l) => const SizedBox(),
-                        (r) => r.map(
-                          loading: (v) => !(selectedMusic == null) &&
-                                  (selectedMusic.id == music.id)
-                              ? circularProgress()
-                              : pauseImage(),
-                          playing: (v) => !(selectedMusic == null) &&
-                                  (selectedMusic.id == music.id)
-                              ? playingAnimation()
-                              : pauseImage(),
-                          pause: (v) => pauseImage(),
-                          nothing: (v) => pauseImage(),
+                return ListView.separated(
+                  shrinkWrap: true,
+                  physics: const BouncingScrollPhysics(),
+                  itemCount: musics.length,
+                  separatorBuilder: (context, index) {
+                    final currentMusic = musics[index];
+                    final isSelected = !(selectedMusic == null) &&
+                        (selectedMusic.id == currentMusic.id);
+                    if (isSelected && state == PlayerStatus.loading()) {
+                      return linerProgress();
+                    }
+                    return const Divider();
+                  },
+                  itemBuilder: (context, index) {
+                    final music = musics[index];
+                    final isSelected = !(selectedMusic == null) &&
+                        (selectedMusic.id == music.id);
+                    return Container(
+                      color: isSelected ? Colors.white : Color(0xFFEAE1D7),
+                      child: ListTile(
+                        /* selected: isSelected,
+                        selectedColor: Colors.white, */
+                        onTap: () => afController.setSelectedMusic(music),
+                        leading: Text("${index + 1}"),
+                        /* isPlaying
+                            ? Image.asset("assets/animations/cd.gif")
+                            : Text("${index + 1}"),*/
+                        title: Text(music.name),
+                        subtitle: Text(music.desc),
+                        trailing: afController.playerStatus.value!.fold(
+                          (l) => const SizedBox(),
+                          (r) => r.map(
+                            loading: (v) => !(selectedMusic == null) &&
+                                    (selectedMusic.id == music.id)
+                                ? circularProgress()
+                                : pauseImage(),
+                            playing: (v) => !(selectedMusic == null) &&
+                                    (selectedMusic.id == music.id)
+                                ? playingAnimation()
+                                : pauseImage(),
+                            pause: (v) => pauseImage(),
+                            nothing: (v) => pauseImage(),
+                          ),
                         ),
                       ),
-                    ),
-                  );
-                },
-              );
-            })
+                    );
+                  },
+                );
+              }),
+            )
           ],
         ),
       ),

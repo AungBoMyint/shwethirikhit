@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kzn/ui/routes/main_route.dart';
+import 'affirmations/controller/aff_home_controller.dart';
 import 'affirmations/screens/app.dart';
 import 'consultant_appointant/screen/view/home.dart';
 import 'controller/main_controller.dart';
@@ -30,11 +31,13 @@ class _BottomBarState extends State<BottomBar> {
 
   @override
   Widget build(BuildContext context) {
+    final AffHomeController affHomeController = Get.find();
     final MainController mainController = Get.find();
     return Scaffold(
       body: _widgetOption.elementAt(_currentindex),
       bottomNavigationBar: BottomNavigationBar(
         onTap: (v) {
+          affHomeController.justPause();
           log("*****On Tap Call");
           //Everytime Nav change
           if (v != 1) {

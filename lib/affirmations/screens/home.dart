@@ -5,6 +5,7 @@ import 'package:url_launcher/url_launcher.dart';
 
 import '../../consultant_appointant/controller/home_controller.dart';
 import '../../model/category.dart';
+import '../controller/aff_home_controller.dart';
 import '../controller/affirmations_controller.dart';
 import '../models/music.dart';
 import '../widgets/widgets.dart';
@@ -12,12 +13,14 @@ import 'category_viewall.dart';
 import 'music_playlist.dart';
 
 class AffHome extends GetView<HomeController> {
+  final AffHomeController affHomeController = Get.find();
   Function _miniPlayer;
   AffHome(this._miniPlayer); // Dart Constructor ShortHand
   // const Home({Key? key}) : super(key: key);
   Widget createCategory(Category category, BuildContext context) {
     return InkWell(
       onTap: () {
+        affHomeController.justPause();
         Get.put(AffirmationsController());
         Navigator.push(context, route(MusicPlayList(category: category)));
       },
@@ -65,7 +68,7 @@ class AffHome extends GetView<HomeController> {
             width: 160,
             child: InkWell(
               onTap: () {
-                _miniPlayer(music, stop: false);
+                affHomeController.setSelectedMusic(music);
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
@@ -246,6 +249,7 @@ class AffHome extends GetView<HomeController> {
                             padding: const EdgeInsets.only(right: 10),
                             child: TextButton(
                               onPressed: () {
+                                affHomeController.justPause();
                                 Get.put(AffirmationsController());
                                 Navigator.push(context,
                                     route(MusicPlayList(type: affType)));

@@ -1,8 +1,10 @@
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:kzn/affirmations/screens/search.dart';
 import 'package:kzn/affirmations/screens/yourlibrary.dart';
 
+import '../controller/aff_home_controller.dart';
 import '../models/music.dart';
 import 'home.dart';
 
@@ -14,22 +16,14 @@ class Aff extends StatefulWidget {
 }
 
 class _AffState extends State<Aff> {
-  AudioPlayer _audioPlayer = new AudioPlayer();
+  final AffHomeController affHomeController = Get.find();
   var Tabs = [];
   int currentTabIndex = 0;
-  bool isPlaying = false;
-  Music? music;
-  Widget miniPlayer(Music? music, {bool stop = false}) {
-    this.music = music;
 
+  Widget miniPlayer(Music? music, bool isPlaying) {
     if (music == null) {
       return SizedBox();
     }
-    if (stop) {
-      isPlaying = false;
-      _audioPlayer.stop();
-    }
-    setState(() {});
     Size deviceSize = MediaQuery.of(context).size;
     return AnimatedContainer(
       duration: const Duration(milliseconds: 500),
@@ -64,16 +58,7 @@ class _AffState extends State<Aff> {
             width: 50,
           ),
           IconButton(
-              onPressed: () async {
-                isPlaying = !isPlaying;
-                if (isPlaying) {
-                  await _audioPlayer
-                      .play(UrlSource(music.audioURL.replaceAll("'", "")));
-                } else {
-                  await _audioPlayer.pause();
-                }
-                setState(() {});
-              },
+              onPressed: () => affHomeController.setSelectedMusic(music),
               icon: isPlaying
                   ? Icon(Icons.pause, color: Colors.white)
                   : Icon(Icons.play_arrow, color: Colors.white))
@@ -98,7 +83,11 @@ class _AffState extends State<Aff> {
       bottomNavigationBar: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
-          miniPlayer(music),
+          Obx(() {
+            final music = affHomeController.selectedMusic.value;
+            final isPlaying = affHomeController.isPlaying.value;
+            return miniPlayer(music, isPlaying);
+          }),
           // BottomNavigationBar(
           //   currentIndex: currentTabIndex,
           //   onTap: (currentIndex) {
