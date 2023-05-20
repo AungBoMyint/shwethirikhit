@@ -5,16 +5,18 @@ import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer';
 import '../consultant_appointant/controller/home_controller.dart';
+import '../data/constant.dart';
 import '../model/vlog_video.dart';
 
-class Vlog extends StatelessWidget /* GetView<VlogController> */ {
+class Vlog extends GetView<VlogController> {
   final HomeController _homeController = Get.find();
 
-  /*  nestedAppBar(width, height) {
+  nestedAppBar(width, height) {
     return NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
+            backgroundColor: Color(0xFFEAE1D7),
             expandedHeight: 230,
             pinned: true,
             automaticallyImplyLeading: false,
@@ -204,7 +206,7 @@ class Vlog extends StatelessWidget /* GetView<VlogController> */ {
         ),
       ),
     );
-  } */
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -212,7 +214,7 @@ class Vlog extends StatelessWidget /* GetView<VlogController> */ {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        body: Container() /* nestedAppBar(width, height) */,
+        body: nestedAppBar(width, height),
       ),
     );
   }

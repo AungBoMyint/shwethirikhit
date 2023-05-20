@@ -25,6 +25,7 @@ class Category {
         name: json["name"] as String,
         image: json["image"] as String,
         order: json["order"] as int?,
-        dateTime: DateTime.tryParse(json["dateTime"]) as DateTime,
+        dateTime:
+            DateTime.tryParse(json["dateTime"] ?? "11/2023") ?? DateTime.now(),
       );
 }

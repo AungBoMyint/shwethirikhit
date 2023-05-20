@@ -110,35 +110,52 @@ class _MusicPlayListState extends State<MusicPlayList> {
               child: Center(
                 child: SizedBox(
                   width: 200,
-                  child: ElevatedButton(
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: logoColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(10),
+                  child: Obx(() {
+                    final music = afController.selectedMusic.value;
+                    final isPlaying = afController.playerStatus.value!
+                            .getOrElse(() => PlayerStatus.nothing()) ==
+                        PlayerStatus.playing();
+                    return ElevatedButton(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: logoColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.all(
+                            Radius.circular(10),
+                          ),
                         ),
                       ),
-                    ),
-                    onPressed: () {},
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          Icon(
-                            FontAwesomeIcons.play,
-                            color: Colors.white,
-                          ),
-                          const SizedBox(width: 10),
-                          Text("Play",
-                              style: TextStyle(
-                                color: Colors.white,
-                              )),
-                        ],
+                      onPressed: () {
+                        if (music == null) {
+                          afController.setSelectedMusic(musics.first);
+                        } else {
+                          afController.setSelectedMusic(music);
+                        }
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            isPlaying
+                                ? Icon(
+                                    FontAwesomeIcons.pause,
+                                    color: Colors.white,
+                                  )
+                                : Icon(
+                                    FontAwesomeIcons.play,
+                                    color: Colors.white,
+                                  ),
+                            const SizedBox(width: 10),
+                            Text("Play",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                )),
+                          ],
+                        ),
                       ),
-                    ),
-                  ),
+                    );
+                  }),
                 ),
               ),
             ),
@@ -171,7 +188,13 @@ class _MusicPlayListState extends State<MusicPlayList> {
                       /* selected: isSelected,
                       selectedColor: Colors.white, */
                       onTap: () => afController.setSelectedMusic(music),
-                      leading: afController.playerStatus.value!.fold(
+                      leading: Text("${index + 1}"),
+                      /* isPlaying
+                          ? Image.asset("assets/animations/cd.gif")
+                          : Text("${index + 1}"),*/
+                      title: Text(music.name),
+                      subtitle: Text(music.desc),
+                      trailing: afController.playerStatus.value!.fold(
                         (l) => const SizedBox(),
                         (r) => r.map(
                           loading: (v) => !(selectedMusic == null) &&
@@ -186,12 +209,6 @@ class _MusicPlayListState extends State<MusicPlayList> {
                           nothing: (v) => pauseImage(),
                         ),
                       ),
-                      /* isPlaying
-                          ? Image.asset("assets/animations/cd.gif")
-                          : Text("${index + 1}"),*/
-                      title: Text(music.name),
-                      subtitle: Text(music.desc),
-                      trailing: Text("${index + 2}"),
                     ),
                   );
                 },
@@ -206,13 +223,20 @@ class _MusicPlayListState extends State<MusicPlayList> {
 
 linerProgress() => SizedBox(
       height: 5,
-      child: LinearProgressIndicator(color: logoColor.withOpacity(0.5)),
+      child: LinearProgressIndicator(
+          backgroundColor: Color(0xFFEAE1D7), color: logoColor),
     );
 circularProgress() => SizedBox(
       height: 15,
       width: 15,
-      child: CircularProgressIndicator(color: logoColor.withOpacity(0.5)),
+      child: CircularProgressIndicator(color: logoColor),
     );
 
-pauseImage() => Image.asset(playIcon);
-playingAnimation() => RiveAnimation.asset(soundWaveAnimation);
+pauseImage() => Image.asset(playIcon, width: 15, height: 15);
+playingAnimation() => SizedBox(
+    width: 30,
+    height: 30,
+    child: RiveAnimation.asset(
+      soundWaveAnimation,
+      fit: BoxFit.cover,
+    ));

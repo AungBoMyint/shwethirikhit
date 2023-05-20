@@ -33,23 +33,23 @@ class _MainRouteState extends State<MainRoute> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: logoColor,
         appBar: AppBar(
             elevation: 0,
-            iconTheme: IconThemeData(color: Colors.black),
-            backgroundColor: Colors.white,
+            iconTheme: IconThemeData(color: Colors.white),
+            backgroundColor: logoColor,
             title: Text("Shwe Thiri Khit",
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.black,
+                  color: Colors.white,
                   letterSpacing: 1,
                   wordSpacing: 2,
                 )),
             actions: [
               SizedBox(
                 width: 90,
-                child: ElevatedButton(
-                  style: ButtonStyle(
+                child: IconButton(
+                  /*  style: ButtonStyle(
                     alignment: Alignment.center,
                     backgroundColor: MaterialStateProperty.all(Colors.white),
                     elevation: MaterialStateProperty.resolveWith<double>(
@@ -61,7 +61,7 @@ class _MainRouteState extends State<MainRoute> {
                         return 0; // Defer to the widget's default.
                       },
                     ),
-                  ),
+                  ),*/
                   onPressed: () async {
                     try {
                       await launch('https://m.me/selfmasterywithkhit');
@@ -69,23 +69,82 @@ class _MainRouteState extends State<MainRoute> {
                       print(e);
                     }
                   },
-                  child: FaIcon(
+                  icon: FaIcon(
                     FontAwesomeIcons.facebookMessenger,
-                    color: Colors.blue,
+                    color: Colors.white,
                     size: 23,
                   ),
                 ),
               ),
             ]),
 
-        body: ListView(
-          // shrinkWrap: true,
+        body: Column(
+          /* shrinkWrap: true, */
           // physics: ClampingScrollPhysics(),
           children: [
             IntroSlider(
               photos: introSliderImages,
             ),
-            _courseListFutureBuilder(),
+            Expanded(
+              child: Container(
+                  decoration: BoxDecoration(
+                    color: Color(0xFFEAE1D7),
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(10),
+                      topRight: Radius.circular(10),
+                    ),
+                  ),
+                  child: ListView(
+                    shrinkWrap: true,
+                    primary: false,
+                    physics: const NeverScrollableScrollPhysics(),
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.only(
+                          top: 10,
+                          bottom: 10,
+                          left: 20,
+                        ),
+                        child: Text(
+                          "Courses for you",
+                          style: TextStyle(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 16,
+                          ),
+                        ),
+                      ),
+                      //Search Bar
+                      SizedBox(
+                        height: 50,
+                        child: Padding(
+                          padding: const EdgeInsets.only(
+                            left: 20,
+                            right: 20,
+                          ),
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(
+                                10,
+                              ),
+                            ),
+                            child: TextFormField(
+                              decoration: InputDecoration(
+                                  border: InputBorder.none,
+                                  fillColor: Colors.white,
+                                  filled: true,
+                                  hintText: "Search",
+                                  hintStyle: TextStyle(
+                                    color: Colors.grey,
+                                  )),
+                            ),
+                          ),
+                        ),
+                      ),
+                      _courseListFutureBuilder(),
+                    ],
+                  )),
+            ),
           ],
         ),
 

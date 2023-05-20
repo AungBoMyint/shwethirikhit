@@ -1,5 +1,5 @@
 import 'dart:convert';
-import 'dart:math';
+import 'dart:developer';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -84,378 +84,373 @@ class _VideoInfoState extends State<VideoInfo> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SafeArea(
-        child: Scaffold(
-            backgroundColor: Color.fromRGBO(85, 38, 38, 1),
-            body: CustomScrollView(slivers: [
-              SliverPadding(
-                  padding: EdgeInsets.symmetric(
-                    vertical: 0.2 /* 0 */,
-                    horizontal: 0.2 /* 0.w */,
-                  ),
-                  sliver: SliverToBoxAdapter(
-                      child: Container(
-                    margin: EdgeInsets.only(top: 0.2, bottom: 25.0),
-                    decoration: BoxDecoration(
-                        gradient: LinearGradient(
-                      colors: [
-                        color.AppColor.gradientFirst.withOpacity(0.9),
-                        color.AppColor.gradientSecond
-                      ],
-                      begin: const FractionalOffset(0.0, 0.4),
-                      end: Alignment.topRight,
-                    )),
-                    child: Column(
-                      children: [
-                        _playArea == false
-                            ? Container(
-                                padding: EdgeInsets.only(
-                                    top: 30, left: 30, right: 30),
-                                height: 300,
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Row(
+      child: Scaffold(
+        backgroundColor: Color.fromRGBO(85, 38, 38, 1),
+        body: Stack(
+          children: [
+            Align(
+              alignment: Alignment.topCenter,
+              child: Padding(
+                padding: EdgeInsets.symmetric(
+                  vertical: 0.2 /* 0 */,
+                  horizontal: 0.2 /* 0.w */,
+                ),
+                child: ListView(shrinkWrap: true, children: [
+                  _playArea == false
+                      ? Container(
+                          padding:
+                              EdgeInsets.only(top: 30, left: 30, right: 30),
+                          height: 300,
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Row(
+                                children: [
+                                  InkWell(
+                                    onTap: () {
+                                      Get.back();
+                                    },
+                                    child: Icon(Icons.arrow_back_ios,
+                                        size: 20,
+                                        color:
+                                            color.AppColor.secondPageIconColor),
+                                  ),
+                                  Expanded(child: Container()),
+                                  SizedBox(
+                                    width: 30,
+                                    child: ElevatedButton(
+                                      style: ButtonStyle(
+                                        alignment: Alignment.center,
+                                        backgroundColor:
+                                            MaterialStateProperty.all(
+                                                Colors.transparent),
+                                        elevation: MaterialStateProperty
+                                            .resolveWith<double>(
+                                          // As you said you dont need elevation. I'm returning 0 in both case
+                                          (Set<MaterialState> states) {
+                                            if (states.contains(
+                                                MaterialState.disabled)) {
+                                              return 0;
+                                            }
+                                            return 0; // Defer to the widget's default.
+                                          },
+                                        ),
+                                      ),
+                                      onPressed: () async {
+                                        try {
+                                          await launch(
+                                              'https://m.me/selfmasterywithkhit');
+                                        } catch (e) {
+                                          print(e);
+                                        }
+                                      },
+                                      child: FaIcon(
+                                        FontAwesomeIcons.facebookMessenger,
+                                        color: Colors.blue,
+                                        size: 23,
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 30,
+                              ),
+                              Text(
+                                "Increased Self-Esteem and Achieve Your True Potential.",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: color.AppColor.secondPageTitleColor),
+                              ),
+                              SizedBox(
+                                height: 5,
+                              ),
+                              Text(
+                                "Be YOU that you've always wanted to be...",
+                                style: TextStyle(
+                                    fontSize: 12,
+                                    color: color.AppColor.secondPageTitleColor),
+                              ),
+                              SizedBox(
+                                height: 50,
+                              ),
+                              Row(
+                                children: [
+                                  Container(
+                                    width: 90,
+                                    height: 30,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.circular(10),
+                                        gradient: LinearGradient(
+                                          colors: [
+                                            color.AppColor
+                                                .secondPageContainerGradient1stColor,
+                                            color.AppColor
+                                                .secondPageContainerGradient2ndColor
+                                          ],
+                                          begin: Alignment.bottomLeft,
+                                          end: Alignment.topRight,
+                                        )),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
                                       children: [
-                                        InkWell(
+                                        Icon(
+                                          Icons.person_2_outlined,
+                                          size: 20,
+                                          color: color
+                                              .AppColor.secondPageIconColor,
+                                        ),
+                                        SizedBox(
+                                          width: 5,
+                                        ),
+                                        Text(
+                                          "",
+                                          style: TextStyle(
+                                              fontSize: 14,
+                                              color: color.AppColor
+                                                  .secondPageIconColor),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                  Expanded(
+                                    child: Container(
+                                      width: 200,
+                                      height: 30,
+                                      decoration: BoxDecoration(
+                                          borderRadius:
+                                              BorderRadius.circular(10),
+                                          gradient: LinearGradient(
+                                            colors: [
+                                              color.AppColor
+                                                  .secondPageContainerGradient1stColor,
+                                              color.AppColor
+                                                  .secondPageContainerGradient2ndColor
+                                            ],
+                                            begin: Alignment.bottomLeft,
+                                            end: Alignment.topRight,
+                                          )),
+                                      child: Row(
+                                        mainAxisAlignment:
+                                            MainAxisAlignment.center,
+                                        children: [
+                                          Icon(
+                                            Icons.video_collection_outlined,
+                                            size: 20,
+                                            color: color
+                                                .AppColor.secondPageIconColor,
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Container(
+                                            width: 100,
+                                            child: Text(
+                                              "Art Therapy",
+                                              overflow: TextOverflow.fade,
+                                              maxLines: 1,
+                                              softWrap: false,
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: color.AppColor
+                                                      .secondPageIconColor),
+                                            ),
+                                          )
+                                        ],
+                                      ),
+                                    ),
+                                  )
+                                ],
+                              ),
+                            ],
+                          ))
+                      : Container(
+                          padding: EdgeInsets.only(top: 5, bottom: 20),
+                          child: Column(
+                            children: [
+                              Container(
+                                  padding: EdgeInsets.only(left: 20, right: 20),
+                                  margin: EdgeInsets.only(bottom: 5),
+                                  child: Row(
+                                    children: [
+                                      InkWell(
                                           onTap: () {
                                             Get.back();
                                           },
                                           child: Icon(Icons.arrow_back_ios,
                                               size: 20,
                                               color: color.AppColor
-                                                  .secondPageIconColor),
-                                        ),
-                                        Expanded(child: Container()),
-                                        SizedBox(
-                                          width: 30,
-                                          child: ElevatedButton(
-                                            style: ButtonStyle(
-                                              alignment: Alignment.center,
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                      Colors.transparent),
-                                              elevation: MaterialStateProperty
-                                                  .resolveWith<double>(
-                                                // As you said you dont need elevation. I'm returning 0 in both case
-                                                (Set<MaterialState> states) {
-                                                  if (states.contains(
-                                                      MaterialState.disabled)) {
-                                                    return 0;
-                                                  }
-                                                  return 0; // Defer to the widget's default.
-                                                },
-                                              ),
-                                            ),
-                                            onPressed: () async {
-                                              try {
-                                                await launch(
-                                                    'https://m.me/selfmasterywithkhit');
-                                              } catch (e) {
-                                                print(e);
-                                              }
-                                            },
-                                            child: FaIcon(
-                                              FontAwesomeIcons
-                                                  .facebookMessenger,
-                                              color: Colors.blue,
-                                              size: 23,
+                                                  .secondPageTopIconColor)),
+                                      Expanded(child: Container()),
+                                      SizedBox(
+                                        width: 40,
+                                        child: ElevatedButton(
+                                          style: ButtonStyle(
+                                            alignment: Alignment.center,
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    Colors.transparent),
+                                            elevation: MaterialStateProperty
+                                                .resolveWith<double>(
+                                              // As you said you dont need elevation. I'm returning 0 in both case
+                                              (Set<MaterialState> states) {
+                                                if (states.contains(
+                                                    MaterialState.disabled)) {
+                                                  return 0;
+                                                }
+                                                return 0; // Defer to the widget's default.
+                                              },
                                             ),
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-                                    Text(
-                                      "Increased Self-Esteem and Achieve Your True Potential.",
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: color
-                                              .AppColor.secondPageTitleColor),
-                                    ),
-                                    SizedBox(
-                                      height: 5,
-                                    ),
-                                    Text(
-                                      "Be YOU that you've always wanted to be...",
-                                      style: TextStyle(
-                                          fontSize: 12,
-                                          color: color
-                                              .AppColor.secondPageTitleColor),
-                                    ),
-                                    SizedBox(
-                                      height: 50,
-                                    ),
-                                    Row(
-                                      children: [
-                                        Container(
-                                          width: 90,
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                              borderRadius:
-                                                  BorderRadius.circular(10),
-                                              gradient: LinearGradient(
-                                                colors: [
-                                                  color.AppColor
-                                                      .secondPageContainerGradient1stColor,
-                                                  color.AppColor
-                                                      .secondPageContainerGradient2ndColor
-                                                ],
-                                                begin: Alignment.bottomLeft,
-                                                end: Alignment.topRight,
-                                              )),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            children: [
-                                              Icon(
-                                                Icons.person_2_outlined,
-                                                size: 20,
-                                                color: color.AppColor
-                                                    .secondPageIconColor,
-                                              ),
-                                              SizedBox(
-                                                width: 5,
-                                              ),
-                                              Text(
-                                                "",
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: color.AppColor
-                                                        .secondPageIconColor),
-                                              )
-                                            ],
+                                          onPressed: () async {
+                                            try {
+                                              await launch(
+                                                  'https://m.me/selfmasterywithkhit');
+                                            } catch (e) {
+                                              print(e);
+                                            }
+                                          },
+                                          child: FaIcon(
+                                            FontAwesomeIcons.facebookMessenger,
+                                            color: Colors.blue,
+                                            size: 23,
                                           ),
                                         ),
-                                        SizedBox(
-                                          width: 20,
-                                        ),
-                                        Expanded(
-                                          child: Container(
-                                            width: 200,
-                                            height: 30,
-                                            decoration: BoxDecoration(
-                                                borderRadius:
-                                                    BorderRadius.circular(10),
-                                                gradient: LinearGradient(
-                                                  colors: [
-                                                    color.AppColor
-                                                        .secondPageContainerGradient1stColor,
-                                                    color.AppColor
-                                                        .secondPageContainerGradient2ndColor
-                                                  ],
-                                                  begin: Alignment.bottomLeft,
-                                                  end: Alignment.topRight,
-                                                )),
-                                            child: Row(
-                                              mainAxisAlignment:
-                                                  MainAxisAlignment.center,
-                                              children: [
-                                                Icon(
-                                                  Icons
-                                                      .video_collection_outlined,
-                                                  size: 20,
-                                                  color: color.AppColor
-                                                      .secondPageIconColor,
-                                                ),
-                                                SizedBox(
-                                                  width: 5,
-                                                ),
-                                                Container(
-                                                  width: 100,
-                                                  child: Text(
-                                                    "Art Therapy",
-                                                    overflow: TextOverflow.fade,
-                                                    maxLines: 1,
-                                                    softWrap: false,
-                                                    style: TextStyle(
-                                                        fontSize: 14,
-                                                        color: color.AppColor
-                                                            .secondPageIconColor),
-                                                  ),
-                                                )
-                                              ],
-                                            ),
-                                          ),
-                                        )
-                                      ],
-                                    ),
-                                  ],
-                                ))
-                            : Container(
-                                padding: EdgeInsets.only(top: 5, bottom: 20),
-                                child: Column(
-                                  children: [
-                                    Container(
-                                        padding: EdgeInsets.only(
-                                            left: 20, right: 20),
-                                        margin: EdgeInsets.only(bottom: 5),
-                                        child: Row(
-                                          children: [
-                                            InkWell(
-                                                onTap: () {
-                                                  Get.back();
-                                                },
-                                                child: Icon(
-                                                    Icons.arrow_back_ios,
-                                                    size: 20,
-                                                    color: color.AppColor
-                                                        .secondPageTopIconColor)),
-                                            Expanded(child: Container()),
-                                            SizedBox(
-                                              width: 40,
-                                              child: ElevatedButton(
-                                                style: ButtonStyle(
-                                                  alignment: Alignment.center,
-                                                  backgroundColor:
-                                                      MaterialStateProperty.all(
-                                                          Colors.transparent),
-                                                  elevation:
-                                                      MaterialStateProperty
-                                                          .resolveWith<double>(
-                                                    // As you said you dont need elevation. I'm returning 0 in both case
-                                                    (Set<MaterialState>
-                                                        states) {
-                                                      if (states.contains(
-                                                          MaterialState
-                                                              .disabled)) {
-                                                        return 0;
-                                                      }
-                                                      return 0; // Defer to the widget's default.
-                                                    },
-                                                  ),
-                                                ),
-                                                onPressed: () async {
-                                                  try {
-                                                    await launch(
-                                                        'https://m.me/selfmasterywithkhit');
-                                                  } catch (e) {
-                                                    print(e);
-                                                  }
-                                                },
-                                                child: FaIcon(
-                                                  FontAwesomeIcons
-                                                      .facebookMessenger,
-                                                  color: Colors.blue,
-                                                  size: 23,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        )),
-                                    Container(
-                                      width: 325,
-                                      height: 200,
-                                      child: FutureBuilder(
-                                        future: _initializeVideoPlayerFuture,
-                                        builder: (context, snapshot) {
-                                          if (snapshot.connectionState ==
-                                              ConnectionState.done) {
-                                            return _controller == null
-                                                ? Container()
-                                                : AspectRatio(
-                                                    aspectRatio: _controller!
-                                                        .value.aspectRatio,
-                                                    child: Stack(
-                                                      alignment: Alignment
-                                                          .bottomCenter,
-                                                      children: <Widget>[
-                                                        VideoPlayer(
-                                                            _controller!),
-                                                        VideoProgressIndicator(
-                                                          _controller!,
-                                                          allowScrubbing: true,
-                                                          colors:
-                                                              VideoProgressColors(
-                                                                  playedColor:
-                                                                      Colors
-                                                                          .red),
-                                                        ),
-                                                      ],
-                                                    ),
-                                                  );
-                                          } else {
-                                            return const Center(
-                                              child:
-                                                  CircularProgressIndicator(),
-                                            );
-                                          }
-                                        },
                                       ),
-                                    ),
-                                    _controlView(context),
-                                  ],
-                                )),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: Color.fromRGBO(85, 38, 38, 1),
-                              borderRadius: BorderRadius.only(
-                                  topRight: Radius.circular(70))),
-                          child: Column(
-                            children: [
-                              Row(
-                                children: [
-                                  SizedBox(
-                                    width: 30,
-                                  ),
-                                  Text(
-                                    "Lesson 1 : Art Therapy",
-                                    style: TextStyle(
-                                        fontSize: 14,
-                                        fontWeight: FontWeight.bold,
-                                        color: Colors.white),
-                                  ),
-
-                                  SizedBox(
-                                    height: 30,
-                                  ),
-                                  Expanded(child: Container()),
-                                  // Row(
-                                  //   children: [
-                                  //     Icon(Icons.loop,
-                                  //         size: 30,
-                                  //         color: color.AppColor.loopColor),
-                                  //     SizedBox(
-                                  //       width: 10.w,
-                                  //     ),
-                                  //     Text(
-                                  //       "3 sets",
-                                  //       style: TextStyle(
-                                  //         fontSize: 12.sp,
-                                  //         color: color.AppColor.setsColor,
-                                  //       ),
-                                  //     )
-                                  //   ],
-                                  // ),
-                                  SizedBox(
-                                    width: 20,
-                                  ),
-                                ],
+                                    ],
+                                  )),
+                              //Video
+                              Container(
+                                width: 325,
+                                height: 200,
+                                child: FutureBuilder(
+                                  future: _initializeVideoPlayerFuture,
+                                  builder: (context, snapshot) {
+                                    if (snapshot.connectionState ==
+                                        ConnectionState.done) {
+                                      return _controller == null
+                                          ? Container()
+                                          : AspectRatio(
+                                              aspectRatio: _controller!
+                                                  .value.aspectRatio,
+                                              child: Stack(
+                                                alignment:
+                                                    Alignment.bottomCenter,
+                                                children: <Widget>[
+                                                  VideoPlayer(_controller!),
+                                                  VideoProgressIndicator(
+                                                    _controller!,
+                                                    allowScrubbing: true,
+                                                    colors: VideoProgressColors(
+                                                        playedColor:
+                                                            Colors.red),
+                                                  ),
+                                                ],
+                                              ),
+                                            );
+                                    } else {
+                                      return const Center(
+                                        child: CircularProgressIndicator(),
+                                      );
+                                    }
+                                  },
+                                ),
                               ),
+                              _controlView(context),
                             ],
-                          ),
-                        )
+                          )),
+                  //Video Title
+                  Container(
+                    decoration: BoxDecoration(
+                        color: Color.fromRGBO(85, 38, 38, 1),
+                        borderRadius:
+                            BorderRadius.only(topRight: Radius.circular(70))),
+                    child: Column(
+                      children: [
+                        Row(
+                          children: [
+                            SizedBox(
+                              width: 30,
+                            ),
+                            Text(
+                              "Lesson 1 : Art Therapy",
+                              style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.white),
+                            ),
+
+                            SizedBox(
+                              height: 30,
+                            ),
+                            Expanded(child: Container()),
+                            // Row(
+                            //   children: [
+                            //     Icon(Icons.loop,
+                            //         size: 30,
+                            //         color: color.AppColor.loopColor),
+                            //     SizedBox(
+                            //       width: 10.w,
+                            //     ),
+                            //     Text(
+                            //       "3 sets",
+                            //       style: TextStyle(
+                            //         fontSize: 12.sp,
+                            //         color: color.AppColor.setsColor,
+                            //       ),
+                            //     )
+                            //   ],
+                            // ),
+                            SizedBox(
+                              width: 20,
+                            ),
+                          ],
+                        ),
                       ],
                     ),
-                  ))),
-              SliverPadding(
+                  ),
+                ]),
+              ),
+            ),
+            Positioned(
+              left: 0,
+              top: _playArea ? 320 : 350,
+              child: Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 0,
                   horizontal: 25,
                 ),
-                sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                  (content, index) {
-                    var item = widget.videoList.elementAt(index);
-                    print(item);
-                    return _buildCard(content, index, item);
-                  },
-                  childCount: widget.videoList.length,
-                )),
+                child: Center(
+                  child: LayoutBuilder(builder: (context, constraints) {
+                    final height = constraints.maxHeight;
+                    log("ListView.builder's Height: $height");
+                    return SizedBox(
+                      height: size.height,
+                      width: size.width,
+                      child: ListView.builder(
+                        shrinkWrap: true,
+                        itemBuilder: (context, index) {
+                          var item = widget.videoList.elementAt(index);
+                          print(item);
+                          return _buildCard(context, index, item);
+                        },
+                        itemCount: widget.videoList.length,
+                      ),
+                    );
+                  }),
+                ),
               ),
-            ])));
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   Widget _controlView(BuildContext context) {

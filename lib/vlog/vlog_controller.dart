@@ -7,7 +7,7 @@ import 'package:video_player/video_player.dart';
 import 'dart:developer';
 
 class VlogController extends GetxController {
-  /*  Rxn<VlogVideo> selectedVideo = Rxn<VlogVideo>(null);
+  Rxn<VlogVideo> selectedVideo = Rxn<VlogVideo>(null);
   final HomeController _homeController = Get.find();
   Rxn<ChewieController> chewieController = Rxn<ChewieController>(null);
   var isLoading = true.obs;
@@ -90,5 +90,5 @@ class VlogController extends GetxController {
       log("Vlog Page Is Loading: ${isLoading.value}");
       log("Vlog Page ChewieController is Null: ${chewieController.value == null}");
     }
-  } */
+  }
 }
