@@ -140,3 +140,17 @@ flutter:
     - assets/images/slider/
     - assets/dummy/
     - assets/animations/
+  
+  fonts:
+    - family: RobotoMono
+      fonts:
+        - asset: fonts/RobotoMono-Bold.ttf
+        - asset: fonts/RobotoMono-Light.ttf
+        - asset: fonts/RobotoMono-Medium.ttf
+        - asset: fonts/RobotoMono-Regular.ttf
+        - asset: fonts/RobotoMono-SemiBold.ttf
+        - asset: fonts/RobotoMono-Thin.ttf
+    - family: Pacifico
+      fonts:
+        - asset: fonts/Pacifico-Regular.ttf
+

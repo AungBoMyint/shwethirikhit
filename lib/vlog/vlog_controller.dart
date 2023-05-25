@@ -13,6 +13,7 @@ class VlogController extends GetxController {
   var isLoading = true.obs;
   Worker? worker;
 
+  playVideo() => chewieController.value?.play();
   changeSelectedVideo(VlogVideo v) {
     selectedVideo.value = v;
     if (chewieController.value?.isPlaying == true) {
@@ -25,7 +26,7 @@ class VlogController extends GetxController {
         videoPlayerController: VideoPlayerController.network(v.videoURL),
         aspectRatio: 16 / 9,
         autoInitialize: true,
-        autoPlay: true,
+        autoPlay: false,
         looping: true,
         errorBuilder: (context, errorMessage) {
           return Center(
@@ -72,7 +73,7 @@ class VlogController extends GetxController {
               _homeController.vlogVideos.first.videoURL),
           aspectRatio: 16 / 9,
           autoInitialize: true,
-          autoPlay: true,
+          autoPlay: false,
           looping: true,
           errorBuilder: (context, errorMessage) {
             return Center(

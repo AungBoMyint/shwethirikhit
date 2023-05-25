@@ -11,8 +11,8 @@ import '../model/vlog_video.dart';
 class Vlog extends GetView<VlogController> {
   final HomeController _homeController = Get.find();
 
-  nestedAppBar(width, height) {
-    return NestedScrollView(
+  /*  nestedAppBar(width, height) {
+    return /* NestedScrollView(
       headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
         return <Widget>[
           SliverAppBar(
@@ -45,84 +45,121 @@ class Vlog extends GetView<VlogController> {
               }),
             ),
           ),
+        
         ];
       },
-      body: ListView(
-        shrinkWrap: true,
-        children: <Widget>[
-          Container(
-            // color: Colors.black,
-            color: Color.fromRGBO(85, 38, 38, 1),
-            padding: EdgeInsets.all(10.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: <Widget>[
-                Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: Obx(() {
-                    if (controller.isLoading.value &&
-                        controller.selectedVideo.value == null) {
-                      return Shimmer.fromColors(
-                        baseColor: Colors.grey.shade300,
-                        highlightColor: Colors.white,
-                        child: Container(
-                          height: 20,
-                          width: 100,
-                          color: Colors.white,
-                        ),
-                      );
-                    }
-                    return Text(
-                      controller.selectedVideo.value!.title,
-                      style: TextStyle(
-                          color: Colors.white,
-                          fontFamily: 'Signika Negative',
-                          fontWeight: FontWeight.w700,
-                          fontSize: 16.0),
-                    );
-                  }),
-                ),
-              ],
+      body:  */Column(
+        children: [
+          SliverAppBar(
+            backgroundColor: Color(0xFFEAE1D7),
+            expandedHeight: 230,
+            pinned: true,
+            automaticallyImplyLeading: false,
+            leading: IconButton(
+              icon: Icon(Icons.arrow_back_ios),
+              onPressed: () {
+                Navigator.pop(context);
+              },
+            ),
+            flexibleSpace: FlexibleSpaceBar(
+              background: Obx(() {
+                if (controller.isLoading.value &&
+                    (controller.chewieController.value == null)) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.white,
+                    child: Container(
+                      width: width,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return Chewie(
+                  controller: controller.chewieController.value!,
+                );
+              }),
             ),
           ),
-          Obx(() {
-            if (controller.isLoading.value) {
-              return Shimmer.fromColors(
-                  baseColor: Colors.grey.shade300,
-                  highlightColor: Colors.white,
-                  child: ListView.separated(
-                    separatorBuilder: (context, i) {
-                      return const SizedBox(height: 10);
-                    },
-                    shrinkWrap: true,
-                    primary: false,
-                    physics: const NeverScrollableScrollPhysics(),
-                    itemCount: 6,
-                    itemBuilder: (context, index) {
-                      return Container(
-                        width: 120.0,
-                        height: 80.0,
-                        color: Colors.white,
-                      );
-                    },
-                  ));
-            }
-            return ListView.builder(
-              shrinkWrap: true,
-              primary: false,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: _homeController.vlogVideos.length,
-              itemBuilder: (context, index) {
-                final vlogVideo = _homeController.vlogVideos[index];
-                return getLessonTile(vlogVideo.title, vlogVideo.image, 'locked',
-                    width, vlogVideo);
-              },
-            );
-          }),
+        
+          ListView(
+            shrinkWrap: true,
+            children: <Widget>[
+              Container(
+                // color: Colors.black,
+                color: Color.fromRGBO(85, 38, 38, 1),
+                padding: EdgeInsets.all(10.0),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: <Widget>[
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Obx(() {
+                        if (controller.isLoading.value &&
+                            controller.selectedVideo.value == null) {
+                          return Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.white,
+                            child: Container(
+                              height: 20,
+                              width: 100,
+                              color: Colors.white,
+                            ),
+                          );
+                        }
+                        return Text(
+                          controller.selectedVideo.value!.title,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Signika Negative',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16.0),
+                        );
+                      }),
+                    ),
+                  ],
+                ),
+              ),
+              Obx(() {
+                if (controller.isLoading.value) {
+                  return Shimmer.fromColors(
+                      baseColor: Colors.grey.shade300,
+                      highlightColor: Colors.white,
+                      child: ListView.separated(
+                        separatorBuilder: (context, i) {
+                          return const SizedBox(height: 10);
+                        },
+                        shrinkWrap: true,
+                        primary: false,
+                        physics: const NeverScrollableScrollPhysics(),
+                        itemCount: 6,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            width: 120.0,
+                            height: 80.0,
+                            color: Colors.white,
+                          );
+                        },
+                      ));
+                }
+                return ListView.builder(
+                  shrinkWrap: true,
+                  primary: false,
+                  physics: const NeverScrollableScrollPhysics(),
+                  itemCount: _homeController.vlogVideos.length,
+                  itemBuilder: (context, index) {
+                    final vlogVideo = _homeController.vlogVideos[index];
+                    return getLessonTile(vlogVideo.title, vlogVideo.image, 'locked',
+                        width, vlogVideo);
+                  },
+                );
+              }),
+            ],
+          /* ), */
+    ),
         ],
-      ),
-    );
-  }
+      );
+  
+  } */
 
   getLessonTile(
       String title, String img, String status, double width, VlogVideo video) {
@@ -214,7 +251,128 @@ class Vlog extends GetView<VlogController> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
-        body: nestedAppBar(width, height),
+        body: Column(
+          children: [
+            Expanded(
+              flex: 4,
+              child: AppBar(
+                excludeHeaderSemantics: true,
+                backgroundColor: Color(0xFFEAE1D7),
+                toolbarHeight: 230,
+                /* pinned: true, */
+                /* automaticallyImplyLeading: false, */
+                /* leading: IconButton(
+                  icon: Icon(Icons.arrow_back_ios),
+                  onPressed: () {
+                    Navigator.pop(context);
+                  },
+                ), */
+                flexibleSpace: FlexibleSpaceBarSettings(
+                  currentExtent: 230,
+                  maxExtent: 230,
+                  minExtent: 230,
+                  toolbarOpacity: 1,
+                  child: FlexibleSpaceBar(
+                    background: Obx(() {
+                      if (controller.isLoading.value &&
+                          (controller.chewieController.value == null)) {
+                        return Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.white,
+                          child: Container(
+                            width: width,
+                            color: Colors.white,
+                          ),
+                        );
+                      }
+                      return Chewie(
+                        controller: controller.chewieController.value!,
+                      );
+                    }),
+                  ),
+                ),
+              ),
+            ),
+            Expanded(
+              flex: 6,
+              child: ListView(
+                shrinkWrap: true,
+                children: <Widget>[
+                  Container(
+                    // color: Colors.black,
+                    color: Color.fromRGBO(85, 38, 38, 1),
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: <Widget>[
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Obx(() {
+                            if (controller.isLoading.value &&
+                                controller.selectedVideo.value == null) {
+                              return Shimmer.fromColors(
+                                baseColor: Colors.grey.shade300,
+                                highlightColor: Colors.white,
+                                child: Container(
+                                  height: 20,
+                                  width: 100,
+                                  color: Colors.white,
+                                ),
+                              );
+                            }
+                            return Text(
+                              controller.selectedVideo.value!.title,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: 'Signika Negative',
+                                  fontWeight: FontWeight.w700,
+                                  fontSize: 16.0),
+                            );
+                          }),
+                        ),
+                      ],
+                    ),
+                  ),
+                  Obx(() {
+                    if (controller.isLoading.value) {
+                      return Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.white,
+                          child: ListView.separated(
+                            separatorBuilder: (context, i) {
+                              return const SizedBox(height: 10);
+                            },
+                            shrinkWrap: true,
+                            primary: false,
+                            physics: const NeverScrollableScrollPhysics(),
+                            itemCount: 6,
+                            itemBuilder: (context, index) {
+                              return Container(
+                                width: 120.0,
+                                height: 80.0,
+                                color: Colors.white,
+                              );
+                            },
+                          ));
+                    }
+                    return ListView.builder(
+                      shrinkWrap: true,
+                      primary: false,
+                      physics: const NeverScrollableScrollPhysics(),
+                      itemCount: _homeController.vlogVideos.length,
+                      itemBuilder: (context, index) {
+                        final vlogVideo = _homeController.vlogVideos[index];
+                        return getLessonTile(vlogVideo.title, vlogVideo.image,
+                            'locked', width, vlogVideo);
+                      },
+                    );
+                  }),
+                ],
+                /* ), */
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

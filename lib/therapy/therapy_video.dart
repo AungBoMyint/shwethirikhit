@@ -26,6 +26,7 @@ class _VideoInfoState extends State<VideoInfo> {
   String _curPos = "";
   String _totalPos = "";
   String _videoTime = "00:00";
+  String? selectedVideoTitle;
   VideoPlayerController? _controller;
   Future<void>? _initializeVideoPlayerFuture;
 
@@ -49,12 +50,14 @@ class _VideoInfoState extends State<VideoInfo> {
           _isPlayingIndex = 0;
         }
       });
-      _playVideo(widget.videoList.elementAt(_isPlayingIndex).videoURL);
+      _playVideo(widget.videoList.elementAt(_isPlayingIndex).videoURL,
+          widget.videoList.elementAt(_isPlayingIndex).title);
     }
   }
 
-  _playVideo(String url) {
+  _playVideo(String url, String videoTitle) {
     setState(() {
+      selectedVideoTitle = videoTitle;
       _controller?.removeListener(_videoListener);
       _controller?.dispose();
       _controller = null;
@@ -365,62 +368,64 @@ class _VideoInfoState extends State<VideoInfo> {
                               _controlView(context),
                             ],
                           )),
-                  //Video Title
-                  Container(
-                    decoration: BoxDecoration(
-                        color: Color.fromRGBO(85, 38, 38, 1),
-                        borderRadius:
-                            BorderRadius.only(topRight: Radius.circular(70))),
-                    child: Column(
-                      children: [
-                        Row(
-                          children: [
-                            SizedBox(
-                              width: 30,
-                            ),
-                            Text(
-                              "Lesson 1 : Art Therapy",
-                              style: TextStyle(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.bold,
-                                  color: Colors.white),
-                            ),
+                  //Current Play Video Title
+                  selectedVideoTitle == null
+                      ? const SizedBox()
+                      : Container(
+                          decoration: BoxDecoration(
+                              color: Color.fromRGBO(85, 38, 38, 1),
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(70))),
+                          child: Column(
+                            children: [
+                              Row(
+                                children: [
+                                  SizedBox(
+                                    width: 30,
+                                  ),
+                                  Text(
+                                    selectedVideoTitle ?? "",
+                                    style: TextStyle(
+                                        fontSize: 14,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.white),
+                                  ),
 
-                            SizedBox(
-                              height: 30,
-                            ),
-                            Expanded(child: Container()),
-                            // Row(
-                            //   children: [
-                            //     Icon(Icons.loop,
-                            //         size: 30,
-                            //         color: color.AppColor.loopColor),
-                            //     SizedBox(
-                            //       width: 10.w,
-                            //     ),
-                            //     Text(
-                            //       "3 sets",
-                            //       style: TextStyle(
-                            //         fontSize: 12.sp,
-                            //         color: color.AppColor.setsColor,
-                            //       ),
-                            //     )
-                            //   ],
-                            // ),
-                            SizedBox(
-                              width: 20,
-                            ),
-                          ],
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  Expanded(child: Container()),
+                                  // Row(
+                                  //   children: [
+                                  //     Icon(Icons.loop,
+                                  //         size: 30,
+                                  //         color: color.AppColor.loopColor),
+                                  //     SizedBox(
+                                  //       width: 10.w,
+                                  //     ),
+                                  //     Text(
+                                  //       "3 sets",
+                                  //       style: TextStyle(
+                                  //         fontSize: 12.sp,
+                                  //         color: color.AppColor.setsColor,
+                                  //       ),
+                                  //     )
+                                  //   ],
+                                  // ),
+                                  SizedBox(
+                                    width: 20,
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
                         ),
-                      ],
-                    ),
-                  ),
                 ]),
               ),
             ),
             Positioned(
               left: 0,
-              top: _playArea ? 320 : 350,
+              top: _playArea ? 320 : 300,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 0,
@@ -615,7 +620,7 @@ class _VideoInfoState extends State<VideoInfo> {
             _isPlayingIndex = index;
           });
           /* if (item.videoURL != null) { */
-          _playVideo(item.videoURL);
+          _playVideo(item.videoURL, item.title);
           /*  } */
         },
         child: Container(
@@ -623,6 +628,42 @@ class _VideoInfoState extends State<VideoInfo> {
           margin: EdgeInsets.only(bottom: 20),
           child: Column(
             children: [
+              Row(
+                children: [
+                  Container(
+                    width: 80,
+                    height: 20,
+                    decoration: BoxDecoration(
+                      color: Color(0xFFeaeefc),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Center(
+                      child: Text(
+                        "Video ${index + 1}",
+                        style: TextStyle(color: Color(0xFF839fed)),
+                      ),
+                    ),
+                  ),
+                  Row(
+                    children: [
+                      for (int i = 0; i < 70; i++)
+                        i.isEven
+                            ? Container(
+                                width: 3,
+                                height: 1,
+                                decoration: BoxDecoration(
+                                    color: Color(0xFF839fed),
+                                    borderRadius: BorderRadius.circular(2)),
+                              )
+                            : Container(
+                                width: 3, height: 1, color: Colors.white)
+                    ],
+                  )
+                ],
+              ),
+              SizedBox(
+                height: 18,
+              ),
               Row(
                 children: [
                   Container(
@@ -669,42 +710,6 @@ class _VideoInfoState extends State<VideoInfo> {
                   )
                 ],
               ),
-              SizedBox(
-                height: 18,
-              ),
-              Row(
-                children: [
-                  Container(
-                    width: 80,
-                    height: 20,
-                    decoration: BoxDecoration(
-                      color: Color(0xFFeaeefc),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: Center(
-                      child: Text(
-                        "Video 1",
-                        style: TextStyle(color: Color(0xFF839fed)),
-                      ),
-                    ),
-                  ),
-                  Row(
-                    children: [
-                      for (int i = 0; i < 70; i++)
-                        i.isEven
-                            ? Container(
-                                width: 3,
-                                height: 1,
-                                decoration: BoxDecoration(
-                                    color: Color(0xFF839fed),
-                                    borderRadius: BorderRadius.circular(2)),
-                              )
-                            : Container(
-                                width: 3, height: 1, color: Colors.white)
-                    ],
-                  )
-                ],
-              )
             ],
           ),
         ));

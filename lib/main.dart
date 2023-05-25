@@ -20,6 +20,7 @@ import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:provider/provider.dart';
 import 'affirmations/controller/aff_home_controller.dart';
 import 'controller/main_controller.dart';
+import 'intro/intro_one_screen.dart';
 import 'ui/routes/enroll_form_route.dart';
 import 'package:kzn/bottombar.dart';
 
@@ -71,7 +72,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: BottomBar(),
+        home: IntroOneScreen(),
         /* initialRoute: MainRoute.routeName, */
         routes: {
           MainRoute.routeName: (context) => BottomBar(),
