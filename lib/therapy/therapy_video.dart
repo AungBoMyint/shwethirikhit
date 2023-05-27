@@ -11,8 +11,9 @@ import '../model/therapy_video.dart';
 import "colors.dart" as color;
 
 class VideoInfo extends StatefulWidget {
+  final String categoryName;
   final List<TherapyVideo> videoList;
-  const VideoInfo({Key? key, required this.videoList}) : super(key: key);
+  const VideoInfo({Key? key, required this.videoList,required this.categoryName,}) : super(key: key);
 
   @override
   _VideoInfoState createState() => _VideoInfoState();
@@ -255,7 +256,7 @@ class _VideoInfoState extends State<VideoInfo> {
                                           Container(
                                             width: 100,
                                             child: Text(
-                                              "Art Therapy",
+                                              widget.categoryName,
                                               overflow: TextOverflow.fade,
                                               maxLines: 1,
                                               softWrap: false,

@@ -352,10 +352,14 @@ class _TherapyState extends State<Therapy> {
                   (BuildContext context, int index) {
                     final category = _homeController.therapyCategories[index];
                     return InkWell(
-                      onTap: () => Navigator.of(context).push(MaterialPageRoute(
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
                           builder: (context) => VideoInfo(
+                              categoryName: category.name,
                               videoList: _homeController
-                                  .getTherapyVideoByCategory(category.id)))),
+                                  .getTherapyVideoByCategory(category.id)),
+                        ),
+                      ),
                       child: Container(
                         height: 200,
                         padding: EdgeInsets.only(bottom: 5),
@@ -379,7 +383,7 @@ class _TherapyState extends State<Therapy> {
                             ]),
                         child: Center(
                           child: Align(
-                            child: Text(category.name,
+                            child: Text("",
                                 style: TextStyle(
                                     fontSize: 20,
                                     color: color.AppColor.homePageDetail)),
