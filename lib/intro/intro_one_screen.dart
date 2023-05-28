@@ -90,7 +90,6 @@ class _IntroOneScreenState extends State<IntroOneScreen>
       vsync: this,
       duration: Duration(milliseconds: 500),
     );
-    //TODO:Start Timer and Then Go To IntroTwoScreen
     super.initState();
   }
 
@@ -102,6 +101,7 @@ class _IntroOneScreenState extends State<IntroOneScreen>
     _skipAnimation.dispose();
     _videoPlayerController.pause();
     _videoPlayerController.dispose();
+    debugPrint("*****Dispose Intro One Screen");
     super.dispose();
   }
 
@@ -280,7 +280,8 @@ class _IntroOneScreenState extends State<IntroOneScreen>
                       ),
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.push(context, route(BottomBar()));
+                          Navigator.pushReplacement(
+                              context, route(BottomBar()));
                           vlogController.playVideo();
                         },
                         child: Text(
