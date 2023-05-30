@@ -23,68 +23,57 @@ class PickUp extends StatelessWidget {
   Widget build(BuildContext context) {
     final isTablet = MediaQuery.of(context).size.width > 400;
     final HomeController _homeController = Get.find();
-    return GestureDetector(
-      onTap: () {
-        /* Get.to(
-          DetailPage(expertModel: expertModel),
-        ); */
-      },
-      child: Container(
-        width: MediaQuery.of(context).size.width - 40,
-        height: isTablet ? 500 : 220,
-        margin: EdgeInsets.only(right: 20),
-        // decoration: BoxDecoration(
-        //   color: Colors.grey,
-        //   borderRadius: BorderRadius.circular(10),
-        // ),
-        child: Card(
-          elevation: 2,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Stack(
-            children: [
-              ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: CachedNetworkImage(
-                  imageUrl: category.image,
-                  width: MediaQuery.of(context).size.width - 40,
-                  height: isTablet ? 500 : 220,
-                  fit: BoxFit.cover,
+    return Container(
+      width: MediaQuery.of(context).size.width - 40,
+      height: isTablet ? 500 : 220,
+      margin: EdgeInsets.only(right: 20),
+      child: Card(
+        elevation: 2,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(10),
+        ),
+        child: Stack(
+          children: [
+            ClipRRect(
+              borderRadius: BorderRadius.circular(10),
+              child: CachedNetworkImage(
+                imageUrl: category.image,
+                width: MediaQuery.of(context).size.width - 40,
+                height: isTablet ? 500 : 220,
+                fit: BoxFit.cover,
+              ),
+            ),
+            Positioned(
+              left: 20,
+              bottom: 40,
+              child: Text(
+                category.name,
+                style: TextStyle(
+                  color: Colors.white,
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
                 ),
               ),
-              Positioned(
-                left: 20,
-                bottom: 40,
-                child: Text(
-                  category.name,
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 20,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-              ),
-              Positioned(
-                left: 20,
-                bottom: 20,
-                child: Row(
-                  children: List.generate(
-                    _homeController.homeCategories.length,
-                    (index) => Container(
-                      width: 10,
-                      height: 10,
-                      margin: EdgeInsets.only(right: 5),
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: index == current ? Colors.amber : Colors.white,
-                      ),
+            ),
+            Positioned(
+              left: 20,
+              bottom: 20,
+              child: Row(
+                children: List.generate(
+                  10,
+                  (index) => Container(
+                    width: 10,
+                    height: 10,
+                    margin: EdgeInsets.only(right: 5),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: index == current ? Colors.amber : Colors.white,
                     ),
                   ),
                 ),
-              )
-            ],
-          ),
+              ),
+            )
+          ],
         ),
       ),
     );

@@ -1,10 +1,14 @@
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/firestore.dart';
 import 'package:get/get.dart';
+import 'package:kzn/model/category.dart';
 import 'package:kzn/therapy/therapy_video.dart';
+import 'package:shimmer/shimmer.dart';
 import '../consultant_appointant/controller/home_controller.dart';
 import '../controller/main_controller.dart';
+import '../services/database/query.dart';
 import 'colors.dart' as color;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -116,26 +120,6 @@ class _TherapyState extends State<Therapy> {
             child: Row(
               children: [
                 Expanded(child: Container()),
-                // InkWell(
-                //     onTap: () {
-                //       Get.to(() => VideoInfo());
-                //     },
-                //     child: Row(
-                //       children: [
-                //         Text(
-                //           "Details",
-                //           style: TextStyle(
-                //             fontSize: 20,
-                //             color: color.AppColor.homePageDetail,
-                //           ),
-                //         ),
-                //         SizedBox(
-                //           width: 5,
-                //         ),
-                //         Icon(Icons.arrow_forward,
-                //             size: 20, color: color.AppColor.homePageIcons)
-                //       ],
-                //     ))
               ],
             ),
           ),
@@ -237,86 +221,6 @@ class _TherapyState extends State<Therapy> {
                 ),
               ),
             ))),
-        // SliverPadding(
-        //     padding: EdgeInsets.symmetric(
-        //       vertical: 0.w,
-        //       horizontal: 30.w,
-        //     ),
-        //     sliver: SliverToBoxAdapter(
-        //         child: Container(
-        //       height: 180,
-        //       width: MediaQuery.of(context).size.width,
-        //       child: Stack(
-        //         children: [
-        //           Container(
-        //             width: MediaQuery.of(context).size.width,
-        //             margin: const EdgeInsets.only(top: 30),
-        //             height: 120,
-        //             decoration: BoxDecoration(
-        //                 borderRadius: BorderRadius.circular(20),
-        //                 image: DecorationImage(
-        //                     image: AssetImage("assets/card.jpg"),
-        //                     fit: BoxFit.fill),
-        //                 boxShadow: [
-        //                   BoxShadow(
-        //                       blurRadius: 40,
-        //                       offset: Offset(8, 10),
-        //                       color: color.AppColor.gradientSecond
-        //                           .withOpacity(0.3)),
-        //                   BoxShadow(
-        //                       blurRadius: 10,
-        //                       offset: Offset(-1, -5),
-        //                       color: color.AppColor.gradientSecond
-        //                           .withOpacity(0.3))
-        //                 ]),
-        //           ),
-        //           Container(
-        //             height: 200,
-        //             width: MediaQuery.of(context).size.width,
-        //             margin: const EdgeInsets.only(right: 200, bottom: 30),
-        //             decoration: BoxDecoration(
-        //               // color:Colors.redAccent.withOpacity(0.2),
-        //               borderRadius: BorderRadius.circular(20),
-        //               image: DecorationImage(
-        //                 image: AssetImage("assets/figure.png"),
-        //                 //fit:BoxFit.fill
-        //               ),
-        //             ),
-        //           ),
-        //           Container(
-        //             width: double.maxFinite,
-        //             height: 100,
-        //             margin: const EdgeInsets.only(left: 150, top: 50),
-        //             child: Column(
-        //               crossAxisAlignment: CrossAxisAlignment.start,
-        //               children: [
-        //                 Text(
-        //                   "You are doing great",
-        //                   style: TextStyle(
-        //                       fontSize: 18,
-        //                       fontWeight: FontWeight.bold,
-        //                       color: color.AppColor.homePageDetail),
-        //                 ),
-        //                 SizedBox(
-        //                   height: 10,
-        //                 ),
-        //                 RichText(
-        //                     text: TextSpan(
-        //                         text: "Keep it up\n",
-        //                         style: TextStyle(
-        //                           color: color.AppColor.homePagePlanColor,
-        //                           fontSize: 16,
-        //                         ),
-        //                         children: [
-        //                       TextSpan(text: "stick to your plan")
-        //                     ]))
-        //               ],
-        //             ),
-        //           )
-        //         ],
-        //       ),
-        //     ))),
-
         SliverPadding(
             padding: EdgeInsets.symmetric(
               vertical: 30,
@@ -335,68 +239,140 @@ class _TherapyState extends State<Therapy> {
                     color: color.AppColor.homePageTitle),
               ),
             ))),
-
         SliverPadding(
-            padding: EdgeInsets.symmetric(
-              vertical: 0,
-              horizontal: 30,
-            ),
-            sliver: SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  mainAxisSpacing: 20,
-                  crossAxisSpacing: 20,
-                  childAspectRatio: 1,
-                ),
-                delegate: SliverChildBuilderDelegate(
-                  (BuildContext context, int index) {
-                    final category = _homeController.therapyCategories[index];
-                    return InkWell(
-                      onTap: () => Navigator.of(context).push(
-                        MaterialPageRoute(
-                          builder: (context) => VideoInfo(
-                              categoryName: category.name,
-                              videoList: _homeController
-                                  .getTherapyVideoByCategory(category.id)),
-                        ),
-                      ),
-                      child: Container(
-                        height: 200,
-                        padding: EdgeInsets.only(bottom: 5),
-                        decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(15),
-                            image: DecorationImage(
-                              image: NetworkImage(category.image),
-                            ),
-                            boxShadow: [
-                              BoxShadow(
-                                  blurRadius: 3,
-                                  offset: Offset(5, 5),
-                                  color: color.AppColor.gradientSecond
-                                      .withOpacity(0.1)),
-                              BoxShadow(
-                                  blurRadius: 3,
-                                  offset: Offset(-5, -5),
-                                  color: color.AppColor.gradientSecond
-                                      .withOpacity(0.1))
-                            ]),
-                        child: Center(
-                          child: Align(
-                            child: Text("",
-                                style: TextStyle(
-                                    fontSize: 20,
-                                    color: color.AppColor.homePageDetail)),
-                            alignment: Alignment.topCenter,
-                          ),
-                        ),
-                      ),
-                    );
-                  },
-                  childCount: _homeController.therapyCategories.length,
-                ))),
+          padding: EdgeInsets.symmetric(
+            vertical: 0,
+            horizontal: 30,
+          ),
+          sliver: FirestoreQueryBuilder<Category>(
+            query: therapyCategoryQuery,
+            builder: (context, snapshot, _) {
+              if (snapshot.hasData) {
+                return DataSliverGrid(
+                  snapshot: snapshot,
+                );
+              }
+              if (snapshot.hasError) {
+                return ErrorWidget("Error");
+              }
+              return LoadingSliverGrid();
+            },
+          ),
+        ),
       ]),
     ));
+  }
+}
+
+class LoadingSliverGrid extends StatelessWidget {
+  const LoadingSliverGrid({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverGrid(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 20,
+          crossAxisSpacing: 20,
+          childAspectRatio: 1,
+        ),
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            return Shimmer.fromColors(
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.white,
+              child: Container(
+                height: 200,
+                padding: EdgeInsets.only(bottom: 5),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 3,
+                          offset: Offset(5, 5),
+                          color:
+                              color.AppColor.gradientSecond.withOpacity(0.1)),
+                      BoxShadow(
+                          blurRadius: 3,
+                          offset: Offset(-5, -5),
+                          color: color.AppColor.gradientSecond.withOpacity(0.1))
+                    ]),
+              ),
+            );
+          },
+          childCount: 10,
+        ));
+  }
+}
+
+class DataSliverGrid extends StatelessWidget {
+  final FirestoreQueryBuilderSnapshot<Category> snapshot;
+  const DataSliverGrid({
+    super.key,
+    required this.snapshot,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return SliverGrid(
+        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: 2,
+          mainAxisSpacing: 20,
+          crossAxisSpacing: 20,
+          childAspectRatio: 1,
+        ),
+        delegate: SliverChildBuilderDelegate(
+          (BuildContext context, int index) {
+            if (snapshot.hasMore && index + 1 == snapshot.docs.length) {
+              snapshot.fetchMore();
+            }
+
+            final category = snapshot.docs[index].data();
+            return InkWell(
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => VideoInfo(
+                    category: category,
+                  ),
+                ),
+              ),
+              child: Container(
+                height: 200,
+                padding: EdgeInsets.only(bottom: 5),
+                decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(15),
+                    image: DecorationImage(
+                      image: NetworkImage(category.image),
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                          blurRadius: 3,
+                          offset: Offset(5, 5),
+                          color:
+                              color.AppColor.gradientSecond.withOpacity(0.1)),
+                      BoxShadow(
+                          blurRadius: 3,
+                          offset: Offset(-5, -5),
+                          color: color.AppColor.gradientSecond.withOpacity(0.1))
+                    ]),
+                child: Center(
+                  child: Align(
+                    child: Text("",
+                        style: TextStyle(
+                            fontSize: 20,
+                            color: color.AppColor.homePageDetail)),
+                    alignment: Alignment.topCenter,
+                  ),
+                ),
+              ),
+            );
+          },
+          childCount: snapshot.docs.length,
+        ));
   }
 }
 

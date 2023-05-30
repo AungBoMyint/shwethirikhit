@@ -7,6 +7,7 @@ import 'package:video_player/video_player.dart';
 
 import '../bottombar.dart';
 import '../data/image.dart';
+import '../ui/routes/main_route.dart';
 import '../utils/utils.dart';
 import '../vlog/vlog_controller.dart';
 
@@ -101,7 +102,8 @@ class _IntroOneScreenState extends State<IntroOneScreen>
     _skipAnimation.dispose();
     _videoPlayerController.pause();
     _videoPlayerController.dispose();
-    debugPrint("*****Dispose Intro One Screen");
+    log("Dispose Video Player");
+    log("Video Player is Playing: ${_videoPlayerController}");
     super.dispose();
   }
 
@@ -280,8 +282,8 @@ class _IntroOneScreenState extends State<IntroOneScreen>
                       ),
                       child: ElevatedButton(
                         onPressed: () {
-                          Navigator.pushReplacement(
-                              context, route(BottomBar()));
+                          Navigator.of(context)
+                              .pushReplacementNamed(MainRoute.routeName);
                           vlogController.playVideo();
                         },
                         child: Text(

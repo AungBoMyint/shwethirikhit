@@ -52,8 +52,6 @@ class ExpertController extends GetxController {
     this.jobTitle,
     this.jobDescription,
     this.propertyAddress,
-
-
     this.photolinkFocusNode,
     this.photolink2FocusNode,
     this.photolink3FocusNode,
@@ -72,7 +70,7 @@ class ExpertController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    if (_home.expertId.isNotEmpty) {
+    /* if (_home.expertId.isNotEmpty) {
       final ExpertModel _expert = _home.getExpert(_home.expertId.value);
       id.value = _expert.id!;
       photolink.text = _expert.photolink;
@@ -89,7 +87,7 @@ class ExpertController extends GetxController {
       jobDescription.text = _expert.jobDescription;
       propertyAddress.text = _expert.propertyAddress;
 
-    }
+    } */
   }
 
   final Database _database = Database();

@@ -22,16 +22,21 @@ class HomeController extends GetxController {
   final Auth _auth = Auth();
   final Database _database = Database();
   //--All Data List
-  final RxList<Category> homeCategories = <Category>[].obs;
-  final RxList<Category> affirmationsCategories = <Category>[].obs;
-  final RxList<Category> therapyCategories = <Category>[].obs;
-  final RxList<ItemType> homeTypes = <ItemType>[].obs;
-  final RxList<ItemType> affirmationsTypes = <ItemType>[].obs;
-  final RxList<ExpertModel> experts = <ExpertModel>[].obs;
-  final RxList<Music> musics = <Music>[].obs;
+/*   final RxList<Category> homeCategories = <Category>[].obs;
+ */
+/*   final RxList<Category> affirmationsCategories = <Category>[].obs;
+ */ /*   final RxList<Category> therapyCategories = <Category>[].obs;
+ */
+/*   final RxList<ItemType> homeTypes = <ItemType>[].obs;
+ */
+/*   final RxList<ItemType> affirmationsTypes = <ItemType>[].obs;
+ */ /*   final RxList<ExpertModel> experts = <ExpertModel>[].obs;
+ */
+/*   final RxList<Music> musics = <Music>[].obs;
+ */
   final RxList<VlogVideo> vlogVideos = <VlogVideo>[].obs;
-  final RxList<TherapyVideo> therapyVideos = <TherapyVideo>[].obs;
-  //---------//
+/*   final RxList<TherapyVideo> therapyVideos = <TherapyVideo>[].obs;
+ */ //---------//
   final RxBool authorized = false.obs;
   final Rx<AuthUser> user = AuthUser().obs;
 
@@ -158,24 +163,24 @@ class HomeController extends GetxController {
     });
 
     _vlogVideoListener();
-    _homeCategoryListener();
-    _affirmationsCategoryListener();
-    _therapyCategoryListener();
-    _homeTypeListener();
-    _affirmationsTypeListener();
-    _expertsListener();
-    _musicListener();
-    _therapyVideoListener();
+    /*   _homeCategoryListener(); */
+    /* _affirmationsCategoryListener(); */
+    /*   _therapyCategoryListener(); */
+    /* _homeTypeListener(); */
+    /*  _affirmationsTypeListener(); */
+    /*  _expertsListener(); */
+    /*  _musicListener(); */
+    /*  _therapyVideoListener(); */
   }
 
-  _homeCategoryListener() => homeCategoryQuery.snapshots().listen((event) {
+  /*  _homeCategoryListener() => homeCategoryQuery.snapshots().listen((event) {
         if (event.docs.isEmpty) {
           homeCategories.clear();
         } else {
           homeCategories.value = event.docs.map((e) => e.data()).toList();
         }
-      });
-  _affirmationsCategoryListener() =>
+      }); */
+  /* _affirmationsCategoryListener() =>
       affirmationsCategoryQuery.snapshots().listen((event) {
         if (event.docs.isEmpty) {
           affirmationsCategories.clear();
@@ -183,32 +188,32 @@ class HomeController extends GetxController {
           affirmationsCategories.value =
               event.docs.map((e) => e.data()).toList();
         }
-      });
+      }); */
 
-  _homeTypeListener() => homeTypeQuery.snapshots().listen((event) {
+  /*  _homeTypeListener() => homeTypeQuery.snapshots().listen((event) {
         if (event.docs.isEmpty) {
           homeTypes.clear();
         } else {
           homeTypes.value = event.docs.map((e) => e.data()).toList();
         }
-      });
+      }); */
 
-  _affirmationsTypeListener() =>
+  /*  _affirmationsTypeListener() =>
       affirmationsTypeQuery.snapshots().listen((event) {
         if (event.docs.isEmpty) {
           affirmationsTypes.clear();
         } else {
           affirmationsTypes.value = event.docs.map((e) => e.data()).toList();
         }
-      });
+      }); */
 
-  _musicListener() => musicQuery.snapshots().listen((event) {
+  /*  _musicListener() => musicQuery.snapshots().listen((event) {
         if (event.docs.isEmpty) {
           musics.clear();
         } else {
           musics.value = event.docs.map((e) => e.data()).toList();
         }
-      });
+      }); */
 
   _vlogVideoListener() => vlogVideoQuery.snapshots().listen((event) {
         if (event.docs.isEmpty) {
@@ -218,22 +223,22 @@ class HomeController extends GetxController {
         }
       });
 
-  _therapyVideoListener() => therapyVideoQuery.snapshots().listen((event) {
+/*   _therapyVideoListener() => therapyVideoQuery.snapshots().listen((event) {
         if (event.docs.isEmpty) {
           therapyVideos.clear();
         } else {
           therapyVideos.value = event.docs.map((e) => e.data()).toList();
         }
-      });
+      }); */
 
-  _therapyCategoryListener() =>
+  /*  _therapyCategoryListener() =>
       therapyCategoryQuery.snapshots().listen((event) {
         if (event.docs.isEmpty) {
           therapyCategories.clear();
         } else {
           therapyCategories.value = event.docs.map((e) => e.data()).toList();
         }
-      });
+      }); */
 
   final RxList<ExpertModel> _searchExperts = <ExpertModel>[].obs;
 
@@ -241,19 +246,19 @@ class HomeController extends GetxController {
 
   void setEditExpertId(String id) => expertId.value = id;
 
-  List<ExpertModel> getAllExpert() =>
+  /*  List<ExpertModel> getAllExpert() =>
       _searchExperts.isEmpty ? experts : _searchExperts;
 
   List<ExpertModel> getSearchExpert() =>
       _searchExperts.isEmpty ? experts : _searchExperts;
-
-  void searchExpert(String e) => _searchExperts.value = experts
+ */
+  /*  void searchExpert(String e) => _searchExperts.value = experts
       .where(
         (p0) => p0.name.toLowerCase().contains(e.toLowerCase()),
       )
-      .toList();
+      .toList(); */
 
-  ExpertModel getExpert(String id) {
+  /* ExpertModel getExpert(String id) {
     try {
       return experts.firstWhere(
         (p0) => p0.id == id,
@@ -276,23 +281,23 @@ class HomeController extends GetxController {
       );
     }
   }
-
+ */
   void disposeSearch() => _searchExperts.clear();
 
-  List<ExpertModel> getByType(String type) => experts.where((p0) {
+  /* List<ExpertModel> getByType(String type) => experts.where((p0) {
         return p0.type == type;
-      }).toList();
+      }).toList(); */
 
-  List<Music> getMusicByType(String typeID) =>
+/*   List<Music> getMusicByType(String typeID) =>
       musics.where((p0) => p0.type == typeID).toList();
   List<Music> getMusicByCategory(String categoryID) =>
-      musics.where((p0) => p0.categoryID == categoryID).toList();
+      musics.where((p0) => p0.categoryID == categoryID).toList(); */
 
-  List<TherapyVideo> getTherapyVideoByCategory(String categoryID) {
+  /*  List<TherapyVideo> getTherapyVideoByCategory(String categoryID) {
     final list = therapyVideos.where((v) => v.parentID == categoryID).toList();
     debugPrint("TherapyVideoList: ${list.length}");
     return list;
-  }
+  } */
 
   Future<void> deleteExpert(String id) async {
     if (isloading.value) return;
@@ -305,7 +310,7 @@ class HomeController extends GetxController {
     isloading.value = false;
   }
 
-  StreamSubscription _expertsListener() =>
+  /* StreamSubscription _expertsListener() =>
       expertsCollection().snapshots().listen((event) {
         if (event.docs.isEmpty) {
           experts.clear();
@@ -313,7 +318,7 @@ class HomeController extends GetxController {
           log("****Experts Length: ${experts.length}");
           experts.value = event.docs.map((e) => e.data()).toList();
         }
-      });
+      }); */
 
   ///is loading
   final RxBool isloading = false.obs;
@@ -425,7 +430,7 @@ class HomeController extends GetxController {
   List<PurchaseModel> getPurchase() =>
       _searchPurchse.isEmpty ? _adminPurchase : _searchPurchse;
 
-  void searchPurchse(String e) => _searchPurchse.value = _adminPurchase
+  /* void searchPurchse(String e) => _searchPurchse.value = _adminPurchase
       .where(
         (p0) =>
             p0.dateTime.toLowerCase().contains(e.toLowerCase()) ||
@@ -435,7 +440,7 @@ class HomeController extends GetxController {
             p0.address.toLowerCase().contains(e),
       )
       .toList();
-
+ */
   StreamSubscription get getAdminPurchase => _database
           .watch(
         purchaseCollection,

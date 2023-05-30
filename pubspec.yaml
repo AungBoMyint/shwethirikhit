@@ -116,7 +116,6 @@ dependency_overrides:
 
 dev_dependencies:
   build_runner: ^2.1.8
-  change_app_package_name: ^1.1.0
   dart_code_metrics: ^5.7.3
   flutter_test:
     sdk: flutter

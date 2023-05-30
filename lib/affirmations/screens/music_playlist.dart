@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:flutterfire_ui/firestore.dart';
 import 'package:rive/rive.dart';
 import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
@@ -9,7 +10,9 @@ import 'package:kzn/data/constant.dart';
 import 'package:kzn/model/category.dart';
 
 import '../../model/type.dart';
+import '../../services/database/query.dart';
 import '../controller/affirmations_controller.dart';
+import '../models/music.dart';
 import '../models/playerstatus.dart';
 
 class MusicPlayList extends StatefulWidget {
@@ -36,9 +39,22 @@ class _MusicPlayListState extends State<MusicPlayList> {
   Widget build(BuildContext context) {
     final HomeController controller = Get.find();
     final AffirmationsController afController = Get.find();
-    final musics = widget.category == null
-        ? controller.getMusicByType(widget.type!.id)
-        : controller.getMusicByCategory(widget.category!.id);
+    final query = widget.category == null
+        ? affirmationsTypeMusicsQuery(widget.type!.id)
+        : affirmationsCategoryMusicsQuery(widget.category!.id);
+    Future<int> musicCount() async {
+      final result = await query.get();
+      return result.size;
+    }
+
+    Future<Music?> getFirstMusic() async {
+      final result = await query.get();
+      if (result.docs.isNotEmpty) {
+        return result.docs.first.data();
+      }
+      return null;
+    }
+
     return Scaffold(
       /* appBar: createAppBar(""), */
       backgroundColor: Color(0xFFEAE1D7),
@@ -95,8 +111,13 @@ class _MusicPlayListState extends State<MusicPlayList> {
                             ),
                           ),
                           const SizedBox(height: 10),
-                          Text(
-                            "${musics.length} songs",
+                          FutureBuilder<int>(
+                            future: musicCount(),
+                            builder: (context, AsyncSnapshot<int> snapshot) {
+                              return Text(
+                                "${snapshot.data} songs",
+                              );
+                            },
                           ),
                         ],
                       ),
@@ -110,52 +131,88 @@ class _MusicPlayListState extends State<MusicPlayList> {
               child: Center(
                 child: SizedBox(
                   width: 200,
-                  child: Obx(() {
-                    final music = afController.selectedMusic.value;
-                    final isPlaying = afController.playerStatus.value!
-                            .getOrElse(() => PlayerStatus.nothing()) ==
-                        PlayerStatus.playing();
-                    return ElevatedButton(
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: logoColor,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.all(
-                            Radius.circular(10),
+                  child: FutureBuilder<Music?>(
+                    future: getFirstMusic(),
+                    builder: (context, AsyncSnapshot<Music?> snapshot) {
+                      if (snapshot.hasData && !(snapshot.data == null)) {
+                        return Obx(() {
+                          final music = afController.selectedMusic.value;
+                          final isPlaying = afController.playerStatus.value!
+                                  .getOrElse(() => PlayerStatus.nothing()) ==
+                              PlayerStatus.playing();
+                          return ElevatedButton(
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: logoColor,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(10),
+                                ),
+                              ),
+                            ),
+                            onPressed: () {
+                              if (music == null) {
+                                afController.setSelectedMusic(snapshot.data!);
+                              } else {
+                                afController.setSelectedMusic(music);
+                              }
+                            },
+                            child: Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                                  isPlaying
+                                      ? Icon(
+                                          FontAwesomeIcons.pause,
+                                          color: Colors.white,
+                                        )
+                                      : Icon(
+                                          FontAwesomeIcons.play,
+                                          color: Colors.white,
+                                        ),
+                                  const SizedBox(width: 10),
+                                  Text("Play",
+                                      style: TextStyle(
+                                        color: Colors.white,
+                                      )),
+                                ],
+                              ),
+                            ),
+                          );
+                        });
+                      }
+                      return ElevatedButton(
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: logoColor,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
+                            ),
                           ),
                         ),
-                      ),
-                      onPressed: () {
-                        if (music == null) {
-                          afController.setSelectedMusic(musics.first);
-                        } else {
-                          afController.setSelectedMusic(music);
-                        }
-                      },
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          crossAxisAlignment: CrossAxisAlignment.center,
-                          children: [
-                            isPlaying
-                                ? Icon(
-                                    FontAwesomeIcons.pause,
+                        onPressed: () {},
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Icon(
+                                FontAwesomeIcons.play,
+                                color: Colors.white,
+                              ),
+                              const SizedBox(width: 10),
+                              Text("Play",
+                                  style: TextStyle(
                                     color: Colors.white,
-                                  )
-                                : Icon(
-                                    FontAwesomeIcons.play,
-                                    color: Colors.white,
-                                  ),
-                            const SizedBox(width: 10),
-                            Text("Play",
-                                style: TextStyle(
-                                  color: Colors.white,
-                                )),
-                          ],
+                                  )),
+                            ],
+                          ),
                         ),
-                      ),
-                    );
-                  }),
+                      );
+                    },
+                  ),
                 ),
               ),
             ),
@@ -166,51 +223,62 @@ class _MusicPlayListState extends State<MusicPlayList> {
                     .getOrElse(() => PlayerStatus.nothing());
                 final selectedMusic = afController.selectedMusic.value;
 
-                return ListView.separated(
-                  shrinkWrap: true,
-                  physics: const BouncingScrollPhysics(),
-                  itemCount: musics.length,
-                  separatorBuilder: (context, index) {
-                    final currentMusic = musics[index];
-                    final isSelected = !(selectedMusic == null) &&
-                        (selectedMusic.id == currentMusic.id);
-                    if (isSelected && state == PlayerStatus.loading()) {
-                      return linerProgress();
-                    }
-                    return const Divider();
-                  },
-                  itemBuilder: (context, index) {
-                    final music = musics[index];
-                    final isSelected = !(selectedMusic == null) &&
-                        (selectedMusic.id == music.id);
-                    return Container(
-                      color: isSelected ? Colors.white : Color(0xFFEAE1D7),
-                      child: ListTile(
-                        /* selected: isSelected,
+                return FirestoreQueryBuilder<Music>(
+                  query: query,
+                  builder: (context, snapshot, _) {
+                    return ListView.separated(
+                      shrinkWrap: true,
+                      physics: const BouncingScrollPhysics(),
+                      itemCount: snapshot.docs.length,
+                      separatorBuilder: (context, index) {
+                        final currentMusic = snapshot.docs[index].data();
+
+                        final isSelected = !(selectedMusic == null) &&
+                            (selectedMusic.id == currentMusic.id);
+                        if (isSelected && state == PlayerStatus.loading()) {
+                          return linerProgress();
+                        }
+                        return const Divider();
+                      },
+                      itemBuilder: (context, index) {
+                        if (snapshot.hasMore &&
+                            index + 1 == snapshot.docs.length) {
+                          snapshot.fetchMore();
+                        }
+
+                        final music = snapshot.docs[index].data();
+                        final isSelected = !(selectedMusic == null) &&
+                            (selectedMusic.id == music.id);
+                        return Container(
+                          color: isSelected ? Colors.white : Color(0xFFEAE1D7),
+                          child: ListTile(
+                            /* selected: isSelected,
                         selectedColor: Colors.white, */
-                        onTap: () => afController.setSelectedMusic(music),
-                        leading: Text("${index + 1}"),
-                        /* isPlaying
+                            onTap: () => afController.setSelectedMusic(music),
+                            leading: Text("${index + 1}"),
+                            /* isPlaying
                             ? Image.asset("assets/animations/cd.gif")
                             : Text("${index + 1}"),*/
-                        title: Text(music.name),
-                        subtitle: Text(music.desc),
-                        trailing: afController.playerStatus.value!.fold(
-                          (l) => const SizedBox(),
-                          (r) => r.map(
-                            loading: (v) => !(selectedMusic == null) &&
-                                    (selectedMusic.id == music.id)
-                                ? circularProgress()
-                                : pauseImage(),
-                            playing: (v) => !(selectedMusic == null) &&
-                                    (selectedMusic.id == music.id)
-                                ? playingAnimation()
-                                : pauseImage(),
-                            pause: (v) => pauseImage(),
-                            nothing: (v) => pauseImage(),
+                            title: Text(music.name),
+                            subtitle: Text(music.desc),
+                            trailing: afController.playerStatus.value!.fold(
+                              (l) => const SizedBox(),
+                              (r) => r.map(
+                                loading: (v) => !(selectedMusic == null) &&
+                                        (selectedMusic.id == music.id)
+                                    ? circularProgress()
+                                    : pauseImage(),
+                                playing: (v) => !(selectedMusic == null) &&
+                                        (selectedMusic.id == music.id)
+                                    ? playingAnimation()
+                                    : pauseImage(),
+                                pause: (v) => pauseImage(),
+                                nothing: (v) => pauseImage(),
+                              ),
+                            ),
                           ),
-                        ),
-                      ),
+                        );
+                      },
                     );
                   },
                 );

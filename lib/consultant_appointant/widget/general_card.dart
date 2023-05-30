@@ -4,11 +4,11 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
 
+import '../../affirmations/widgets/widgets.dart';
 import '../controller/home_controller.dart';
 import '../model/expert.dart';
 import '../routes/routes.dart';
 import '../screen/detail.dart';
-
 
 class GeneralCard extends StatelessWidget {
   final ExpertModel expertModel;
@@ -18,16 +18,16 @@ class GeneralCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(DetailPage(
+        Navigator.of(context).push(route(DetailPage(
           expertModel: expertModel,
-        ));
+        )));
       },
       child: Container(
         width: 190,
         child: Card(
           elevation: 2,
           child: Padding(
-            padding:  EdgeInsets.only(bottom: 5),
+            padding: EdgeInsets.only(bottom: 5),
             child: Column(
               children: [
                 Expanded(
@@ -38,9 +38,9 @@ class GeneralCard extends StatelessWidget {
                       child: Hero(
                         tag: expertModel.photolink,
                         child: CachedNetworkImage(
-                            imageUrl: expertModel.photolink,
-                            fit: BoxFit.cover,
-                          ),
+                          imageUrl: expertModel.photolink,
+                          fit: BoxFit.cover,
+                        ),
                       ),
                     ),
                   ),
@@ -52,111 +52,109 @@ class GeneralCard extends StatelessWidget {
                 Padding(
                   padding: const EdgeInsets.all(5),
                   child: Text(
-                        expertModel.name,
-                        maxLines: 1,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w500,
-                        ),
-                      ),
+                    expertModel.name,
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    style: TextStyle(
+                      fontSize: 12,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
                 ),
 
-        // Padding(
-        //   padding: const EdgeInsets.only(bottom: 5,left: 10, right: 10),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        //     children: [
-        //       Column(
-        //         crossAxisAlignment: CrossAxisAlignment.start,
-        //         children: [
-        //           // Text(
-        //           //   "  👉  Type",
-        //           //   style: TextStyle(
-        //           //     fontSize: 12,
-        //           //     fontWeight: FontWeight.bold,
-        //           //     color: Colors.grey,
-        //           //   ),
-        //           // ),
-        //           Padding(
-        //             padding: const EdgeInsets.all(5),
-        //             child: Expanded(
-        //               child: Text(
-        //                 expertModel.description,
-        //                 maxLines: 2,
-        //                 overflow: TextOverflow.ellipsis,
-        //                 style: TextStyle(
-        //                   fontSize: 11,
-        //                   fontWeight: FontWeight.bold,
-        //                   color: Colors.black,
-        //                 ),
-        //               ),
-        //             ),
-        //           ),
-        //
-        //         ],
-        //       ),
-        //
-        //       // Column(
-        //       //   crossAxisAlignment: CrossAxisAlignment.start,
-        //       //   children: [
-        //       //     Text(
-        //       //       "  💰 Price",
-        //       //       style: TextStyle(
-        //       //         fontSize: 12,
-        //       //         fontWeight: FontWeight.bold,
-        //       //         color: Colors.grey,
-        //       //       ),
-        //       //     ),
-        //       //     SizedBox(
-        //       //       height: 5,
-        //       //     ),
-        //       //     Text(
-        //       //       expertModel.rate,
-        //       //       style: TextStyle(
-        //       //         fontSize: 12,
-        //       //         fontWeight: FontWeight.bold,
-        //       //         color: Colors.black,
-        //       //       ),
-        //       //     ),
-        //       //   ],
-        //       // ),
-        //
-        //
-        //       // Column(
-        //       //   crossAxisAlignment: CrossAxisAlignment.start,
-        //       //   children: [
-        //       //     Text(
-        //       //       "     💰 Price",
-        //       //       style: TextStyle(
-        //       //         fontSize: 12,
-        //       //         fontWeight: FontWeight.bold,
-        //       //         color: Colors.grey,
-        //       //       ),
-        //       //     ),
-        //       //     Padding(
-        //       //       padding: const EdgeInsets.all(5),
-        //       //       child: Text(
-        //       //         expertModel.rate,
-        //       //         style: TextStyle(
-        //       //           fontSize: 12,
-        //       //           fontWeight: FontWeight.bold,
-        //       //           color: Colors.black,
-        //       //         ),
-        //       //       ),
-        //       //     ),
-        //       //   ],
-        //       // ),
-        //     ],
-        //   ),
-        // ),
-
+                // Padding(
+                //   padding: const EdgeInsets.only(bottom: 5,left: 10, right: 10),
+                //   child: Row(
+                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                //     children: [
+                //       Column(
+                //         crossAxisAlignment: CrossAxisAlignment.start,
+                //         children: [
+                //           // Text(
+                //           //   "  👉  Type",
+                //           //   style: TextStyle(
+                //           //     fontSize: 12,
+                //           //     fontWeight: FontWeight.bold,
+                //           //     color: Colors.grey,
+                //           //   ),
+                //           // ),
+                //           Padding(
+                //             padding: const EdgeInsets.all(5),
+                //             child: Expanded(
+                //               child: Text(
+                //                 expertModel.description,
+                //                 maxLines: 2,
+                //                 overflow: TextOverflow.ellipsis,
+                //                 style: TextStyle(
+                //                   fontSize: 11,
+                //                   fontWeight: FontWeight.bold,
+                //                   color: Colors.black,
+                //                 ),
+                //               ),
+                //             ),
+                //           ),
+                //
+                //         ],
+                //       ),
+                //
+                //       // Column(
+                //       //   crossAxisAlignment: CrossAxisAlignment.start,
+                //       //   children: [
+                //       //     Text(
+                //       //       "  💰 Price",
+                //       //       style: TextStyle(
+                //       //         fontSize: 12,
+                //       //         fontWeight: FontWeight.bold,
+                //       //         color: Colors.grey,
+                //       //       ),
+                //       //     ),
+                //       //     SizedBox(
+                //       //       height: 5,
+                //       //     ),
+                //       //     Text(
+                //       //       expertModel.rate,
+                //       //       style: TextStyle(
+                //       //         fontSize: 12,
+                //       //         fontWeight: FontWeight.bold,
+                //       //         color: Colors.black,
+                //       //       ),
+                //       //     ),
+                //       //   ],
+                //       // ),
+                //
+                //
+                //       // Column(
+                //       //   crossAxisAlignment: CrossAxisAlignment.start,
+                //       //   children: [
+                //       //     Text(
+                //       //       "     💰 Price",
+                //       //       style: TextStyle(
+                //       //         fontSize: 12,
+                //       //         fontWeight: FontWeight.bold,
+                //       //         color: Colors.grey,
+                //       //       ),
+                //       //     ),
+                //       //     Padding(
+                //       //       padding: const EdgeInsets.all(5),
+                //       //       child: Text(
+                //       //         expertModel.rate,
+                //       //         style: TextStyle(
+                //       //           fontSize: 12,
+                //       //           fontWeight: FontWeight.bold,
+                //       //           color: Colors.black,
+                //       //         ),
+                //       //       ),
+                //       //     ),
+                //       //   ],
+                //       // ),
+                //     ],
+                //   ),
+                // ),
               ],
             ),
           ),
         ),
       ),
-
     );
   }
 }
@@ -208,11 +206,9 @@ class SearchCard extends StatelessWidget {
                           fontWeight: FontWeight.bold,
                         ),
                       ),
-
                       SizedBox(
                         height: 10,
                       ),
-
                       Text(
                         expertModel.type,
                         maxLines: 1,
@@ -223,13 +219,11 @@ class SearchCard extends StatelessWidget {
                           color: Colors.grey,
                         ),
                       ),
-
                       SizedBox(
                         height: 10,
                       ),
-
                       Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Column(
                             children: [
@@ -421,7 +415,6 @@ class _CheckOutCardState extends State<CheckOutCard> {
                                 SizedBox(
                                   height: 5,
                                 ),
-
                                 Text(
                                   widget.expertModel.job,
                                   style: TextStyle(

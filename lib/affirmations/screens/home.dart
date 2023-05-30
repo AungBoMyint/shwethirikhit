@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
+import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:kzn/model/type.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 import '../../consultant_appointant/controller/home_controller.dart';
 import '../../model/category.dart';
+import '../../services/database/query.dart';
 import '../controller/aff_home_controller.dart';
 import '../controller/affirmations_controller.dart';
 import '../models/music.dart';
@@ -46,17 +49,6 @@ class AffHome extends GetView<HomeController> {
     );
   }
 
-  List<Widget> createListOfCategories(BuildContext context) {
-    // Convert Data to Widget Using map function
-    List<Widget> categories = controller.affirmationsCategories.isNotEmpty
-        ? List.generate(6, (index) {
-            return createCategory(
-                controller.affirmationsCategories[index], context);
-          }).toList()
-        : [];
-    return categories;
-  }
-
   Widget createMusic(Music music) {
     return Padding(
       padding: EdgeInsets.all(10),
@@ -94,54 +86,6 @@ class AffHome extends GetView<HomeController> {
                 wordSpacing: 0.5,
               ))
         ],
-      ),
-    );
-  }
-
-  /* Widget createMusicList(String label) {
-    List<Music> musicList = controller.musics;
-    return Padding(
-      padding: EdgeInsets.only(left: 10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            label,
-            style: TextStyle(
-                color: Colors.white,
-                fontSize: 18,
-                fontWeight: FontWeight.bold,
-                letterSpacing: 1,
-                wordSpacing: 1),
-          ),
-          Container(
-            height: 230,
-            child: ListView.builder(
-              //padding: EdgeInsets.all(5),
-              scrollDirection: Axis.horizontal,
-              itemBuilder: (ctx, index) {
-                return createMusic(musicList[index]);
-              },
-              itemCount: musicList.length,
-            ),
-          )
-        ],
-      ),
-    );
-  
-  } */
-
-  Widget createGrid(BuildContext context) {
-    return Container(
-      padding: EdgeInsets.only(left: 10, right: 10, bottom: 10),
-      height: 250,
-      child: GridView.count(
-        physics: const NeverScrollableScrollPhysics(),
-        childAspectRatio: 5 / 2,
-        crossAxisSpacing: 10,
-        mainAxisSpacing: 10,
-        children: createListOfCategories(context),
-        crossAxisCount: 2,
       ),
     );
   }
@@ -193,113 +137,142 @@ class AffHome extends GetView<HomeController> {
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: SafeArea(
-          child: Container(
-        color: Color.fromRGBO(85, 38, 38, 1),
-        child: ListView(
-          shrinkWrap: true,
-          physics: const NeverScrollableScrollPhysics(),
-          children: [
-            createAppBar(
-              'Shwe Thiri Khit',
-            ),
-            SizedBox(
-              height: 5,
-            ),
-            Align(
-              alignment: Alignment.bottomRight,
-              child: IconButton(
-                onPressed: () => Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (c) => AffirmationsCategoryViewAll(),
+        child: Container(
+          color: Color.fromRGBO(85, 38, 38, 1),
+          child: ListView(
+            shrinkWrap: true,
+            physics: const NeverScrollableScrollPhysics(),
+            children: [
+              createAppBar(
+                'Shwe Thiri Khit',
+              ),
+              SizedBox(
+                height: 5,
+              ),
+              Align(
+                alignment: Alignment.bottomRight,
+                child: IconButton(
+                  onPressed: () => Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (c) => AffirmationsCategoryViewAll(),
+                    ),
                   ),
-                ),
-                icon: Icon(
-                  FontAwesomeIcons.chevronRight,
-                  color: Colors.white,
-                  size: 15,
+                  icon: Icon(
+                    FontAwesomeIcons.chevronRight,
+                    color: Colors.white,
+                    size: 15,
+                  ),
                 ),
               ),
-            ),
-            createGrid(context),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: controller.affirmationsTypes.length,
-              itemBuilder: (context, i) {
-                final affType = controller.affirmationsTypes[i];
-                return Padding(
-                  padding: EdgeInsets.only(left: 10),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          Text(
-                            affType.name,
-                            style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 18,
-                                fontWeight: FontWeight.bold,
-                                letterSpacing: 1,
-                                wordSpacing: 1),
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(right: 10),
-                            child: TextButton(
-                              onPressed: () {
-                                affHomeController.justPause();
-                                Get.put(AffirmationsController());
-                                Navigator.push(context,
-                                    route(MusicPlayList(type: affType)));
-                              },
-                              child: Text(
-                                "See All",
-                                style: TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 15,
-                                    letterSpacing: 1,
-                                    wordSpacing: 1),
+              FirestoreQueryBuilder<Category>(
+                query: affirmationsCategoryQuery,
+                builder: (context, snapshot, _) {
+                  return GridView.builder(
+                    gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      childAspectRatio: 5 / 2,
+                      crossAxisSpacing: 10,
+                      mainAxisSpacing: 10,
+                    ),
+                    physics: const NeverScrollableScrollPhysics(),
+                    itemCount:
+                        snapshot.docs.length > 6 ? 6 : snapshot.docs.length,
+                    shrinkWrap: true,
+                    itemBuilder: (context, index) {
+                      if (snapshot.hasMore &&
+                          index + 1 == snapshot.docs.length) {
+                        // Tell FirestoreQueryBuilder to try to obtain more items.
+                        // It is safe to call this function from within the build method.
+                        snapshot.fetchMore();
+                      }
+
+                      final category = snapshot.docs[index].data();
+
+                      return createCategory(category, context);
+                    },
+                  );
+                },
+              ),
+              FirestoreListView<ItemType>(
+                shrinkWrap: true,
+                loadingBuilder: (_) => LoadingWidget(),
+                physics: const NeverScrollableScrollPhysics(),
+                query: affirmationsTypeQuery,
+                errorBuilder: (context, error, stackTrace) =>
+                    ErrorWidget(error),
+                itemBuilder: (context, snapshot) {
+                  final affType = snapshot.data();
+                  return Padding(
+                    padding: EdgeInsets.only(left: 10),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text(
+                              affType.name,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+                                  wordSpacing: 1),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(right: 10),
+                              child: TextButton(
+                                onPressed: () {
+                                  affHomeController.justPause();
+                                  Get.put(AffirmationsController());
+                                  Navigator.push(context,
+                                      route(MusicPlayList(type: affType)));
+                                },
+                                child: Text(
+                                  "See All",
+                                  style: TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      letterSpacing: 1,
+                                      wordSpacing: 1),
+                                ),
                               ),
                             ),
-                          ),
-                        ],
-                      ),
-                      Container(
-                        height: 230,
-                        child: ListView.builder(
-                          //padding: EdgeInsets.all(5),
-                          scrollDirection: Axis.horizontal,
-                          physics: const BouncingScrollPhysics(),
-                          itemBuilder: (ctx, index) {
-                            final music =
-                                controller.getMusicByType(affType.id)[index];
-                            return createMusic(music);
-                          },
-                          itemCount:
-                              controller.getMusicByType(affType.id).length,
+                          ],
                         ),
-                      )
-                    ],
-                  ),
-                );
-              },
-            ),
-          ],
+                        Container(
+                          height: 230,
+                          child: FirestoreListView<Music>(
+                            query: affirmationsTypeMusicsQuery(affType.id),
+                            scrollDirection: Axis.horizontal,
+                            physics: const BouncingScrollPhysics(),
+                            errorBuilder: (context, error, stackTrace) =>
+                                ErrorWidget(error),
+                            itemBuilder: (context, snapshot) {
+                              final music = snapshot.data();
+                              return createMusic(music);
+                            },
+                          ),
+                        )
+                      ],
+                    ),
+                  );
+                },
+              ),
+            ],
+          ),
         ),
-        // decoration: BoxDecoration(
-        //   color: Color.fromRGBO(85,38,38, 1),
-        //     gradient: LinearGradient(
-        //         colors: [Colors.blueGrey.shade300, Colors.black],
-        //         begin: Alignment.topLeft,
-        //         end: Alignment.bottomRight,
-        //         stops: [0.1, 0.3],
-        //     ),
-        //   ),
-        //child: Text('Hello Flutter'),
-        //color: Colors.orange,
-      )),
+      ),
+    );
+  }
+}
+
+class LoadingWidget extends StatelessWidget {
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      color: Color.fromRGBO(85, 38, 38, 1),
     );
   }
 }

@@ -21,12 +21,12 @@ import 'package:provider/provider.dart';
 import 'affirmations/controller/aff_home_controller.dart';
 import 'controller/main_controller.dart';
 import 'intro/intro_one_screen.dart';
+import 'therapy/therapy_controller.dart';
 import 'ui/routes/enroll_form_route.dart';
 import 'package:kzn/bottombar.dart';
 
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
 }
 
 Future<void> main() async {
@@ -65,6 +65,7 @@ class MyApp extends StatelessWidget {
     Get.put(MainController()); //Make Globle,
     Get.put(HomeController());
     Get.put(VlogController());
+    Get.put(TherapyController());
     Get.put(AffHomeController());
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,

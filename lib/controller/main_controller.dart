@@ -15,8 +15,11 @@ import '../model/vlog_video.dart';
 import '../services/database/reference.dart';
 
 class MainController extends GetxController {
+  List<TherapyVideo> therapyVideos = [];
+
   final Database database = Database(); //Dependencies Injection
 
+  void setTherapyVideos(List<TherapyVideo> list) => therapyVideos = list;
   Future<void> importCategoryJson() async {
     log("******Writing category");
     try {
