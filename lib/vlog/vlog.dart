@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:shimmer/shimmer.dart';
@@ -177,7 +179,8 @@ class Vlog extends GetView<VlogController> {
               height: 80.0,
               decoration: BoxDecoration(
                 image: DecorationImage(
-                  image: NetworkImage(img),
+                  image: CachedNetworkImageProvider(img,
+                      maxHeight: 80, maxWidth: 120, cacheKey: img),
                   fit: BoxFit.fill,
                 ),
                 borderRadius: BorderRadius.circular(8),
@@ -251,6 +254,7 @@ class Vlog extends GetView<VlogController> {
     double height = MediaQuery.of(context).size.height;
     return SafeArea(
       child: Scaffold(
+        backgroundColor: logoColor,
         body: Column(
           children: [
             Expanded(
@@ -295,77 +299,61 @@ class Vlog extends GetView<VlogController> {
             ),
             Expanded(
               flex: 6,
-              child: ListView(
-                shrinkWrap: true,
-                children: <Widget>[
-                  Container(
-                    // color: Colors.black,
-                    color: Color.fromRGBO(85, 38, 38, 1),
-                    padding: EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: <Widget>[
-                        Padding(
-                          padding: const EdgeInsets.all(8.0),
-                          child: Obx(() {
-                            if (controller.isLoading.value &&
-                                controller.selectedVideo.value == null) {
-                              return Shimmer.fromColors(
-                                baseColor: Colors.grey.shade300,
-                                highlightColor: Colors.white,
-                                child: Container(
-                                  height: 20,
-                                  width: 100,
-                                  color: Colors.white,
-                                ),
-                              );
-                            }
-                            return Text(
-                              controller.selectedVideo.value!.title,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontFamily: 'Signika Negative',
-                                  fontWeight: FontWeight.w700,
-                                  fontSize: 16.0),
-                            );
-                          }),
-                        ),
-                      ],
+              child: CustomScrollView(
+                slivers: <Widget>[
+                  //Selected Video Title
+                  SliverToBoxAdapter(
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Obx(() {
+                        if (controller.isLoading.value &&
+                            controller.selectedVideo.value == null) {
+                          return Shimmer.fromColors(
+                            baseColor: Colors.grey.shade300,
+                            highlightColor: Colors.white,
+                            child: Container(
+                              height: 20,
+                              width: 100,
+                              color: Colors.white,
+                            ),
+                          );
+                        }
+                        return Text(
+                          controller.selectedVideo.value!.title,
+                          style: TextStyle(
+                              color: Colors.white,
+                              fontFamily: 'Signika Negative',
+                              fontWeight: FontWeight.w700,
+                              fontSize: 16.0),
+                        );
+                      }),
                     ),
                   ),
+
                   Obx(() {
                     if (controller.isLoading.value) {
                       return Shimmer.fromColors(
                           baseColor: Colors.grey.shade300,
                           highlightColor: Colors.white,
-                          child: ListView.separated(
-                            separatorBuilder: (context, i) {
-                              return const SizedBox(height: 10);
-                            },
-                            shrinkWrap: true,
-                            primary: false,
-                            physics: const NeverScrollableScrollPhysics(),
-                            itemCount: 6,
-                            itemBuilder: (context, index) {
-                              return Container(
-                                width: 120.0,
-                                height: 80.0,
-                                color: Colors.white,
-                              );
-                            },
-                          ));
+                          child: SliverList(
+                              delegate: SliverChildBuilderDelegate(
+                            (context, index) => Container(
+                              width: 120.0,
+                              height: 80.0,
+                              color: Colors.white,
+                            ),
+                            childCount: 10,
+                          )));
                     }
-                    return ListView.builder(
-                      shrinkWrap: true,
-                      primary: false,
-                      physics: const NeverScrollableScrollPhysics(),
-                      itemCount: _homeController.vlogVideos.length,
-                      itemBuilder: (context, index) {
+                    return SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                      (context, index) {
                         final vlogVideo = _homeController.vlogVideos[index];
                         return getLessonTile(vlogVideo.title, vlogVideo.image,
                             'locked', width, vlogVideo);
                       },
-                    );
+                      childCount: _homeController.vlogVideos.length,
+                    ));
                   }),
                 ],
                 /* ), */

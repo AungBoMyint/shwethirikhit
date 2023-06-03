@@ -13,8 +13,8 @@ class TherapyController extends GetxController {
   void reset() {
     isLoading.value = false;
     selectedVideo.value = null;
-    if (chewieController.value?.isPlaying == true)
-      chewieController.value?.pause();
+    chewieController.value?.pause();
+
     chewieController.value = null;
     /* chewieController.value?.dispose(); */
   }

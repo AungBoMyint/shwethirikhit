@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
@@ -48,134 +49,92 @@ class _VideoInfoState extends State<VideoInfo> {
                   horizontal: 0.2 /* 0.w */,
                 ),
                 child: Obx(() {
-                  return ListView(shrinkWrap: true, children: [
-                    controller.selectedVideo.value == null
-                        ? Container(
-                            padding:
-                                EdgeInsets.only(top: 30, left: 30, right: 30),
-                            height: 300,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Row(
-                                  children: [
-                                    InkWell(
-                                      onTap: () {
-                                        Get.back();
-                                      },
-                                      child: Icon(Icons.arrow_back_ios,
-                                          size: 20,
-                                          color: color
-                                              .AppColor.secondPageIconColor),
-                                    ),
-                                    Expanded(child: Container()),
-                                    SizedBox(
-                                      width: 30,
-                                      child: ElevatedButton(
-                                        style: ButtonStyle(
-                                          alignment: Alignment.center,
-                                          backgroundColor:
-                                              MaterialStateProperty.all(
-                                                  Colors.transparent),
-                                          elevation: MaterialStateProperty
-                                              .resolveWith<double>(
-                                            // As you said you dont need elevation. I'm returning 0 in both case
-                                            (Set<MaterialState> states) {
-                                              if (states.contains(
-                                                  MaterialState.disabled)) {
-                                                return 0;
-                                              }
-                                              return 0; // Defer to the widget's default.
-                                            },
-                                          ),
-                                        ),
-                                        onPressed: () async {
-                                          try {
-                                            await launch(
-                                                'https://m.me/selfmasterywithkhit');
-                                          } catch (e) {
-                                            print(e);
-                                          }
+                  return ListView(
+                    children: [
+                      controller.selectedVideo.value == null
+                          ? Container(
+                              padding:
+                                  EdgeInsets.only(top: 30, left: 30, right: 30),
+                              height: 300,
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Row(
+                                    children: [
+                                      InkWell(
+                                        onTap: () {
+                                          Get.back();
                                         },
-                                        child: FaIcon(
-                                          FontAwesomeIcons.facebookMessenger,
-                                          color: Colors.blue,
-                                          size: 23,
-                                        ),
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                                SizedBox(
-                                  height: 30,
-                                ),
-                                Text(
-                                  "Increased Self-Esteem and Achieve Your True Potential.",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color:
-                                          color.AppColor.secondPageTitleColor),
-                                ),
-                                SizedBox(
-                                  height: 5,
-                                ),
-                                Text(
-                                  "Be YOU that you've always wanted to be...",
-                                  style: TextStyle(
-                                      fontSize: 12,
-                                      color:
-                                          color.AppColor.secondPageTitleColor),
-                                ),
-                                SizedBox(
-                                  height: 50,
-                                ),
-                                Row(
-                                  children: [
-                                    Container(
-                                      width: 90,
-                                      height: 30,
-                                      decoration: BoxDecoration(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          gradient: LinearGradient(
-                                            colors: [
-                                              color.AppColor
-                                                  .secondPageContainerGradient1stColor,
-                                              color.AppColor
-                                                  .secondPageContainerGradient2ndColor
-                                            ],
-                                            begin: Alignment.bottomLeft,
-                                            end: Alignment.topRight,
-                                          )),
-                                      child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.center,
-                                        children: [
-                                          Icon(
-                                            Icons.person_2_outlined,
+                                        child: Icon(Icons.arrow_back_ios,
                                             size: 20,
                                             color: color
-                                                .AppColor.secondPageIconColor,
-                                          ),
-                                          SizedBox(
-                                            width: 5,
-                                          ),
-                                          Text(
-                                            "",
-                                            style: TextStyle(
-                                                fontSize: 14,
-                                                color: color.AppColor
-                                                    .secondPageIconColor),
-                                          )
-                                        ],
+                                                .AppColor.secondPageIconColor),
                                       ),
-                                    ),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                    Expanded(
-                                      child: Container(
-                                        width: 200,
+                                      Expanded(child: Container()),
+                                      SizedBox(
+                                        width: 30,
+                                        child: ElevatedButton(
+                                          style: ButtonStyle(
+                                            alignment: Alignment.center,
+                                            backgroundColor:
+                                                MaterialStateProperty.all(
+                                                    Colors.transparent),
+                                            elevation: MaterialStateProperty
+                                                .resolveWith<double>(
+                                              // As you said you dont need elevation. I'm returning 0 in both case
+                                              (Set<MaterialState> states) {
+                                                if (states.contains(
+                                                    MaterialState.disabled)) {
+                                                  return 0;
+                                                }
+                                                return 0; // Defer to the widget's default.
+                                              },
+                                            ),
+                                          ),
+                                          onPressed: () async {
+                                            try {
+                                              await launch(
+                                                  'https://m.me/selfmasterywithkhit');
+                                            } catch (e) {
+                                              print(e);
+                                            }
+                                          },
+                                          child: FaIcon(
+                                            FontAwesomeIcons.facebookMessenger,
+                                            color: Colors.blue,
+                                            size: 23,
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 30,
+                                  ),
+                                  Text(
+                                    "Increased Self-Esteem and Achieve Your True Potential.",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: color
+                                            .AppColor.secondPageTitleColor),
+                                  ),
+                                  SizedBox(
+                                    height: 5,
+                                  ),
+                                  Text(
+                                    "Be YOU that you've always wanted to be...",
+                                    style: TextStyle(
+                                        fontSize: 12,
+                                        color: color
+                                            .AppColor.secondPageTitleColor),
+                                  ),
+                                  SizedBox(
+                                    height: 50,
+                                  ),
+                                  Row(
+                                    children: [
+                                      Container(
+                                        width: 90,
                                         height: 30,
                                         decoration: BoxDecoration(
                                             borderRadius:
@@ -195,7 +154,7 @@ class _VideoInfoState extends State<VideoInfo> {
                                               MainAxisAlignment.center,
                                           children: [
                                             Icon(
-                                              Icons.video_collection_outlined,
+                                              Icons.person,
                                               size: 20,
                                               color: color
                                                   .AppColor.secondPageIconColor,
@@ -203,162 +162,207 @@ class _VideoInfoState extends State<VideoInfo> {
                                             SizedBox(
                                               width: 5,
                                             ),
-                                            Container(
-                                              width: 100,
-                                              child: Text(
-                                                widget.category.name,
-                                                overflow: TextOverflow.fade,
-                                                maxLines: 1,
-                                                softWrap: false,
-                                                style: TextStyle(
-                                                    fontSize: 14,
-                                                    color: color.AppColor
-                                                        .secondPageIconColor),
-                                              ),
+                                            Text(
+                                              "",
+                                              style: TextStyle(
+                                                  fontSize: 14,
+                                                  color: color.AppColor
+                                                      .secondPageIconColor),
                                             )
                                           ],
                                         ),
                                       ),
-                                    )
-                                  ],
-                                ),
-                              ],
-                            ))
-                        :
-                        //Video
-                        Container(
-                            padding: EdgeInsets.only(top: 5, bottom: 20),
-                            child: Column(
-                              children: [
-                                Container(
-                                    padding:
-                                        EdgeInsets.only(left: 20, right: 20),
-                                    margin: EdgeInsets.only(bottom: 5),
-                                    child: Row(
-                                      children: [
-                                        InkWell(
-                                            onTap: () {
-                                              Get.back();
-                                            },
-                                            child: Icon(Icons.arrow_back_ios,
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                      Expanded(
+                                        child: Container(
+                                          width: 200,
+                                          height: 30,
+                                          decoration: BoxDecoration(
+                                              borderRadius:
+                                                  BorderRadius.circular(10),
+                                              gradient: LinearGradient(
+                                                colors: [
+                                                  color.AppColor
+                                                      .secondPageContainerGradient1stColor,
+                                                  color.AppColor
+                                                      .secondPageContainerGradient2ndColor
+                                                ],
+                                                begin: Alignment.bottomLeft,
+                                                end: Alignment.topRight,
+                                              )),
+                                          child: Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.center,
+                                            children: [
+                                              Icon(
+                                                Icons.video_collection_outlined,
                                                 size: 20,
                                                 color: color.AppColor
-                                                    .secondPageTopIconColor)),
-                                        Expanded(child: Container()),
-                                        SizedBox(
-                                          width: 40,
-                                          child: ElevatedButton(
-                                            style: ButtonStyle(
-                                              alignment: Alignment.center,
-                                              backgroundColor:
-                                                  MaterialStateProperty.all(
-                                                      Colors.transparent),
-                                              elevation: MaterialStateProperty
-                                                  .resolveWith<double>(
-                                                // As you said you dont need elevation. I'm returning 0 in both case
-                                                (Set<MaterialState> states) {
-                                                  if (states.contains(
-                                                      MaterialState.disabled)) {
-                                                    return 0;
-                                                  }
-                                                  return 0; // Defer to the widget's default.
-                                                },
+                                                    .secondPageIconColor,
                                               ),
-                                            ),
-                                            onPressed: () async {
-                                              try {
-                                                await launch(
-                                                    'https://m.me/selfmasterywithkhit');
-                                              } catch (e) {
-                                                print(e);
-                                              }
-                                            },
-                                            child: FaIcon(
-                                              FontAwesomeIcons
-                                                  .facebookMessenger,
-                                              color: Colors.blue,
-                                              size: 23,
-                                            ),
+                                              SizedBox(
+                                                width: 5,
+                                              ),
+                                              Container(
+                                                width: 100,
+                                                child: Text(
+                                                  widget.category.name,
+                                                  overflow: TextOverflow.fade,
+                                                  maxLines: 1,
+                                                  softWrap: false,
+                                                  style: TextStyle(
+                                                      fontSize: 14,
+                                                      color: color.AppColor
+                                                          .secondPageIconColor),
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    )),
-                                //Video
-                                Container(
-                                    width: 325,
-                                    height: 200,
-                                    child: controller.selectedVideo.value ==
-                                            null
-                                        ? Container()
-                                        : AspectRatio(
-                                            aspectRatio: controller
-                                                    .chewieController
-                                                    .value
-                                                    ?.videoPlayerController
-                                                    .value
-                                                    .aspectRatio ??
-                                                0,
-                                            child: controller.isLoading.value
-                                                ? Shimmer.fromColors(
-                                                    baseColor:
-                                                        Colors.grey.shade300,
-                                                    highlightColor:
-                                                        Colors.white,
-                                                    child: Container(
-                                                      color: Colors.white,
+                                      )
+                                    ],
+                                  ),
+                                ],
+                              ))
+                          :
+                          //Video
+                          Container(
+                              padding: EdgeInsets.only(top: 5, bottom: 20),
+                              child: Column(
+                                children: [
+                                  Container(
+                                      padding:
+                                          EdgeInsets.only(left: 20, right: 20),
+                                      /* margin: EdgeInsets.only(bottom: 5), */
+                                      child: Row(
+                                        children: [
+                                          InkWell(
+                                              onTap: () {
+                                                Get.back();
+                                              },
+                                              child: Icon(Icons.arrow_back_ios,
+                                                  size: 20,
+                                                  color: color.AppColor
+                                                      .secondPageTopIconColor)),
+                                          Expanded(child: Container()),
+                                          SizedBox(
+                                            width: 40,
+                                            child: ElevatedButton(
+                                              style: ButtonStyle(
+                                                alignment: Alignment.center,
+                                                backgroundColor:
+                                                    MaterialStateProperty.all(
+                                                        Colors.transparent),
+                                                elevation: MaterialStateProperty
+                                                    .resolveWith<double>(
+                                                  // As you said you dont need elevation. I'm returning 0 in both case
+                                                  (Set<MaterialState> states) {
+                                                    if (states.contains(
+                                                        MaterialState
+                                                            .disabled)) {
+                                                      return 0;
+                                                    }
+                                                    return 0; // Defer to the widget's default.
+                                                  },
+                                                ),
+                                              ),
+                                              onPressed: () async {
+                                                try {
+                                                  await launch(
+                                                      'https://m.me/selfmasterywithkhit');
+                                                } catch (e) {
+                                                  print(e);
+                                                }
+                                              },
+                                              child: FaIcon(
+                                                FontAwesomeIcons
+                                                    .facebookMessenger,
+                                                color: Colors.blue,
+                                                size: 23,
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      )),
+                                  //Video
+                                  Container(
+                                      width: 325,
+                                      height: 200,
+                                      child: controller.selectedVideo.value ==
+                                              null
+                                          ? Container()
+                                          : AspectRatio(
+                                              aspectRatio: controller
+                                                      .chewieController
+                                                      .value
+                                                      ?.videoPlayerController
+                                                      .value
+                                                      .aspectRatio ??
+                                                  0,
+                                              child: controller.isLoading.value
+                                                  ? Shimmer.fromColors(
+                                                      baseColor:
+                                                          Colors.grey.shade300,
+                                                      highlightColor:
+                                                          Colors.white,
+                                                      child: Container(
+                                                        color: Colors.white,
+                                                      ),
+                                                    )
+                                                  : Chewie(
+                                                      controller: controller
+                                                          .chewieController
+                                                          .value!,
                                                     ),
-                                                  )
-                                                : Chewie(
-                                                    controller: controller
-                                                        .chewieController
-                                                        .value!,
-                                                  ),
-                                          )),
-                                /*  _controlView(context), */
-                              ],
-                            )),
-                    //Current Play Video Title
-                    controller.selectedVideo.value == null
-                        ? const SizedBox()
-                        : Container(
-                            decoration: BoxDecoration(
-                                color: Color.fromRGBO(85, 38, 38, 1),
-                                borderRadius: BorderRadius.only(
-                                    topRight: Radius.circular(70))),
-                            child: Column(
-                              children: [
-                                Row(
-                                  children: [
-                                    SizedBox(
-                                      width: 30,
-                                    ),
-                                    Text(
-                                      controller.selectedVideo.value?.title ??
-                                          "",
-                                      style: TextStyle(
-                                          fontSize: 14,
-                                          fontWeight: FontWeight.bold,
-                                          color: Colors.white),
-                                    ),
-                                    SizedBox(
-                                      height: 30,
-                                    ),
-                                    Expanded(child: Container()),
-                                    SizedBox(
-                                      width: 20,
-                                    ),
-                                  ],
-                                ),
-                              ],
+                                            )),
+                                  /*  _controlView(context), */
+                                ],
+                              )),
+                      //Current Play Video Title
+                      controller.selectedVideo.value == null
+                          ? const SizedBox()
+                          : Container(
+                              decoration: BoxDecoration(
+                                  color: Color.fromRGBO(85, 38, 38, 1),
+                                  borderRadius: BorderRadius.only(
+                                      topRight: Radius.circular(70))),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    children: [
+                                      SizedBox(
+                                        width: 30,
+                                      ),
+                                      Text(
+                                        controller.selectedVideo.value?.title ??
+                                            "",
+                                        style: TextStyle(
+                                            fontSize: 14,
+                                            fontWeight: FontWeight.bold,
+                                            color: Colors.white),
+                                      ),
+                                      SizedBox(
+                                        height: 30,
+                                      ),
+                                      Expanded(child: Container()),
+                                      SizedBox(
+                                        width: 20,
+                                      ),
+                                    ],
+                                  ),
+                                ],
+                              ),
                             ),
-                          ),
-                  ]);
+                    ],
+                  );
                 }),
               ),
             ),
             Positioned(
               left: 0,
-              top: controller.selectedVideo.value == null ? 300 : 325,
+              top: controller.selectedVideo.value == null ? 300 : 330,
               child: Padding(
                 padding: EdgeInsets.symmetric(
                   vertical: 0,
@@ -371,13 +375,31 @@ class _VideoInfoState extends State<VideoInfo> {
                     return SizedBox(
                       height: size.height,
                       width: size.width,
-                      child: FirestoreListView<TherapyVideo>(
+                      child: FirestoreQueryBuilder<TherapyVideo>(
                         pageSize: 5,
                         query: therapyVideosQuery(widget.category.id),
-                        itemBuilder: (context, snapshot) {
-                          // Data is now typed!
-                          var video = snapshot.data();
-                          return _buildCard(context, video);
+                        builder: (context, snapshot, _) {
+                          return CustomScrollView(
+                            slivers: [
+                              SliverList(
+                                delegate: SliverChildBuilderDelegate(
+                                  (context, index) {
+                                    if (snapshot.hasMore &&
+                                        index + 1 == snapshot.docs.length) {
+                                      // Tell FirestoreQueryBuilder to try to obtain more items.
+                                      // It is safe to call this function from within the build method.
+                                      snapshot.fetchMore();
+                                    }
+
+                                    // Data is now typed!
+                                    var video = snapshot.docs[index].data();
+                                    return _buildCard(context, video);
+                                  },
+                                  childCount: snapshot.docs.length,
+                                ),
+                              ),
+                            ],
+                          );
                         },
                       ),
                     );
@@ -445,7 +467,12 @@ class _VideoInfoState extends State<VideoInfo> {
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(10),
                         image: DecorationImage(
-                            image: NetworkImage(item.image),
+                            image: CachedNetworkImageProvider(
+                              item.image,
+                              maxHeight: 80,
+                              maxWidth: 80,
+                              cacheKey: item.image,
+                            ),
                             fit: BoxFit.cover)),
                   ),
                   SizedBox(

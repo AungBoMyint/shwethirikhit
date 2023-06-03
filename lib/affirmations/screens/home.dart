@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:kzn/model/type.dart';
 import 'package:url_launcher/url_launcher.dart';
-
+import 'dart:developer' as developer;
 import '../../consultant_appointant/controller/home_controller.dart';
 import '../../model/category.dart';
 import '../../services/database/query.dart';
@@ -32,8 +33,20 @@ class AffHome extends GetView<HomeController> {
         child: Row(
           children: [
             Expanded(
-                flex: 2,
-                child: Image.network(category.image, fit: BoxFit.fitHeight)),
+              flex: 2,
+              child: LayoutBuilder(builder: (context, constraints) {
+                final height = constraints.maxHeight;
+                final width = constraints.maxWidth;
+                developer.log("Aff Grid's height: $height \n width: $width");
+                return CachedNetworkImage(
+                  imageUrl: category.image,
+                  fit: BoxFit.fitHeight,
+                  height: height,
+                  width: width,
+                  cacheKey: category.image,
+                );
+              }),
+            ),
             Expanded(
               child: Text(
                 category.name,
@@ -64,9 +77,12 @@ class AffHome extends GetView<HomeController> {
               },
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(10),
-                child: Image.network(
-                  music.image.replaceAll("'", ""),
-                  fit: BoxFit.cover,
+                child: CachedNetworkImage(
+                  imageUrl: music.image.replaceAll("'", ""),
+                  fit: BoxFit.fitHeight,
+                  height: 160,
+                  width: 160,
+                  cacheKey: music.image.replaceAll("'", ""),
                 ),
               ),
             ),
@@ -135,21 +151,25 @@ class AffHome extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: SafeArea(
-        child: Container(
-          color: Color.fromRGBO(85, 38, 38, 1),
-          child: ListView(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            children: [
-              createAppBar(
+    return SafeArea(
+      child: Container(
+        color: Color.fromRGBO(85, 38, 38, 1),
+        child: CustomScrollView(
+          shrinkWrap: true,
+          /* physics: const NeverScrollableScrollPhysics(), */
+          slivers: [
+            SliverToBoxAdapter(
+              child: createAppBar(
                 'Shwe Thiri Khit',
               ),
-              SizedBox(
+            ),
+            SliverToBoxAdapter(
+              child: SizedBox(
                 height: 5,
               ),
-              Align(
+            ),
+            SliverToBoxAdapter(
+              child: Align(
                 alignment: Alignment.bottomRight,
                 child: IconButton(
                   onPressed: () => Navigator.push(
@@ -165,7 +185,9 @@ class AffHome extends GetView<HomeController> {
                   ),
                 ),
               ),
-              FirestoreQueryBuilder<Category>(
+            ),
+            SliverToBoxAdapter(
+              child: FirestoreQueryBuilder<Category>(
                 query: affirmationsCategoryQuery,
                 builder: (context, snapshot, _) {
                   return GridView.builder(
@@ -194,7 +216,9 @@ class AffHome extends GetView<HomeController> {
                   );
                 },
               ),
-              FirestoreListView<ItemType>(
+            ),
+            SliverToBoxAdapter(
+              child: FirestoreListView<ItemType>(
                 shrinkWrap: true,
                 loadingBuilder: (_) => LoadingWidget(),
                 physics: const NeverScrollableScrollPhysics(),
@@ -260,8 +284,8 @@ class AffHome extends GetView<HomeController> {
                   );
                 },
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

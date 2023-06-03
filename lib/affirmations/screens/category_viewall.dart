@@ -1,10 +1,11 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:get/get.dart';
 import 'package:kzn/model/category.dart';
-
+import 'dart:developer' as developer;
 import '../../consultant_appointant/controller/home_controller.dart';
 import '../../services/database/query.dart';
 import '../controller/aff_home_controller.dart';
@@ -54,8 +55,19 @@ class AffirmationsCategoryViewAll extends GetView<HomeController> {
                     children: [
                       Expanded(
                           flex: 2,
-                          child:
-                              Image.network(category.image, fit: BoxFit.cover)),
+                          child: LayoutBuilder(builder: (context, constraints) {
+                            final height = constraints.maxHeight;
+                            final width = constraints.maxWidth;
+                            developer.log(
+                                "Aff Grid's height: $height \n width: $width");
+                            return CachedNetworkImage(
+                              imageUrl: category.image,
+                              fit: BoxFit.cover,
+                              height: height,
+                              width: width,
+                              cacheKey: category.image,
+                            );
+                          })),
                       Expanded(
                         child: Padding(
                           padding: EdgeInsets.only(left: 10),

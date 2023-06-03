@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:rive/rive.dart';
 import 'package:audioplayers/audioplayers.dart';
@@ -86,11 +87,16 @@ class _MusicPlayListState extends State<MusicPlayList> {
                         height: 150,
                         child: ClipRRect(
                           borderRadius: BorderRadius.all(Radius.circular(20)),
-                          child: Image.network(
-                            widget.category == null
+                          child: CachedNetworkImage(
+                            imageUrl: widget.category == null
                                 ? musicCover
                                 : widget.category!.image,
                             fit: BoxFit.cover,
+                            width: width / 2,
+                            height: 150,
+                            cacheKey: widget.category == null
+                                ? musicCover
+                                : widget.category!.image,
                           ),
                         ),
                       ),
@@ -226,59 +232,59 @@ class _MusicPlayListState extends State<MusicPlayList> {
                 return FirestoreQueryBuilder<Music>(
                   query: query,
                   builder: (context, snapshot, _) {
-                    return ListView.separated(
-                      shrinkWrap: true,
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: snapshot.docs.length,
-                      separatorBuilder: (context, index) {
-                        final currentMusic = snapshot.docs[index].data();
+                    return CustomScrollView(
+                      slivers: [
+                        SliverList(
+                          delegate: SliverChildBuilderDelegate(
+                            (context, index) {
+                              if (snapshot.hasMore &&
+                                  index + 1 == snapshot.docs.length) {
+                                snapshot.fetchMore();
+                              }
 
-                        final isSelected = !(selectedMusic == null) &&
-                            (selectedMusic.id == currentMusic.id);
-                        if (isSelected && state == PlayerStatus.loading()) {
-                          return linerProgress();
-                        }
-                        return const Divider();
-                      },
-                      itemBuilder: (context, index) {
-                        if (snapshot.hasMore &&
-                            index + 1 == snapshot.docs.length) {
-                          snapshot.fetchMore();
-                        }
-
-                        final music = snapshot.docs[index].data();
-                        final isSelected = !(selectedMusic == null) &&
-                            (selectedMusic.id == music.id);
-                        return Container(
-                          color: isSelected ? Colors.white : Color(0xFFEAE1D7),
-                          child: ListTile(
-                            /* selected: isSelected,
+                              final music = snapshot.docs[index].data();
+                              final isSelected = !(selectedMusic == null) &&
+                                  (selectedMusic.id == music.id);
+                              return Container(
+                                color: isSelected
+                                    ? Colors.white
+                                    : Color(0xFFEAE1D7),
+                                child: ListTile(
+                                  /* selected: isSelected,
                         selectedColor: Colors.white, */
-                            onTap: () => afController.setSelectedMusic(music),
-                            leading: Text("${index + 1}"),
-                            /* isPlaying
+                                  onTap: () =>
+                                      afController.setSelectedMusic(music),
+                                  leading: Text("${index + 1}"),
+                                  /* isPlaying
                             ? Image.asset("assets/animations/cd.gif")
                             : Text("${index + 1}"),*/
-                            title: Text(music.name),
-                            subtitle: Text(music.desc),
-                            trailing: afController.playerStatus.value!.fold(
-                              (l) => const SizedBox(),
-                              (r) => r.map(
-                                loading: (v) => !(selectedMusic == null) &&
-                                        (selectedMusic.id == music.id)
-                                    ? circularProgress()
-                                    : pauseImage(),
-                                playing: (v) => !(selectedMusic == null) &&
-                                        (selectedMusic.id == music.id)
-                                    ? playingAnimation()
-                                    : pauseImage(),
-                                pause: (v) => pauseImage(),
-                                nothing: (v) => pauseImage(),
-                              ),
-                            ),
+                                  title: Text(music.name),
+                                  subtitle: Text(music.desc),
+                                  trailing:
+                                      afController.playerStatus.value!.fold(
+                                    (l) => const SizedBox(),
+                                    (r) => r.map(
+                                      loading: (v) =>
+                                          !(selectedMusic == null) &&
+                                                  (selectedMusic.id == music.id)
+                                              ? circularProgress()
+                                              : pauseImage(),
+                                      playing: (v) =>
+                                          !(selectedMusic == null) &&
+                                                  (selectedMusic.id == music.id)
+                                              ? playingAnimation()
+                                              : pauseImage(),
+                                      pause: (v) => pauseImage(),
+                                      nothing: (v) => pauseImage(),
+                                    ),
+                                  ),
+                                ),
+                              );
+                            },
+                            childCount: snapshot.docs.length,
                           ),
-                        );
-                      },
+                        ),
+                      ],
                     );
                   },
                 );

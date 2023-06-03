@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
@@ -10,6 +11,7 @@ import '../consultant_appointant/controller/home_controller.dart';
 import '../controller/main_controller.dart';
 import '../services/database/query.dart';
 import 'colors.dart' as color;
+import 'dart:developer' as developer;
 import 'package:url_launcher/url_launcher.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
@@ -21,21 +23,6 @@ class Therapy extends StatefulWidget {
 }
 
 class _TherapyState extends State<Therapy> {
-  /* List<Info> info = [];
-  _initData() async {
-    var res = await DefaultAssetBundle.of(context).loadString("json/info.json");
-    var resInfo = json.decode(res);
-    setState(() {
-      info = List<Info>.from(resInfo.map((x) => Info.fromJson(x)));
-    });
-  }
-
-  @override
-  void initState() {
-    _initData();
-    super.initState();
-  }
- */
   @override
   Widget build(BuildContext context) {
     final HomeController _homeController = Get.find();
@@ -339,36 +326,48 @@ class DataSliverGrid extends StatelessWidget {
                   ),
                 ),
               ),
-              child: Container(
-                height: 200,
-                padding: EdgeInsets.only(bottom: 5),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(15),
-                    image: DecorationImage(
-                      image: NetworkImage(category.image),
+              child: LayoutBuilder(builder: (context, constraints) {
+                final height = constraints.maxHeight;
+                final width = constraints.maxWidth;
+                developer
+                    .log("Therapy's Image height: $height \n width: $width");
+                return Container(
+                  height: 200,
+                  padding: EdgeInsets.only(bottom: 5),
+                  decoration: BoxDecoration(
+                      color: Colors.white,
+                      borderRadius: BorderRadius.circular(15),
+                      image: DecorationImage(
+                        image: CachedNetworkImageProvider(
+                          category.image,
+                          cacheKey: category.image,
+                          maxHeight: height.round(),
+                          maxWidth: width.round(),
+                        ),
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                            blurRadius: 3,
+                            offset: Offset(5, 5),
+                            color:
+                                color.AppColor.gradientSecond.withOpacity(0.1)),
+                        BoxShadow(
+                            blurRadius: 3,
+                            offset: Offset(-5, -5),
+                            color:
+                                color.AppColor.gradientSecond.withOpacity(0.1))
+                      ]),
+                  child: Center(
+                    child: Align(
+                      child: Text("",
+                          style: TextStyle(
+                              fontSize: 20,
+                              color: color.AppColor.homePageDetail)),
+                      alignment: Alignment.topCenter,
                     ),
-                    boxShadow: [
-                      BoxShadow(
-                          blurRadius: 3,
-                          offset: Offset(5, 5),
-                          color:
-                              color.AppColor.gradientSecond.withOpacity(0.1)),
-                      BoxShadow(
-                          blurRadius: 3,
-                          offset: Offset(-5, -5),
-                          color: color.AppColor.gradientSecond.withOpacity(0.1))
-                    ]),
-                child: Center(
-                  child: Align(
-                    child: Text("",
-                        style: TextStyle(
-                            fontSize: 20,
-                            color: color.AppColor.homePageDetail)),
-                    alignment: Alignment.topCenter,
                   ),
-                ),
-              ),
+                );
+              }),
             );
           },
           childCount: snapshot.docs.length,

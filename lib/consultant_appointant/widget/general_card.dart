@@ -1,4 +1,5 @@
 import 'dart:math';
+import 'dart:developer' as developer;
 import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
@@ -35,13 +36,20 @@ class GeneralCard extends StatelessWidget {
                     padding: const EdgeInsets.all(5),
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(5),
-                      child: Hero(
-                        tag: expertModel.photolink,
-                        child: CachedNetworkImage(
-                          imageUrl: expertModel.photolink,
-                          fit: BoxFit.cover,
-                        ),
-                      ),
+                      child: LayoutBuilder(builder: (context, constraints) {
+                        developer.log(
+                            "General Card's height: ${constraints.maxHeight} \n width: ${constraints.maxWidth}");
+                        return Hero(
+                          tag: expertModel.photolink,
+                          child: CachedNetworkImage(
+                            cacheKey: expertModel.photolink,
+                            width: constraints.maxWidth,
+                            height: constraints.maxHeight,
+                            imageUrl: expertModel.photolink,
+                            fit: BoxFit.cover,
+                          ),
+                        );
+                      }),
                     ),
                   ),
                 ),

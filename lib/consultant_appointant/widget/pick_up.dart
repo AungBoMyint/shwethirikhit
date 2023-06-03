@@ -21,11 +21,14 @@ class PickUp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final isTablet = MediaQuery.of(context).size.width > 400;
+    final size = MediaQuery.of(context).size;
+    final isTablet = size.width > 400;
+    final width = size.width - 40;
+    final height = isTablet ? 500.0 : 220.0;
     final HomeController _homeController = Get.find();
     return Container(
-      width: MediaQuery.of(context).size.width - 40,
-      height: isTablet ? 500 : 220,
+      width: width,
+      height: height,
       margin: EdgeInsets.only(right: 20),
       child: Card(
         elevation: 2,
@@ -37,9 +40,10 @@ class PickUp extends StatelessWidget {
             ClipRRect(
               borderRadius: BorderRadius.circular(10),
               child: CachedNetworkImage(
+                cacheKey: category.image,
                 imageUrl: category.image,
-                width: MediaQuery.of(context).size.width - 40,
-                height: isTablet ? 500 : 220,
+                width: width,
+                height: height,
                 fit: BoxFit.cover,
               ),
             ),

@@ -19,7 +19,7 @@ publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 version: 1.0.0+1
 
 environment:
-  sdk: '>=2.19.4 <3.0.0'
+  sdk: '>=2.18.0 <3.0.0'
 
 # Dependencies specify other packages that your package needs in order to work.
 # To automatically upgrade your package dependencies to the latest versions
@@ -28,7 +28,7 @@ environment:
 # the latest version available on pub.dev. To see which dependencies have newer
 # versions available, run `flutter pub outdated`.
 dependencies:
-  analyzer: ^5.2.0
+  analyzer: ^3.0.0
   audio_video_progress_bar: ^1.0.1
   audioplayers: ^4.0.1
   auto_orientation: ^2.2.1
@@ -46,6 +46,7 @@ dependencies:
   connectivity_plus: null
   connectivity_plus_web: ^1.2.5
   cupertino_icons: ^1.0.2
+  dart_code_metrics: ^4.16.0
   dartz: ^0.10.1
   dio: ^5.1.2
   firebase_auth: ^4.1.0
@@ -56,7 +57,7 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_html: ^3.0.0-alpha.6
-  flutter_launcher_icons: ^0.13.1
+  flutter_launcher_icons: ^0.10.0
   flutter_local_notifications: ^14.0.0+2
   flutter_math_fork: null
   flutter_pollfish: ^4.1.0
@@ -70,8 +71,8 @@ dependencies:
   flutterfire_ui: ^0.4.3+20
   fluttertoast: ^8.1.1
   font_awesome_flutter: ^10.2.1
-  freezed: ^2.3.4
-  freezed_annotation: ^2.2.0
+  freezed: ^1.1.1
+  freezed_annotation: ^1.0.0
   fwfh_text_style: ^2.7.3+1
   get: ^4.6.1
   google_fonts: ^4.0.4
@@ -95,7 +96,7 @@ dependencies:
   path_provider: ^2.0.9
   photo_view: ^0.14.0
   provider: ^6.0.0
-  rive: ^0.11.0
+  rive: ^0.9.1
   rounded_loading_button: ^2.1.0
   share_plus: ^6.1.0
   shared_preferences: ^2.0.5
@@ -116,7 +117,6 @@ dependency_overrides:
 
 dev_dependencies:
   build_runner: ^2.1.8
-  dart_code_metrics: ^5.7.3
   flutter_test:
     sdk: flutter
   json_serializable: ^6.1.5
