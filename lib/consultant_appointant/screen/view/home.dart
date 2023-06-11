@@ -17,7 +17,6 @@ class HomeView extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final MainController mainController = Get.find();
     int current = 0;
     final isTablet = MediaQuery.of(context).size.width > 510;
     final HomeController _homeController = Get.find();

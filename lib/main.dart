@@ -19,7 +19,6 @@ import 'package:kzn/ui/routes/tnc_route.dart';
 import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:provider/provider.dart';
 import 'affirmations/controller/aff_home_controller.dart';
-import 'controller/main_controller.dart';
 import 'intro/intro_one_screen.dart';
 import 'therapy/therapy_controller.dart';
 import 'ui/routes/enroll_form_route.dart';
@@ -62,7 +61,7 @@ Future<void> main() async {
 class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    Get.put(MainController()); //Make Globle,
+    /* Get.put(MainController());  */ //Make Globle,
     Get.put(HomeController());
     Get.put(VlogController());
     Get.put(TherapyController());
@@ -89,4 +88,3 @@ class MyApp extends StatelessWidget {
         });
   }
 }
-

@@ -2,6 +2,7 @@ import 'dart:async';
 import 'dart:developer';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../affirmations/models/music.dart';
@@ -19,6 +20,7 @@ import '../service/database.dart';
 import '../../model/category.dart';
 
 class HomeController extends GetxController {
+  var currentIndex = 1.obs;
   final Auth _auth = Auth();
   final Database _database = Database();
   //--All Data List
@@ -50,7 +52,7 @@ class HomeController extends GetxController {
   final RxString _codeSentId = ''.obs;
   final RxInt _codeSentToken = 0.obs;
 
-  Future<void> login() async {
+  /*  Future<void> login() async {
     try {
       if (_codeSentId.value.isNotEmpty || phoneState.value) {
         await confirm();
@@ -95,7 +97,7 @@ class HomeController extends GetxController {
       print("logout error is $e");
     }
   }
-
+ */
   // Future<void> uploadProfile() async {
   //   try {
   //     final XFile? _file =
@@ -123,7 +125,7 @@ class HomeController extends GetxController {
   //     print("profile upload error $e");
   //   }
   // }
-
+  void changeCurrentIndex(int v) => currentIndex.value = v;
   @override
   void onInit() {
     super.onInit();
@@ -133,7 +135,7 @@ class HomeController extends GetxController {
 // Lorem aliquip nostrud laboris esse eu proident eu sit consectetur commodo sint. Sit commodo ut amet cillum. Consectetur occaecat aliquip consectetur cillum.
 
 // Deserunt anim nisi esse pariatur exercitation esse quis quis et sunt magna aliqua. Nulla nisi commodo nulla et magna labore duis culpa esse duis reprehenderit aute id irure. Do est adipisicing laboris tempor duis ipsum.
-
+/* 
     _auth.onAuthChange().listen((_) async {
       if (_ == null) {
         authorized.value = false;
@@ -162,6 +164,7 @@ class HomeController extends GetxController {
       }
     });
 
+    */
     _vlogVideoListener();
     /*   _homeCategoryListener(); */
     /* _affirmationsCategoryListener(); */
@@ -215,13 +218,21 @@ class HomeController extends GetxController {
         }
       }); */
 
-  _vlogVideoListener() => vlogVideoQuery.snapshots().listen((event) {
+  _vlogVideoListener() => vlogVideoQuery.snapshots().listen((event) async {
         if (event.docs.isEmpty) {
           vlogVideos.clear();
         } else {
-          vlogVideos.value = event.docs.map((e) => e.data()).toList();
+          vlogVideos.value = await compute(parseVlogVideos, event.docs);
         }
       });
+
+  FutureOr<List<VlogVideo>> parseVlogVideos(
+      List<QueryDocumentSnapshot<VlogVideo>> message) {
+    return message.map((e) => e.data()).toList();
+  }
+  /* parseVlogVideo() {
+    event.docs.map((e) => e.data()).toList();
+  } */
 
 /*   _therapyVideoListener() => therapyVideoQuery.snapshots().listen((event) {
         if (event.docs.isEmpty) {
