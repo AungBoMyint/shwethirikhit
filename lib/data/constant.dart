@@ -98,6 +98,25 @@ const Map<String, dynamic> paymentAccMap = {
   "5": "099 6790 6768 (AYA Pay)",
 };
 
+const List<String> yearsList = [
+  "Under 18",
+  "Between 18 and 24",
+  "Between 25 and 34",
+  "Between 35 and 44",
+  "Between 45 and 54",
+  "Above 55",
+];
+
+const List<String> areasList = [
+  "Creating the life I desire",
+  "Becoming more joyful",
+  "Improving Self-Esteem",
+  "Becoming more successful",
+  "Eliminating Negative Self Talk",
+  "Healing Inner Child",
+  "Building Good Habits",
+];
+
 //Theme
 const inputLabel = TextStyle(
   color: Colors.black,

@@ -25,6 +25,10 @@ class _$StringValidatorTearOff {
   _EmptyOrNull emptyOrNull() {
     return _EmptyOrNull();
   }
+
+  _TooShort tooShort() {
+    return _TooShort();
+  }
 }
 
 /// @nodoc
@@ -36,18 +40,21 @@ mixin _$StringValidator {
   TResult when<TResult extends Object?>({
     required TResult Function() valid,
     required TResult Function() emptyOrNull,
+    required TResult Function() tooShort,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? valid,
     TResult Function()? emptyOrNull,
+    TResult Function()? tooShort,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? valid,
     TResult Function()? emptyOrNull,
+    TResult Function()? tooShort,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -55,18 +62,21 @@ mixin _$StringValidator {
   TResult map<TResult extends Object?>({
     required TResult Function(_Valid value) valid,
     required TResult Function(_EmptyOrNull value) emptyOrNull,
+    required TResult Function(_TooShort value) tooShort,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Valid value)? valid,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
+    TResult Function(_TooShort value)? tooShort,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Valid value)? valid,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
+    TResult Function(_TooShort value)? tooShort,
     required TResult orElse(),
   }) =>
       throw _privateConstructorUsedError;
@@ -129,6 +139,7 @@ class _$_Valid implements _Valid {
   TResult when<TResult extends Object?>({
     required TResult Function() valid,
     required TResult Function() emptyOrNull,
+    required TResult Function() tooShort,
   }) {
     return valid();
   }
@@ -138,6 +149,7 @@ class _$_Valid implements _Valid {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? valid,
     TResult Function()? emptyOrNull,
+    TResult Function()? tooShort,
   }) {
     return valid?.call();
   }
@@ -147,6 +159,7 @@ class _$_Valid implements _Valid {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? valid,
     TResult Function()? emptyOrNull,
+    TResult Function()? tooShort,
     required TResult orElse(),
   }) {
     if (valid != null) {
@@ -160,6 +173,7 @@ class _$_Valid implements _Valid {
   TResult map<TResult extends Object?>({
     required TResult Function(_Valid value) valid,
     required TResult Function(_EmptyOrNull value) emptyOrNull,
+    required TResult Function(_TooShort value) tooShort,
   }) {
     return valid(this);
   }
@@ -169,6 +183,7 @@ class _$_Valid implements _Valid {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Valid value)? valid,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
+    TResult Function(_TooShort value)? tooShort,
   }) {
     return valid?.call(this);
   }
@@ -178,6 +193,7 @@ class _$_Valid implements _Valid {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Valid value)? valid,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
+    TResult Function(_TooShort value)? tooShort,
     required TResult orElse(),
   }) {
     if (valid != null) {
@@ -234,6 +250,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   TResult when<TResult extends Object?>({
     required TResult Function() valid,
     required TResult Function() emptyOrNull,
+    required TResult Function() tooShort,
   }) {
     return emptyOrNull();
   }
@@ -243,6 +260,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   TResult? whenOrNull<TResult extends Object?>({
     TResult Function()? valid,
     TResult Function()? emptyOrNull,
+    TResult Function()? tooShort,
   }) {
     return emptyOrNull?.call();
   }
@@ -252,6 +270,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   TResult maybeWhen<TResult extends Object?>({
     TResult Function()? valid,
     TResult Function()? emptyOrNull,
+    TResult Function()? tooShort,
     required TResult orElse(),
   }) {
     if (emptyOrNull != null) {
@@ -265,6 +284,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   TResult map<TResult extends Object?>({
     required TResult Function(_Valid value) valid,
     required TResult Function(_EmptyOrNull value) emptyOrNull,
+    required TResult Function(_TooShort value) tooShort,
   }) {
     return emptyOrNull(this);
   }
@@ -274,6 +294,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   TResult? mapOrNull<TResult extends Object?>({
     TResult Function(_Valid value)? valid,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
+    TResult Function(_TooShort value)? tooShort,
   }) {
     return emptyOrNull?.call(this);
   }
@@ -283,6 +304,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   TResult maybeMap<TResult extends Object?>({
     TResult Function(_Valid value)? valid,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
+    TResult Function(_TooShort value)? tooShort,
     required TResult orElse(),
   }) {
     if (emptyOrNull != null) {
@@ -294,4 +316,112 @@ class _$_EmptyOrNull implements _EmptyOrNull {
 
 abstract class _EmptyOrNull implements StringValidator {
   factory _EmptyOrNull() = _$_EmptyOrNull;
+}
+
+/// @nodoc
+abstract class _$TooShortCopyWith<$Res> {
+  factory _$TooShortCopyWith(_TooShort value, $Res Function(_TooShort) then) =
+      __$TooShortCopyWithImpl<$Res>;
+}
+
+/// @nodoc
+class __$TooShortCopyWithImpl<$Res> extends _$StringValidatorCopyWithImpl<$Res>
+    implements _$TooShortCopyWith<$Res> {
+  __$TooShortCopyWithImpl(_TooShort _value, $Res Function(_TooShort) _then)
+      : super(_value, (v) => _then(v as _TooShort));
+
+  @override
+  _TooShort get _value => super._value as _TooShort;
+}
+
+/// @nodoc
+
+class _$_TooShort implements _TooShort {
+  _$_TooShort();
+
+  @override
+  String toString() {
+    return 'StringValidator.tooShort()';
+  }
+
+  @override
+  bool operator ==(dynamic other) {
+    return identical(this, other) ||
+        (other.runtimeType == runtimeType && other is _TooShort);
+  }
+
+  @override
+  int get hashCode => runtimeType.hashCode;
+
+  @override
+  @optionalTypeArgs
+  TResult when<TResult extends Object?>({
+    required TResult Function() valid,
+    required TResult Function() emptyOrNull,
+    required TResult Function() tooShort,
+  }) {
+    return tooShort();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? whenOrNull<TResult extends Object?>({
+    TResult Function()? valid,
+    TResult Function()? emptyOrNull,
+    TResult Function()? tooShort,
+  }) {
+    return tooShort?.call();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeWhen<TResult extends Object?>({
+    TResult Function()? valid,
+    TResult Function()? emptyOrNull,
+    TResult Function()? tooShort,
+    required TResult orElse(),
+  }) {
+    if (tooShort != null) {
+      return tooShort();
+    }
+    return orElse();
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult map<TResult extends Object?>({
+    required TResult Function(_Valid value) valid,
+    required TResult Function(_EmptyOrNull value) emptyOrNull,
+    required TResult Function(_TooShort value) tooShort,
+  }) {
+    return tooShort(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult? mapOrNull<TResult extends Object?>({
+    TResult Function(_Valid value)? valid,
+    TResult Function(_EmptyOrNull value)? emptyOrNull,
+    TResult Function(_TooShort value)? tooShort,
+  }) {
+    return tooShort?.call(this);
+  }
+
+  @override
+  @optionalTypeArgs
+  TResult maybeMap<TResult extends Object?>({
+    TResult Function(_Valid value)? valid,
+    TResult Function(_EmptyOrNull value)? emptyOrNull,
+    TResult Function(_TooShort value)? tooShort,
+    required TResult orElse(),
+  }) {
+    if (tooShort != null) {
+      return tooShort(this);
+    }
+    return orElse();
+  }
+}
+
+abstract class _TooShort implements StringValidator {
+  factory _TooShort() = _$_TooShort;
 }

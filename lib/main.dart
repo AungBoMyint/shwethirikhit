@@ -17,6 +17,7 @@ import 'package:kzn/ui/routes/privacy-policy.dart';
 import 'package:kzn/ui/routes/subscription_check_route.dart';
 import 'package:kzn/ui/routes/subscription_route.dart';
 import 'package:kzn/ui/routes/tnc_route.dart';
+import 'package:kzn/utils/utils.dart';
 import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:provider/provider.dart';
 import 'affirmations/controller/aff_home_controller.dart';
@@ -64,12 +65,14 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /* Get.put(MainController());  */ //Make Globle,
-    Get.put(AuthController());
+
     Get.put(HomeController());
     Get.put(VlogController());
+    Get.put(AuthController());
     Get.put(TherapyController());
     Get.put(AffHomeController());
     return GetMaterialApp(
+        navigatorKey: globalKey,
         debugShowCheckedModeBanner: false,
         title: "Shwe Thiri Khit",
         theme: ThemeData(

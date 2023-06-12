@@ -26,6 +26,24 @@ extension container on SizedBox {
   }
 }
 
+extension listTile on ListTile {
+  Widget withColor(Color color, {BorderRadiusGeometry? borderRadius}) {
+    return Container(
+      decoration: BoxDecoration(
+        color: color,
+        borderRadius: borderRadius,
+      ),
+      child: this,
+    );
+  }
+}
+
+extension pad on Widget {
+  Widget withPadding(EdgeInsetsGeometry padding) {
+    return Padding(padding: padding, child: this);
+  }
+}
+
 extension textField on TextFormField {
   Widget withRadius(BorderRadiusGeometry borderRadius) {
     return ClipRRect(

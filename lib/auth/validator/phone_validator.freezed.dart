@@ -18,7 +18,7 @@ final _privateConstructorUsedError = UnsupportedError(
 class _$PhoneValidatorTearOff {
   const _$PhoneValidatorTearOff();
 
-  _Valid valid() {
+  _Valid invalid() {
     return _Valid();
   }
 
@@ -38,21 +38,21 @@ const $PhoneValidator = _$PhoneValidatorTearOff();
 mixin _$PhoneValidator {
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() valid,
+    required TResult Function() invalid,
     required TResult Function() lessThan,
     required TResult Function() emptyOrNull,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? valid,
+    TResult Function()? invalid,
     TResult Function()? lessThan,
     TResult Function()? emptyOrNull,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? valid,
+    TResult Function()? invalid,
     TResult Function()? lessThan,
     TResult Function()? emptyOrNull,
     required TResult orElse(),
@@ -60,21 +60,21 @@ mixin _$PhoneValidator {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Valid value) valid,
+    required TResult Function(_Valid value) invalid,
     required TResult Function(_LessThan value) lessThan,
     required TResult Function(_EmptyOrNull value) emptyOrNull,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Valid value)? valid,
+    TResult Function(_Valid value)? invalid,
     TResult Function(_LessThan value)? lessThan,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Valid value)? valid,
+    TResult Function(_Valid value)? invalid,
     TResult Function(_LessThan value)? lessThan,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
     required TResult orElse(),
@@ -122,7 +122,7 @@ class _$_Valid implements _Valid {
 
   @override
   String toString() {
-    return 'PhoneValidator.valid()';
+    return 'PhoneValidator.invalid()';
   }
 
   @override
@@ -137,33 +137,33 @@ class _$_Valid implements _Valid {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() valid,
+    required TResult Function() invalid,
     required TResult Function() lessThan,
     required TResult Function() emptyOrNull,
   }) {
-    return valid();
+    return invalid();
   }
 
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? valid,
+    TResult Function()? invalid,
     TResult Function()? lessThan,
     TResult Function()? emptyOrNull,
   }) {
-    return valid?.call();
+    return invalid?.call();
   }
 
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? valid,
+    TResult Function()? invalid,
     TResult Function()? lessThan,
     TResult Function()? emptyOrNull,
     required TResult orElse(),
   }) {
-    if (valid != null) {
-      return valid();
+    if (invalid != null) {
+      return invalid();
     }
     return orElse();
   }
@@ -171,33 +171,33 @@ class _$_Valid implements _Valid {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Valid value) valid,
+    required TResult Function(_Valid value) invalid,
     required TResult Function(_LessThan value) lessThan,
     required TResult Function(_EmptyOrNull value) emptyOrNull,
   }) {
-    return valid(this);
+    return invalid(this);
   }
 
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Valid value)? valid,
+    TResult Function(_Valid value)? invalid,
     TResult Function(_LessThan value)? lessThan,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
   }) {
-    return valid?.call(this);
+    return invalid?.call(this);
   }
 
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Valid value)? valid,
+    TResult Function(_Valid value)? invalid,
     TResult Function(_LessThan value)? lessThan,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
     required TResult orElse(),
   }) {
-    if (valid != null) {
-      return valid(this);
+    if (invalid != null) {
+      return invalid(this);
     }
     return orElse();
   }
@@ -245,7 +245,7 @@ class _$_LessThan implements _LessThan {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() valid,
+    required TResult Function() invalid,
     required TResult Function() lessThan,
     required TResult Function() emptyOrNull,
   }) {
@@ -255,7 +255,7 @@ class _$_LessThan implements _LessThan {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? valid,
+    TResult Function()? invalid,
     TResult Function()? lessThan,
     TResult Function()? emptyOrNull,
   }) {
@@ -265,7 +265,7 @@ class _$_LessThan implements _LessThan {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? valid,
+    TResult Function()? invalid,
     TResult Function()? lessThan,
     TResult Function()? emptyOrNull,
     required TResult orElse(),
@@ -279,7 +279,7 @@ class _$_LessThan implements _LessThan {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Valid value) valid,
+    required TResult Function(_Valid value) invalid,
     required TResult Function(_LessThan value) lessThan,
     required TResult Function(_EmptyOrNull value) emptyOrNull,
   }) {
@@ -289,7 +289,7 @@ class _$_LessThan implements _LessThan {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Valid value)? valid,
+    TResult Function(_Valid value)? invalid,
     TResult Function(_LessThan value)? lessThan,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
   }) {
@@ -299,7 +299,7 @@ class _$_LessThan implements _LessThan {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Valid value)? valid,
+    TResult Function(_Valid value)? invalid,
     TResult Function(_LessThan value)? lessThan,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
     required TResult orElse(),
@@ -356,7 +356,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   @override
   @optionalTypeArgs
   TResult when<TResult extends Object?>({
-    required TResult Function() valid,
+    required TResult Function() invalid,
     required TResult Function() lessThan,
     required TResult Function() emptyOrNull,
   }) {
@@ -366,7 +366,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult Function()? valid,
+    TResult Function()? invalid,
     TResult Function()? lessThan,
     TResult Function()? emptyOrNull,
   }) {
@@ -376,7 +376,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   @override
   @optionalTypeArgs
   TResult maybeWhen<TResult extends Object?>({
-    TResult Function()? valid,
+    TResult Function()? invalid,
     TResult Function()? lessThan,
     TResult Function()? emptyOrNull,
     required TResult orElse(),
@@ -390,7 +390,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   @override
   @optionalTypeArgs
   TResult map<TResult extends Object?>({
-    required TResult Function(_Valid value) valid,
+    required TResult Function(_Valid value) invalid,
     required TResult Function(_LessThan value) lessThan,
     required TResult Function(_EmptyOrNull value) emptyOrNull,
   }) {
@@ -400,7 +400,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult Function(_Valid value)? valid,
+    TResult Function(_Valid value)? invalid,
     TResult Function(_LessThan value)? lessThan,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
   }) {
@@ -410,7 +410,7 @@ class _$_EmptyOrNull implements _EmptyOrNull {
   @override
   @optionalTypeArgs
   TResult maybeMap<TResult extends Object?>({
-    TResult Function(_Valid value)? valid,
+    TResult Function(_Valid value)? invalid,
     TResult Function(_LessThan value)? lessThan,
     TResult Function(_EmptyOrNull value)? emptyOrNull,
     required TResult orElse(),

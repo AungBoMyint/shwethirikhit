@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+final GlobalKey<NavigatorState> globalKey = GlobalKey();
 verticalSpace(double? height) => SizedBox(height: height ?? 20);
 horizontalSpace(double? width) => SizedBox(width: width ?? 20);
 

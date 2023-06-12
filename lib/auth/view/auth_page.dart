@@ -3,7 +3,9 @@ import 'package:flutter/src/widgets/container.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:get/get.dart';
 import 'package:kzn/auth/controller/auth_controller.dart';
+import 'package:kzn/auth/view/auth_four.dart';
 import 'package:kzn/auth/view/auth_one.dart';
+import 'package:kzn/auth/view/auth_three.dart';
 import 'package:kzn/auth/view/auth_two.dart';
 
 import '../../therapy/colors.dart';
@@ -20,6 +22,8 @@ class _AuthPageState extends State<AuthPage> {
   final pages = [
     AuthOne(),
     AuthTwo(),
+    AuthThree(),
+    AuthFour(),
   ];
   @override
   Widget build(BuildContext context) {

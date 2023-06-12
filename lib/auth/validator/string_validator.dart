@@ -6,4 +6,5 @@ part 'string_validator.freezed.dart';
 class StringValidator with _$StringValidator {
   factory StringValidator.valid() = _Valid;
   factory StringValidator.emptyOrNull() = _EmptyOrNull;
+  factory StringValidator.tooShort() = _TooShort;
 }

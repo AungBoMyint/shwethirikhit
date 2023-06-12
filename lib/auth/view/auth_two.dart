@@ -147,7 +147,8 @@ class AuthTwo extends StatelessWidget {
                 ? phoneValidator.fold(
                     (l) => 10.h(),
                     (r) => r.map(
-                      valid: (valid) => 10.h(),
+                      invalid: (invalid) =>
+                          ErrorText(string: "Phone number is invalid."),
                       lessThan: (lessThan) =>
                           ErrorText(string: "Phone number must be 9 digits."),
                       emptyOrNull: (emptyOrNull) =>
@@ -191,28 +192,55 @@ class AuthTwo extends StatelessWidget {
               fontSize: 14,
             ),
           ),
-          5.h(),
+          10.h(),
           SizedBox(
             height: 50,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                Image.asset(
-                  AppImage.facebook,
+                ThirdPartyAuthButton(
+                  onTap: () => log("***FB Login***"),
+                  assetImage: AppImage.facebook,
                 ),
-                5.w(),
-                Image.asset(
-                  AppImage.google,
+                15.w(),
+                ThirdPartyAuthButton(
+                  onTap: () => log("***Google Login***"),
+                  assetImage: AppImage.google,
                 ),
-                5.w(),
-                Image.asset(
-                  AppImage.apple,
+                15.w(),
+                ThirdPartyAuthButton(
+                  onTap: () => log("***Apple Login***"),
+                  assetImage: AppImage.apple,
                 ),
               ],
             ),
           )
         ],
+      ),
+    );
+  }
+}
+
+class ThirdPartyAuthButton extends StatelessWidget {
+  const ThirdPartyAuthButton({
+    Key? key,
+    required this.onTap,
+    required this.assetImage,
+  }) : super(key: key);
+
+  final void Function()? onTap;
+  final String assetImage;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: ClipRRect(
+        borderRadius: BorderRadius.all(Radius.circular(100)),
+        child: Image.asset(
+          assetImage,
+        ),
       ),
     );
   }

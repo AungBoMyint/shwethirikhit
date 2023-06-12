@@ -59,6 +59,8 @@ class AuthOne extends StatelessWidget {
                 valid: (valid) => 10.h(),
                 emptyOrNull: (emptyOrNull) =>
                     ErrorText(string: "Name is required."),
+                tooShort: (tooShort) =>
+                    ErrorText(string: "Your name is too short."),
               ),
             );
           }),
