@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kzn/affirmations/widgets/widgets.dart';
+import 'package:kzn/auth/view/auth_page.dart';
 import 'package:video_player/video_player.dart';
 
 import '../bottombar.dart';
@@ -283,8 +284,10 @@ class _IntroOneScreenState extends State<IntroOneScreen>
                       child: ElevatedButton(
                         onPressed: () {
                           Navigator.of(context)
+                              .pushReplacementNamed(AuthPage.routeName);
+                          /* Navigator.of(context)
                               .pushReplacementNamed(MainRoute.routeName);
-                          vlogController.playVideo();
+                          vlogController.playVideo(); */
                         },
                         child: Text(
                           "Get Started",

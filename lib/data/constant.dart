@@ -19,6 +19,8 @@ final String appIconUrl =
 final Color tileColor = Colors.yellow;
 final Color? iconColor = Colors.indigo[900];
 final logoColor = Color.fromRGBO(85, 38, 38, 1);
+final selectedButtonColor = Color(0xFFBCAA94);
+final unSelectedButtonColor = Color(0xFFCCBFAE);
 const musicCover =
     "https://img.informer.com/articles_uploads/2/2340/cool-backgrounds-hd-music-7773.jpg";
 final String fbProtocolUrl = "fb://page/432554843785776";

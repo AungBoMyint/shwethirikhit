@@ -4,6 +4,7 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kzn/auth/view/auth_page.dart';
 import 'package:kzn/consultant_appointant/controller/home_controller.dart';
 import 'package:kzn/providers/course_provider.dart';
 import 'package:kzn/providers/subscription_provider.dart';
@@ -19,6 +20,7 @@ import 'package:kzn/ui/routes/tnc_route.dart';
 import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:provider/provider.dart';
 import 'affirmations/controller/aff_home_controller.dart';
+import 'auth/controller/auth_controller.dart';
 import 'intro/intro_one_screen.dart';
 import 'therapy/therapy_controller.dart';
 import 'ui/routes/enroll_form_route.dart';
@@ -62,6 +64,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     /* Get.put(MainController());  */ //Make Globle,
+    Get.put(AuthController());
     Get.put(HomeController());
     Get.put(VlogController());
     Get.put(TherapyController());
@@ -75,6 +78,7 @@ class MyApp extends StatelessWidget {
         home: IntroOneScreen(),
         /* initialRoute: MainRoute.routeName, */
         routes: {
+          AuthPage.routeName: (context) => AuthPage(),
           MainRoute.routeName: (context) => BottomBar(),
           LoginRoute.routeName: (context) => LoginRoute(),
           SubscriptionRoute.routeName: (context) => SubscriptionRoute(),

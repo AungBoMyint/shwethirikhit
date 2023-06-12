@@ -1,7 +1,7 @@
 // coverage:ignore-file
 // GENERATED CODE - DO NOT MODIFY BY HAND
 // ignore_for_file: type=lint
-// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target, unnecessary_question_mark
+// ignore_for_file: unused_element, deprecated_member_use, deprecated_member_use_from_same_package, use_function_type_syntax_for_parameters, unnecessary_const, avoid_init_to_null, invalid_override_different_default_values_named, prefer_expression_function_bodies, annotate_overrides, invalid_annotation_target
 
 part of 'playerstatus.dart';
 
@@ -12,7 +12,31 @@ part of 'playerstatus.dart';
 T _$identity<T>(T value) => value;
 
 final _privateConstructorUsedError = UnsupportedError(
-    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more information: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+    'It seems like you constructed your class using `MyClass._()`. This constructor is only meant to be used by freezed and you are not supposed to need it nor use it.\nPlease check the documentation here for more informations: https://github.com/rrousselGit/freezed#custom-getters-and-methods');
+
+/// @nodoc
+class _$PlayerStatusTearOff {
+  const _$PlayerStatusTearOff();
+
+  _Loading loading() {
+    return _Loading();
+  }
+
+  _Playing playing() {
+    return _Playing();
+  }
+
+  _Pause pause() {
+    return _Pause();
+  }
+
+  _Nothing nothing() {
+    return _Nothing();
+  }
+}
+
+/// @nodoc
+const $PlayerStatus = _$PlayerStatusTearOff();
 
 /// @nodoc
 mixin _$PlayerStatus {
@@ -26,10 +50,10 @@ mixin _$PlayerStatus {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function()? playing,
-    TResult? Function()? pause,
-    TResult? Function()? nothing,
+    TResult Function()? loading,
+    TResult Function()? playing,
+    TResult Function()? pause,
+    TResult Function()? nothing,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -51,10 +75,10 @@ mixin _$PlayerStatus {
       throw _privateConstructorUsedError;
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Playing value)? playing,
-    TResult? Function(_Pause value)? pause,
-    TResult? Function(_Nothing value)? nothing,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Playing value)? playing,
+    TResult Function(_Pause value)? pause,
+    TResult Function(_Nothing value)? nothing,
   }) =>
       throw _privateConstructorUsedError;
   @optionalTypeArgs
@@ -72,33 +96,32 @@ mixin _$PlayerStatus {
 abstract class $PlayerStatusCopyWith<$Res> {
   factory $PlayerStatusCopyWith(
           PlayerStatus value, $Res Function(PlayerStatus) then) =
-      _$PlayerStatusCopyWithImpl<$Res, PlayerStatus>;
+      _$PlayerStatusCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class _$PlayerStatusCopyWithImpl<$Res, $Val extends PlayerStatus>
-    implements $PlayerStatusCopyWith<$Res> {
+class _$PlayerStatusCopyWithImpl<$Res> implements $PlayerStatusCopyWith<$Res> {
   _$PlayerStatusCopyWithImpl(this._value, this._then);
 
+  final PlayerStatus _value;
   // ignore: unused_field
-  final $Val _value;
-  // ignore: unused_field
-  final $Res Function($Val) _then;
+  final $Res Function(PlayerStatus) _then;
 }
 
 /// @nodoc
-abstract class _$$_LoadingCopyWith<$Res> {
-  factory _$$_LoadingCopyWith(
-          _$_Loading value, $Res Function(_$_Loading) then) =
-      __$$_LoadingCopyWithImpl<$Res>;
+abstract class _$LoadingCopyWith<$Res> {
+  factory _$LoadingCopyWith(_Loading value, $Res Function(_Loading) then) =
+      __$LoadingCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_LoadingCopyWithImpl<$Res>
-    extends _$PlayerStatusCopyWithImpl<$Res, _$_Loading>
-    implements _$$_LoadingCopyWith<$Res> {
-  __$$_LoadingCopyWithImpl(_$_Loading _value, $Res Function(_$_Loading) _then)
-      : super(_value, _then);
+class __$LoadingCopyWithImpl<$Res> extends _$PlayerStatusCopyWithImpl<$Res>
+    implements _$LoadingCopyWith<$Res> {
+  __$LoadingCopyWithImpl(_Loading _value, $Res Function(_Loading) _then)
+      : super(_value, (v) => _then(v as _Loading));
+
+  @override
+  _Loading get _value => super._value as _Loading;
 }
 
 /// @nodoc
@@ -114,7 +137,7 @@ class _$_Loading implements _Loading {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Loading);
+        (other.runtimeType == runtimeType && other is _Loading);
   }
 
   @override
@@ -134,10 +157,10 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function()? playing,
-    TResult? Function()? pause,
-    TResult? Function()? nothing,
+    TResult Function()? loading,
+    TResult Function()? playing,
+    TResult Function()? pause,
+    TResult Function()? nothing,
   }) {
     return loading?.call();
   }
@@ -171,10 +194,10 @@ class _$_Loading implements _Loading {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Playing value)? playing,
-    TResult? Function(_Pause value)? pause,
-    TResult? Function(_Nothing value)? nothing,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Playing value)? playing,
+    TResult Function(_Pause value)? pause,
+    TResult Function(_Nothing value)? nothing,
   }) {
     return loading?.call(this);
   }
@@ -200,18 +223,19 @@ abstract class _Loading implements PlayerStatus {
 }
 
 /// @nodoc
-abstract class _$$_PlayingCopyWith<$Res> {
-  factory _$$_PlayingCopyWith(
-          _$_Playing value, $Res Function(_$_Playing) then) =
-      __$$_PlayingCopyWithImpl<$Res>;
+abstract class _$PlayingCopyWith<$Res> {
+  factory _$PlayingCopyWith(_Playing value, $Res Function(_Playing) then) =
+      __$PlayingCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_PlayingCopyWithImpl<$Res>
-    extends _$PlayerStatusCopyWithImpl<$Res, _$_Playing>
-    implements _$$_PlayingCopyWith<$Res> {
-  __$$_PlayingCopyWithImpl(_$_Playing _value, $Res Function(_$_Playing) _then)
-      : super(_value, _then);
+class __$PlayingCopyWithImpl<$Res> extends _$PlayerStatusCopyWithImpl<$Res>
+    implements _$PlayingCopyWith<$Res> {
+  __$PlayingCopyWithImpl(_Playing _value, $Res Function(_Playing) _then)
+      : super(_value, (v) => _then(v as _Playing));
+
+  @override
+  _Playing get _value => super._value as _Playing;
 }
 
 /// @nodoc
@@ -227,7 +251,7 @@ class _$_Playing implements _Playing {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Playing);
+        (other.runtimeType == runtimeType && other is _Playing);
   }
 
   @override
@@ -247,10 +271,10 @@ class _$_Playing implements _Playing {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function()? playing,
-    TResult? Function()? pause,
-    TResult? Function()? nothing,
+    TResult Function()? loading,
+    TResult Function()? playing,
+    TResult Function()? pause,
+    TResult Function()? nothing,
   }) {
     return playing?.call();
   }
@@ -284,10 +308,10 @@ class _$_Playing implements _Playing {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Playing value)? playing,
-    TResult? Function(_Pause value)? pause,
-    TResult? Function(_Nothing value)? nothing,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Playing value)? playing,
+    TResult Function(_Pause value)? pause,
+    TResult Function(_Nothing value)? nothing,
   }) {
     return playing?.call(this);
   }
@@ -313,17 +337,19 @@ abstract class _Playing implements PlayerStatus {
 }
 
 /// @nodoc
-abstract class _$$_PauseCopyWith<$Res> {
-  factory _$$_PauseCopyWith(_$_Pause value, $Res Function(_$_Pause) then) =
-      __$$_PauseCopyWithImpl<$Res>;
+abstract class _$PauseCopyWith<$Res> {
+  factory _$PauseCopyWith(_Pause value, $Res Function(_Pause) then) =
+      __$PauseCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_PauseCopyWithImpl<$Res>
-    extends _$PlayerStatusCopyWithImpl<$Res, _$_Pause>
-    implements _$$_PauseCopyWith<$Res> {
-  __$$_PauseCopyWithImpl(_$_Pause _value, $Res Function(_$_Pause) _then)
-      : super(_value, _then);
+class __$PauseCopyWithImpl<$Res> extends _$PlayerStatusCopyWithImpl<$Res>
+    implements _$PauseCopyWith<$Res> {
+  __$PauseCopyWithImpl(_Pause _value, $Res Function(_Pause) _then)
+      : super(_value, (v) => _then(v as _Pause));
+
+  @override
+  _Pause get _value => super._value as _Pause;
 }
 
 /// @nodoc
@@ -339,7 +365,7 @@ class _$_Pause implements _Pause {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Pause);
+        (other.runtimeType == runtimeType && other is _Pause);
   }
 
   @override
@@ -359,10 +385,10 @@ class _$_Pause implements _Pause {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function()? playing,
-    TResult? Function()? pause,
-    TResult? Function()? nothing,
+    TResult Function()? loading,
+    TResult Function()? playing,
+    TResult Function()? pause,
+    TResult Function()? nothing,
   }) {
     return pause?.call();
   }
@@ -396,10 +422,10 @@ class _$_Pause implements _Pause {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Playing value)? playing,
-    TResult? Function(_Pause value)? pause,
-    TResult? Function(_Nothing value)? nothing,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Playing value)? playing,
+    TResult Function(_Pause value)? pause,
+    TResult Function(_Nothing value)? nothing,
   }) {
     return pause?.call(this);
   }
@@ -425,18 +451,19 @@ abstract class _Pause implements PlayerStatus {
 }
 
 /// @nodoc
-abstract class _$$_NothingCopyWith<$Res> {
-  factory _$$_NothingCopyWith(
-          _$_Nothing value, $Res Function(_$_Nothing) then) =
-      __$$_NothingCopyWithImpl<$Res>;
+abstract class _$NothingCopyWith<$Res> {
+  factory _$NothingCopyWith(_Nothing value, $Res Function(_Nothing) then) =
+      __$NothingCopyWithImpl<$Res>;
 }
 
 /// @nodoc
-class __$$_NothingCopyWithImpl<$Res>
-    extends _$PlayerStatusCopyWithImpl<$Res, _$_Nothing>
-    implements _$$_NothingCopyWith<$Res> {
-  __$$_NothingCopyWithImpl(_$_Nothing _value, $Res Function(_$_Nothing) _then)
-      : super(_value, _then);
+class __$NothingCopyWithImpl<$Res> extends _$PlayerStatusCopyWithImpl<$Res>
+    implements _$NothingCopyWith<$Res> {
+  __$NothingCopyWithImpl(_Nothing _value, $Res Function(_Nothing) _then)
+      : super(_value, (v) => _then(v as _Nothing));
+
+  @override
+  _Nothing get _value => super._value as _Nothing;
 }
 
 /// @nodoc
@@ -452,7 +479,7 @@ class _$_Nothing implements _Nothing {
   @override
   bool operator ==(dynamic other) {
     return identical(this, other) ||
-        (other.runtimeType == runtimeType && other is _$_Nothing);
+        (other.runtimeType == runtimeType && other is _Nothing);
   }
 
   @override
@@ -472,10 +499,10 @@ class _$_Nothing implements _Nothing {
   @override
   @optionalTypeArgs
   TResult? whenOrNull<TResult extends Object?>({
-    TResult? Function()? loading,
-    TResult? Function()? playing,
-    TResult? Function()? pause,
-    TResult? Function()? nothing,
+    TResult Function()? loading,
+    TResult Function()? playing,
+    TResult Function()? pause,
+    TResult Function()? nothing,
   }) {
     return nothing?.call();
   }
@@ -509,10 +536,10 @@ class _$_Nothing implements _Nothing {
   @override
   @optionalTypeArgs
   TResult? mapOrNull<TResult extends Object?>({
-    TResult? Function(_Loading value)? loading,
-    TResult? Function(_Playing value)? playing,
-    TResult? Function(_Pause value)? pause,
-    TResult? Function(_Nothing value)? nothing,
+    TResult Function(_Loading value)? loading,
+    TResult Function(_Playing value)? playing,
+    TResult Function(_Pause value)? pause,
+    TResult Function(_Nothing value)? nothing,
   }) {
     return nothing?.call(this);
   }
