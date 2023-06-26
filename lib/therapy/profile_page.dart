@@ -20,6 +20,9 @@ class ProfilePage extends StatelessWidget {
         automaticallyImplyLeading: true,
         backgroundColor: Color(0xFFEAE1D7),
         elevation: 0,
+        iconTheme: IconThemeData(
+          color: Colors.black,
+        ),
       ),
       body: Obx(() {
         final profile = _authController.currentUser.value?.avatar;
@@ -29,6 +32,7 @@ class ProfilePage extends StatelessWidget {
         return Center(
           child: Column(
             children: [
+              verticalSpace(25),
               //Profile Avatar
 
               profile == null
@@ -36,13 +40,13 @@ class ProfilePage extends StatelessWidget {
                       backgroundColor: Colors.white,
                       backgroundImage: AssetImage('assets/user.png'),
                       radius: 100,
-                      child: changeIconWidget(),
+                      /* child: changeIconWidget(), */
                     )
                   : CircleAvatar(
                       backgroundColor: Colors.white,
                       backgroundImage: NetworkImage(profile),
                       radius: 100,
-                      child: changeIconWidget(),
+                      /* child: changeIconWidget(), */
                     ),
               verticalSpace(25),
               Text(

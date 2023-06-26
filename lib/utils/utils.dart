@@ -60,13 +60,11 @@ showLoading(BuildContext context) {
           child: SizedBox(
         height: 50,
         width: 100,
-        child: Card(
-          child: Center(
-            child: LoadingAnimationWidget.flickr(
-              leftDotColor: const Color(0xFF1A1A3F),
-              rightDotColor: mainColor,
-              size: 50,
-            ),
+        child: Center(
+          child: LoadingAnimationWidget.flickr(
+            leftDotColor: const Color(0xFF1A1A3F),
+            rightDotColor: mainColor,
+            size: 50,
           ),
         ),
       ));

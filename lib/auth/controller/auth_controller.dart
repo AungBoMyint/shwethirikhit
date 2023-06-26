@@ -1,11 +1,15 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:developer';
+import 'dart:math';
 
+import 'package:crypto/crypto.dart';
 import 'package:dartz/dartz.dart';
 import 'package:email_validator/email_validator.dart' as package;
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 import 'package:kzn/auth/validator/multiple_choose_validator.dart';
 import 'package:kzn/auth/validator/phone_validator.dart';
 import 'package:kzn/auth/view/auth_page.dart';
@@ -17,6 +21,7 @@ import 'package:kzn/services/database/reference.dart';
 import 'package:kzn/utils/utils.dart';
 import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:pinput/pinput.dart';
+import 'package:sign_in_with_apple/sign_in_with_apple.dart';
 
 import '../../ui/routes/main_route.dart';
 import '../validator/choose_one_validator.dart';
@@ -112,7 +117,6 @@ class AuthController extends GetxController {
   }
 
   void onPageChanged(int v) {
-    log("Change Page");
     switch (v) {
       case 1:
         validateString(nameController.text);
@@ -199,6 +203,85 @@ class AuthController extends GetxController {
         (error, stackTrace) => errorSnap("Something was wrong with $error!."));
   }
 
+  //Apple Sign In
+  /// Generates a cryptographically secure random nonce, to be included in a
+  /// credential request.
+  String generateNonce([int length = 32]) {
+    final charset =
+        '0123456789ABCDEFGHIJKLMNOPQRSTUVXYZabcdefghijklmnopqrstuvwxyz-._';
+    final random = Random.secure();
+    return List.generate(length, (_) => charset[random.nextInt(charset.length)])
+        .join();
+  }
+
+  /// Returns the sha256 hash of [input] in hex notation.
+  String sha256ofString(String input) {
+    final bytes = utf8.encode(input);
+    final digest = sha256.convert(bytes);
+    return digest.toString();
+  }
+
+  Future<void> signInWithApple() async {
+    // To prevent replay attacks with the credential returned from Apple, we
+    // include a nonce in the credential request. When signing in with
+    // Firebase, the nonce in the id token returned by Apple, is expected to
+    // match the sha256 hash of `rawNonce`.
+    final rawNonce = generateNonce();
+    final nonce = sha256ofString(rawNonce);
+    showLoading(globalKey.currentState!.context);
+    // Request credential for the currently signed in Apple account.
+    try {
+      final appleCredential = await SignInWithApple.getAppleIDCredential(
+        scopes: [
+          AppleIDAuthorizationScopes.email,
+          AppleIDAuthorizationScopes.fullName,
+        ],
+        nonce: nonce,
+      );
+
+      // Create an `OAuthCredential` from the credential returned by Apple.
+      final oauthCredential = OAuthProvider("apple.com").credential(
+        idToken: appleCredential.identityToken,
+        rawNonce: rawNonce,
+      );
+
+      // Sign in the user with Firebase. If the nonce we generated earlier does
+      // not match the nonce in `appleCredential.identityToken`, sign in will fail.
+      await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+      hideLoading(globalKey.currentState!.context);
+      await whethreEmailSignInOrNot();
+    } catch (e) {
+      hideLoading(globalKey.currentState!.context);
+    }
+  }
+
+  //Google Sign in
+  Future<void> signInWithGoogle() async {
+    showLoading(globalKey.currentState!.context);
+    try {
+      // Trigger the authentication flow
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+      // Obtain the auth details from the request
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
+
+      // Create a new credential
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
+
+      // Once signed in, return the UserCredential
+      await FirebaseAuth.instance.signInWithCredential(credential);
+      hideLoading(globalKey.currentState!.context);
+      await whethreEmailSignInOrNot();
+    } catch (e) {
+      hideLoading(globalKey.currentState!.context);
+      errorSnap("$e");
+    }
+  }
+
   //Email Auth
   Future<void> startEmailSignIn({required String password}) async {
     showLoading(globalKey.currentState!.context);
@@ -213,22 +296,29 @@ class AuthController extends GetxController {
           email: emailController.text,
           password: password,
         );
-        hideLoading(globalKey.currentState!.context);
-        Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
+        //hideLoading(globalKey.currentState!.context);
+        /* Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
             MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
-        vlogController.playVideo();
+        vlogController.playVideo(); */
       } else {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: password,
         );
-        hideLoading(globalKey.currentState!.context);
+        /* hideLoading(globalKey.currentState!.context);
         pageController.jumpToPage(2);
         Navigator.popUntil(
           globalKey.currentState!.context,
           ModalRoute.withName(AuthPage.routeName),
-        );
+        ); */
       }
+
+      hideLoading(globalKey.currentState!.context);
+      pageController.jumpToPage(2);
+      Navigator.popUntil(
+        globalKey.currentState!.context,
+        ModalRoute.withName(AuthPage.routeName),
+      );
     } on FirebaseAuthException catch (e) {
       hideLoading(globalKey.currentState!.context);
       if (e.code == 'weak-password') {
@@ -248,7 +338,7 @@ class AuthController extends GetxController {
   }
 
   Future<void> whethrePhoneSignInOrNot() async {
-    final userRef = await userCollection()
+    /* final userRef = await userCollection()
         .where("phone", isEqualTo: phoneController.text)
         .get();
     final userAlreadyExists = userRef.docs.isNotEmpty;
@@ -257,14 +347,34 @@ class AuthController extends GetxController {
       Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
           MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
       vlogController.playVideo();
-    } else {
-      //means create new
-      pageController.jumpToPage(2);
-      Navigator.popUntil(
-        globalKey.currentState!.context,
-        ModalRoute.withName(AuthPage.routeName),
-      );
-    }
+    } else { */
+    //means create new
+    pageController.jumpToPage(2);
+    Navigator.popUntil(
+      globalKey.currentState!.context,
+      ModalRoute.withName(AuthPage.routeName),
+    );
+    /*  } */
+  }
+
+  Future<void> whethreEmailSignInOrNot() async {
+    /*  final userRef = await userCollection()
+        .where("email", isEqualTo: currentUser.value?.email ?? "")
+        .get();
+    final userAlreadyExists = userRef.docs.isNotEmpty;
+    if (userAlreadyExists) {
+      //means log in
+      Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
+          MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
+      vlogController.playVideo();
+    } else { */
+    //means create new
+    pageController.jumpToPage(2);
+    Navigator.popUntil(
+      globalKey.currentState!.context,
+      ModalRoute.withName(AuthPage.routeName),
+    );
+    /*   } */
   }
 
   //Phone Auth
@@ -310,7 +420,7 @@ class AuthController extends GetxController {
         );
       },
       codeAutoRetrievalTimeout: (String verificationId) {
-        log("Code AutoRetrieve Timeout: $verificationId");
+        print("****Code AutoRetrieve Timeout: $verificationId");
       },
     );
   }
@@ -327,8 +437,9 @@ class AuthController extends GetxController {
             id: user.uid,
             name: nameController.text,
             isActive: false,
-            phone: phoneController.text,
-            email: emailController.text,
+            avatar: user.photoURL,
+            phone: user.phoneNumber ?? phoneController.text,
+            email: user.email ?? emailController.text,
             areas: multipleChoose,
             age: chooseOne.value,
           );

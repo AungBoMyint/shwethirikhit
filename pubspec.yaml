@@ -78,7 +78,8 @@ dependencies:
   get: ^4.6.1
   google_fonts: ^4.0.4
   google_nav_bar: ^5.0.5
-  google_sign_in: ^5.2.1
+  google_sign_in: ^5.2.1 
+  
   http: ^0.13.4
   image_picker: ^0.8.4+3
   intro_slider: ^4.2.0
@@ -114,7 +115,10 @@ dependencies:
   pinput: ^2.2.31
   timer_count_down: ^2.2.2
   loading_animation_widget: ^1.2.0+4
-
+  crypto: ^3.0.3
+  sign_in_with_apple: ^3.3.0
+  
+  
 dependency_overrides:
   image_picker_android: 0.8.4+13
   #firebase_core_platform_interface: 4.4.1

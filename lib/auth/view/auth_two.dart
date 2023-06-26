@@ -205,18 +205,18 @@ class AuthTwo extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                ThirdPartyAuthButton(
+                /* ThirdPartyAuthButton(
                   onTap: () => log("***FB Login***"),
                   assetImage: AppImage.facebook,
                 ),
-                15.w(),
+                15.w(), */
                 ThirdPartyAuthButton(
-                  onTap: () => log("***Google Login***"),
+                  onTap: () => authController.signInWithGoogle(),
                   assetImage: AppImage.google,
                 ),
                 15.w(),
                 ThirdPartyAuthButton(
-                  onTap: () => log("***Apple Login***"),
+                  onTap: () => authController.signInWithGoogle(),
                   assetImage: AppImage.apple,
                 ),
               ],
