@@ -4,7 +4,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:get/get.dart';
+import 'package:kzn/auth/controller/auth_controller.dart';
 import 'package:kzn/model/category.dart';
+import 'package:kzn/therapy/profile_page.dart';
 import 'package:kzn/therapy/therapy_video.dart';
 import 'package:shimmer/shimmer.dart';
 import '../consultant_appointant/controller/home_controller.dart';
@@ -25,6 +27,7 @@ class Therapy extends StatefulWidget {
 class _TherapyState extends State<Therapy> {
   @override
   Widget build(BuildContext context) {
+    final AuthController _authController = Get.find();
     final HomeController _homeController = Get.find();
     return SafeArea(
         child: Scaffold(
@@ -40,14 +43,26 @@ class _TherapyState extends State<Therapy> {
               margin: EdgeInsets.only(top: 30),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    backgroundImage: new AssetImage('assets/user.png'),
-                    radius: 15,
-                    // child: new Container(
-                    //   padding: const EdgeInsets.all(0.0),
-                    //   child: new Text('Sight'),
-                    // ),
+                  InkWell(
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      ProfilePage.routeName,
+                    ),
+                    child: Obx(() {
+                      final profile = _authController.currentUser.value?.avatar;
+
+                      return profile == null
+                          ? CircleAvatar(
+                              backgroundColor: Colors.white,
+                              backgroundImage: AssetImage('assets/user.png'),
+                              radius: 15,
+                            )
+                          : CircleAvatar(
+                              backgroundColor: Colors.white,
+                              backgroundImage: NetworkImage(profile),
+                              radius: 15,
+                            );
+                    }),
                   ),
                   SizedBox(
                     width: 20,

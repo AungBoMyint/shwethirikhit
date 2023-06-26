@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:kzn/data/constant.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 final GlobalKey<NavigatorState> globalKey = GlobalKey();
 verticalSpace(double? height) => SizedBox(height: height ?? 20);
@@ -45,4 +48,58 @@ ElevatedButton button(
       ),
     ),
   );
+}
+
+showLoading(BuildContext context) {
+  showGeneralDialog(
+    context: context,
+    barrierDismissible: false,
+    barrierColor: Colors.white.withOpacity(0),
+    pageBuilder: (context, __, ___) {
+      return Center(
+          child: SizedBox(
+        height: 50,
+        width: 100,
+        child: Card(
+          child: Center(
+            child: LoadingAnimationWidget.flickr(
+              leftDotColor: const Color(0xFF1A1A3F),
+              rightDotColor: mainColor,
+              size: 50,
+            ),
+          ),
+        ),
+      ));
+    },
+  );
+}
+
+hideLoading(BuildContext context) {
+  Navigator.of(context).pop();
+}
+
+successSnap(String title, {String? message}) {
+  Get.snackbar(
+    title,
+    message ?? "",
+    backgroundColor: Colors.green,
+    colorText: Colors.white,
+  );
+}
+
+errorSnap(String title, {String? message}) {
+  ScaffoldMessenger.of(globalKey.currentState!.context).showSnackBar(
+    SnackBar(
+        content: Text(
+      title,
+    )),
+  );
+}
+
+String? stringValidator(String key, String? value) {
+  if (value == null || value.isEmpty) {
+    return "$key is required.";
+  } else {
+    return null;
+  }
 }

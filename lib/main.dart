@@ -5,10 +5,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kzn/auth/view/auth_page.dart';
+import 'package:kzn/auth/view/sms_page.dart';
 import 'package:kzn/consultant_appointant/controller/home_controller.dart';
 import 'package:kzn/providers/course_provider.dart';
 import 'package:kzn/providers/subscription_provider.dart';
 import 'package:kzn/providers/user_provider.dart';
+import 'package:kzn/therapy/profile_page.dart';
 import 'package:kzn/ui/routes/about_route.dart';
 import 'package:kzn/ui/routes/course_route.dart';
 import 'package:kzn/ui/routes/login_route.dart';
@@ -71,6 +73,7 @@ class MyApp extends StatelessWidget {
     Get.put(AuthController());
     Get.put(TherapyController());
     Get.put(AffHomeController());
+    final AuthController _authController = Get.find();
     return GetMaterialApp(
         navigatorKey: globalKey,
         debugShowCheckedModeBanner: false,
@@ -78,10 +81,15 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        home: IntroOneScreen(),
-        /* initialRoute: MainRoute.routeName, */
+        //home: IntroOneScreen(),
+        initialRoute: _authController.currentUser.value == null
+            ? IntroOneScreen.routeName
+            : MainRoute.routeName,
         routes: {
+          IntroOneScreen.routeName: (context) => IntroOneScreen(),
           AuthPage.routeName: (context) => AuthPage(),
+          SMSPage.routeName: (context) => SMSPage(),
+          ProfilePage.routeName: (context) => ProfilePage(),
           MainRoute.routeName: (context) => BottomBar(),
           LoginRoute.routeName: (context) => LoginRoute(),
           SubscriptionRoute.routeName: (context) => SubscriptionRoute(),

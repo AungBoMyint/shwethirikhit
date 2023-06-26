@@ -13,7 +13,7 @@ import '../utils/utils.dart';
 import '../vlog/vlog_controller.dart';
 
 class IntroOneScreen extends StatefulWidget {
-  static const RouteName = "intro_one_screen";
+  static const routeName = "intro_one_screen";
   const IntroOneScreen({super.key});
 
   @override
@@ -110,7 +110,6 @@ class _IntroOneScreenState extends State<IntroOneScreen>
 
   @override
   Widget build(BuildContext context) {
-    final VlogController vlogController = Get.find();
     final textPainter = TextPainter(
       text: TextSpan(
         text: "Reach Your True Potential",

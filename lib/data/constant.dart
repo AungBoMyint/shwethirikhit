@@ -132,6 +132,6 @@ const formBorder = OutlineInputBorder(
     color: Colors.grey,
   ),
 );
-
+const mainColor = Color.fromRGBO(85, 38, 38, 1);
 const enrollCollection = "enrollCollection";
 const courseCollection = "courseCollection";

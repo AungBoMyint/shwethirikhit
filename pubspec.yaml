@@ -111,6 +111,9 @@ dependencies:
   video_player: ^2.1.1
   visibility_detector: ^0.3.3
   webview_flutter: ^4.2.0
+  pinput: ^2.2.31
+  timer_count_down: ^2.2.2
+  loading_animation_widget: ^1.2.0+4
 
 dependency_overrides:
   image_picker_android: 0.8.4+13

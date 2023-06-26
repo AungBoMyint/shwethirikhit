@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:flutter/material.dart';
 import 'package:kzn/auth/controller/auth_controller.dart';
+import 'package:kzn/auth/view/sms_page.dart';
 import 'package:kzn/data/constant.dart';
 import 'package:kzn/data/image.dart';
 import 'package:kzn/utils/extensions.dart';
@@ -168,21 +169,26 @@ class AuthTwo extends StatelessWidget {
           }),
           20.h(),
           //Next button
-          SizedBox(
-            width: size.width * 0.8,
-            child: button(
-              onPressed: () => authController.onPageChanged(2),
-              text: "Next",
-              padding: 20,
-            ).withColor(
-              Colors.red,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.all(
-                  Radius.circular(10),
+          Obx(() {
+            final formIndex = authController.formIndex.value;
+            return SizedBox(
+              width: size.width * 0.8,
+              child: button(
+                onPressed: () {
+                  authController.onPageChanged(2);
+                },
+                text: "Next",
+                padding: 20,
+              ).withColor(
+                Colors.red,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(10),
+                  ),
                 ),
               ),
-            ),
-          ),
+            );
+          }),
           10.h(),
           //or sign in with
           Text(
