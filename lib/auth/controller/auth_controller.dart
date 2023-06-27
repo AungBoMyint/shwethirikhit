@@ -382,17 +382,18 @@ class AuthController extends GetxController {
   }
 
   //Phone Auth
+  bool alreadySendCode = false;
   Future<void> startPhoneSignIn({int? forceResentingToken}) async {
     final lastDigit = phoneController.text.substring(2);
     final phoneNumber = "+959" + lastDigit;
     await _firebaseAuth.verifyPhoneNumber(
       phoneNumber: phoneNumber,
-      timeout: const Duration(seconds: 30),
+      timeout: const Duration(seconds: 60),
       verificationCompleted: (PhoneAuthCredential credential) async {
-        pinController.setText(credential.smsCode!);
+        /* pinController.setText(credential.smsCode!);
         Navigator.of(globalKey.currentState!.context).pushNamed(
           SMSPage.routeName,
-        );
+        ); */
         showLoading(globalKey.currentState!.context);
         await _firebaseAuth.signInWithCredential(credential);
         hideLoading(globalKey.currentState!.context);
@@ -402,26 +403,30 @@ class AuthController extends GetxController {
         errorSnap("$e");
       },
       codeSent: (String verificationId, int? resendToken) async {
-        Navigator.of(globalKey.currentState!.context).push(
-          MaterialPageRoute(
-              builder: (context) => SMSPage(
-                    codeResend: () {
-                      startPhoneSignIn(forceResentingToken: resendToken);
-                    },
-                    submit: () async {
-                      showLoading(context);
-                      PhoneAuthCredential credential =
-                          PhoneAuthProvider.credential(
-                              verificationId: verificationId,
-                              smsCode: pinController.text);
+        if (!alreadySendCode) {
+          Navigator.of(globalKey.currentState!.context).push(
+            MaterialPageRoute(
+                builder: (context) => SMSPage(
+                      codeResend: () {
+                        alreadySendCode = false;
+                        startPhoneSignIn(forceResentingToken: resendToken);
+                      },
+                      submit: () async {
+                        alreadySendCode = true;
+                        showLoading(context);
+                        PhoneAuthCredential credential =
+                            PhoneAuthProvider.credential(
+                                verificationId: verificationId,
+                                smsCode: pinController.text);
 
-                      // Sign the user in (or link) with the credential
-                      await _firebaseAuth.signInWithCredential(credential);
-                      hideLoading(context);
-                      await whethrePhoneSignInOrNot();
-                    },
-                  )),
-        );
+                        // Sign the user in (or link) with the credential
+                        await _firebaseAuth.signInWithCredential(credential);
+                        hideLoading(context);
+                        await whethrePhoneSignInOrNot();
+                      },
+                    )),
+          );
+        }
       },
       codeAutoRetrievalTimeout: (String verificationId) {
         print("****Code AutoRetrieve Timeout: $verificationId");

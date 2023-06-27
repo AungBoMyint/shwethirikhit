@@ -117,7 +117,7 @@ class _SMSPageState extends State<SMSPage> {
               verticalSpace(25),
               isTimer
                   ? Countdown(
-                      seconds: 30,
+                      seconds: 60,
                       build: (BuildContext context, double time) =>
                           Text(time.toString()),
                       interval: Duration(seconds: 1),
