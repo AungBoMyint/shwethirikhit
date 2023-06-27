@@ -10,11 +10,13 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_sign_in/google_sign_in.dart';
+import 'package:hive/hive.dart';
 import 'package:kzn/auth/validator/multiple_choose_validator.dart';
 import 'package:kzn/auth/validator/phone_validator.dart';
 import 'package:kzn/auth/view/auth_page.dart';
 import 'package:kzn/auth/view/sms_page.dart';
 import 'package:kzn/auth/widgets/prompt_password.dart';
+import 'package:kzn/data/constant.dart';
 import 'package:kzn/data/models/auth_user.dart';
 import 'package:kzn/intro/intro_one_screen.dart';
 import 'package:kzn/services/database/reference.dart';
@@ -30,6 +32,7 @@ import '../validator/string_validator.dart';
 
 class AuthController extends GetxController {
   final _firebaseAuth = FirebaseAuth.instance;
+  final box = Hive.box(LOGIN_BOX);
   final VlogController vlogController = Get.find();
   var formIndex = 0.obs;
   Rxn<AuthUser> currentUser = Rxn<AuthUser>();
@@ -151,7 +154,6 @@ class AuthController extends GetxController {
         validateMultipleChoose();
         if (multipleChooseValidator.value!.isLeft()) {
           changeAgeAreas();
-
           return;
         }
         break;
@@ -179,16 +181,17 @@ class AuthController extends GetxController {
       },
     );
     hideLoading(globalKey.currentState!.context);
+    box.put(AUTH_KEY, true);
     Navigator.pushReplacementNamed(
       globalKey.currentState!.context,
       MainRoute.routeName,
     );
-    vlogController.playVideo();
   }
 
   //Sign Out
   Future<void> logout() async {
     await _firebaseAuth.signOut();
+    box.put(AUTH_KEY, false);
     Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
         IntroOneScreen.routeName, ModalRoute.withName(MainRoute.routeName));
   }
@@ -197,6 +200,7 @@ class AuthController extends GetxController {
   Future<void> deleteAccount() async {
     userDocument(currentUser.value!.id).delete().then((value) async {
       await _firebaseAuth.currentUser?.delete();
+      box.put(AUTH_KEY, false);
       Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
           IntroOneScreen.routeName, ModalRoute.withName(MainRoute.routeName));
     }).onError(
@@ -299,7 +303,7 @@ class AuthController extends GetxController {
         //hideLoading(globalKey.currentState!.context);
         /* Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
             MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
-        vlogController.playVideo(); */
+         */
       } else {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
@@ -346,7 +350,7 @@ class AuthController extends GetxController {
       //means log in
       Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
           MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
-      vlogController.playVideo();
+      
     } else { */
     //means create new
     pageController.jumpToPage(2);
@@ -366,7 +370,7 @@ class AuthController extends GetxController {
       //means log in
       Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
           MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
-      vlogController.playVideo();
+      
     } else { */
     //means create new
     pageController.jumpToPage(2);

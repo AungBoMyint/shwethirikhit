@@ -24,7 +24,7 @@ class PickUp extends StatelessWidget {
     final size = MediaQuery.of(context).size;
     final isTablet = size.width > 400;
     final width = size.width - 40;
-    final height = isTablet ? 500.0 : 220.0;
+    final height = isTablet ? 450.0 : 220.0;
     final HomeController _homeController = Get.find();
     return Container(
       width: width,

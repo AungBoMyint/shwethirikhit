@@ -31,6 +31,7 @@ class _MainRouteState extends State<MainRoute> {
 
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return SafeArea(
       child: Scaffold(
         backgroundColor: logoColor,
@@ -49,19 +50,6 @@ class _MainRouteState extends State<MainRoute> {
               SizedBox(
                 width: 90,
                 child: IconButton(
-                  /*  style: ButtonStyle(
-                    alignment: Alignment.center,
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
-                    elevation: MaterialStateProperty.resolveWith<double>(
-                      // As you said you dont need elevation. I'm returning 0 in both case
-                      (Set<MaterialState> states) {
-                        if (states.contains(MaterialState.disabled)) {
-                          return 0;
-                        }
-                        return 0; // Defer to the widget's default.
-                      },
-                    ),
-                  ),*/
                   onPressed: () async {
                     try {
                       await launch('https://m.me/selfmasterywithkhit');
@@ -85,65 +73,68 @@ class _MainRouteState extends State<MainRoute> {
             IntroSlider(
               photos: introSliderImages,
             ),
-            Expanded(
-              child: Container(
-                  decoration: BoxDecoration(
-                    color: Color(0xFFEAE1D7),
-                    borderRadius: BorderRadius.only(
-                      topLeft: Radius.circular(10),
-                      topRight: Radius.circular(10),
+            Container(
+              width: size.width,
+              decoration: BoxDecoration(
+                color: Color(0xFFEAE1D7),
+                borderRadius: BorderRadius.only(
+                  topLeft: Radius.circular(10),
+                  topRight: Radius.circular(10),
+                ),
+              ),
+              child: Padding(
+                padding: const EdgeInsets.only(
+                  top: 10,
+                  bottom: 10,
+                  left: 20,
+                ),
+                child: Text(
+                  "Courses for you",
+                  style: TextStyle(
+                    color: Colors.black,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+            ),
+            //Search Bar
+            Container(
+              width: size.width,
+              color: Color(0xFFEAE1D7),
+              child: SizedBox(
+                height: 50,
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 20,
+                    right: 20,
+                  ),
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.all(
+                      Radius.circular(
+                        10,
+                      ),
+                    ),
+                    child: TextFormField(
+                      decoration: InputDecoration(
+                          border: InputBorder.none,
+                          fillColor: Colors.white,
+                          filled: true,
+                          hintText: "Search",
+                          hintStyle: TextStyle(
+                            color: Colors.grey,
+                          )),
                     ),
                   ),
-                  child: ListView(
-                    shrinkWrap: true,
-                    primary: false,
-                    physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(
-                          top: 10,
-                          bottom: 10,
-                          left: 20,
-                        ),
-                        child: Text(
-                          "Courses for you",
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontWeight: FontWeight.bold,
-                            fontSize: 16,
-                          ),
-                        ),
-                      ),
-                      //Search Bar
-                      SizedBox(
-                        height: 50,
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                            left: 20,
-                            right: 20,
-                          ),
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(
-                                10,
-                              ),
-                            ),
-                            child: TextFormField(
-                              decoration: InputDecoration(
-                                  border: InputBorder.none,
-                                  fillColor: Colors.white,
-                                  filled: true,
-                                  hintText: "Search",
-                                  hintStyle: TextStyle(
-                                    color: Colors.grey,
-                                  )),
-                            ),
-                          ),
-                        ),
-                      ),
-                      _courseListFutureBuilder(),
-                    ],
-                  )),
+                ),
+              ),
+            ),
+            //Course List
+            Expanded(
+              child: Container(
+                color: Color(0xFFEAE1D7),
+                child: _courseListFutureBuilder(),
+              ),
             ),
           ],
         ),

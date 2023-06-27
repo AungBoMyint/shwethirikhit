@@ -8,6 +8,7 @@ import 'package:kzn/auth/controller/auth_controller.dart';
 import 'package:kzn/model/category.dart';
 import 'package:kzn/therapy/profile_page.dart';
 import 'package:kzn/therapy/therapy_video.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:shimmer/shimmer.dart';
 import '../consultant_appointant/controller/home_controller.dart';
 import '../controller/main_controller.dart';
@@ -134,7 +135,7 @@ class _TherapyState extends State<Therapy> {
             sliver: SliverToBoxAdapter(
                 child: Container(
               width: MediaQuery.of(context).size.width,
-              height: 220,
+              height: ResponsiveBreakpoints.of(context).isTablet ? 420 : 220,
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     color.AppColor.gradientFirst.withOpacity(0.8),
@@ -320,8 +321,8 @@ class DataSliverGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverGrid(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: ResponsiveBreakpoints.of(context).isTablet ? 3 : 2,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
           childAspectRatio: 1,

@@ -158,7 +158,16 @@ class _IntroOneScreenState extends State<IntroOneScreen>
                       builder: (context, child) {
                         return Transform.scale(
                           scale: _animationController.value,
-                          child: child,
+                          child: AnimatedBuilder(
+                            animation: _fadeCurve,
+                            builder: (context, child) {
+                              return AnimatedOpacity(
+                                  duration: _animationControllerTwo.duration!,
+                                  opacity: _fadeCurve.value,
+                                  child: child);
+                            },
+                            child: child,
+                          ),
                         );
                       },
                       child: Image.asset(
@@ -250,7 +259,7 @@ class _IntroOneScreenState extends State<IntroOneScreen>
                       _getStartAnimation.forward();
                       _skipAnimation.reverse();
                     },
-                    child: Text("Skip",
+                    child: Text("SKIP",
                         style: TextStyle(
                           color: Colors.white,
                         )),

@@ -13,156 +13,6 @@ import '../model/vlog_video.dart';
 class Vlog extends GetView<VlogController> {
   final HomeController _homeController = Get.find();
 
-  /*  nestedAppBar(width, height) {
-    return /* NestedScrollView(
-      headerSliverBuilder: (BuildContext context, bool innerBoxIsScrolled) {
-        return <Widget>[
-          SliverAppBar(
-            backgroundColor: Color(0xFFEAE1D7),
-            expandedHeight: 230,
-            pinned: true,
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Obx(() {
-                if (controller.isLoading.value &&
-                    (controller.chewieController.value == null)) {
-                  return Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.white,
-                    child: Container(
-                      width: width,
-                      color: Colors.white,
-                    ),
-                  );
-                }
-                return Chewie(
-                  controller: controller.chewieController.value!,
-                );
-              }),
-            ),
-          ),
-        
-        ];
-      },
-      body:  */Column(
-        children: [
-          SliverAppBar(
-            backgroundColor: Color(0xFFEAE1D7),
-            expandedHeight: 230,
-            pinned: true,
-            automaticallyImplyLeading: false,
-            leading: IconButton(
-              icon: Icon(Icons.arrow_back_ios),
-              onPressed: () {
-                Navigator.pop(context);
-              },
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              background: Obx(() {
-                if (controller.isLoading.value &&
-                    (controller.chewieController.value == null)) {
-                  return Shimmer.fromColors(
-                    baseColor: Colors.grey.shade300,
-                    highlightColor: Colors.white,
-                    child: Container(
-                      width: width,
-                      color: Colors.white,
-                    ),
-                  );
-                }
-                return Chewie(
-                  controller: controller.chewieController.value!,
-                );
-              }),
-            ),
-          ),
-        
-          ListView(
-            shrinkWrap: true,
-            children: <Widget>[
-              Container(
-                // color: Colors.black,
-                color: Color.fromRGBO(85, 38, 38, 1),
-                padding: EdgeInsets.all(10.0),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: <Widget>[
-                    Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: Obx(() {
-                        if (controller.isLoading.value &&
-                            controller.selectedVideo.value == null) {
-                          return Shimmer.fromColors(
-                            baseColor: Colors.grey.shade300,
-                            highlightColor: Colors.white,
-                            child: Container(
-                              height: 20,
-                              width: 100,
-                              color: Colors.white,
-                            ),
-                          );
-                        }
-                        return Text(
-                          controller.selectedVideo.value!.title,
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontFamily: 'Signika Negative',
-                              fontWeight: FontWeight.w700,
-                              fontSize: 16.0),
-                        );
-                      }),
-                    ),
-                  ],
-                ),
-              ),
-              Obx(() {
-                if (controller.isLoading.value) {
-                  return Shimmer.fromColors(
-                      baseColor: Colors.grey.shade300,
-                      highlightColor: Colors.white,
-                      child: ListView.separated(
-                        separatorBuilder: (context, i) {
-                          return const SizedBox(height: 10);
-                        },
-                        shrinkWrap: true,
-                        primary: false,
-                        physics: const NeverScrollableScrollPhysics(),
-                        itemCount: 6,
-                        itemBuilder: (context, index) {
-                          return Container(
-                            width: 120.0,
-                            height: 80.0,
-                            color: Colors.white,
-                          );
-                        },
-                      ));
-                }
-                return ListView.builder(
-                  shrinkWrap: true,
-                  primary: false,
-                  physics: const NeverScrollableScrollPhysics(),
-                  itemCount: _homeController.vlogVideos.length,
-                  itemBuilder: (context, index) {
-                    final vlogVideo = _homeController.vlogVideos[index];
-                    return getLessonTile(vlogVideo.title, vlogVideo.image, 'locked',
-                        width, vlogVideo);
-                  },
-                );
-              }),
-            ],
-          /* ), */
-    ),
-        ],
-      );
-  
-  } */
-
   getLessonTile(
       String title, String img, String status, double width, VlogVideo video) {
     return InkWell(
@@ -212,7 +62,7 @@ class Vlog extends GetView<VlogController> {
                       padding: const EdgeInsets.only(
                           top: 0.0, right: 8.0, left: 8.0, bottom: 8.0),
                       child: Text(
-                        '5 Mins',
+                        '${video.minutes} Mins',
                         maxLines: 2,
                         style: TextStyle(
                           fontSize: 12.0,
@@ -222,22 +72,6 @@ class Vlog extends GetView<VlogController> {
                         ),
                       ),
                     ),
-                    // Padding(
-                    //   padding: const EdgeInsets.only(
-                    //       top: 0.0, right: 8.0, left: 8.0, bottom: 8.0),
-                    //   child: Row(
-                    //     mainAxisAlignment: MainAxisAlignment.start,
-                    //     crossAxisAlignment: CrossAxisAlignment.center,
-                    //     children: <Widget>[
-                    //       Icon(
-                    //         (status == 'locked') ? Icons.lock : Icons.lock_open,
-                    //         size: 20.0,
-                    //       ),
-                    //       SizedBox(width: 3.0),
-                    //       Text((status == 'locked') ? 'Locked' : 'Unlocked'),
-                    //     ],
-                    //   ),
-                    // ),
                   ],
                 ),
               ),
@@ -263,14 +97,6 @@ class Vlog extends GetView<VlogController> {
                 excludeHeaderSemantics: true,
                 backgroundColor: Color(0xFFEAE1D7),
                 toolbarHeight: 230,
-                /* pinned: true, */
-                /* automaticallyImplyLeading: false, */
-                /* leading: IconButton(
-                  icon: Icon(Icons.arrow_back_ios),
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                ), */
                 flexibleSpace: FlexibleSpaceBarSettings(
                   currentExtent: 230,
                   maxExtent: 230,
@@ -330,31 +156,15 @@ class Vlog extends GetView<VlogController> {
                     ),
                   ),
 
-                  Obx(() {
-                    if (controller.isLoading.value) {
-                      return Shimmer.fromColors(
-                          baseColor: Colors.grey.shade300,
-                          highlightColor: Colors.white,
-                          child: SliverList(
-                              delegate: SliverChildBuilderDelegate(
-                            (context, index) => Container(
-                              width: 120.0,
-                              height: 80.0,
-                              color: Colors.white,
-                            ),
-                            childCount: 10,
-                          )));
-                    }
-                    return SliverList(
-                        delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final vlogVideo = _homeController.vlogVideos[index];
-                        return getLessonTile(vlogVideo.title, vlogVideo.image,
-                            'locked', width, vlogVideo);
-                      },
-                      childCount: _homeController.vlogVideos.length,
-                    ));
-                  }),
+                  SliverList(
+                      delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final vlogVideo = _homeController.vlogVideos[index];
+                      return getLessonTile(vlogVideo.title, vlogVideo.image,
+                          'locked', width, vlogVideo);
+                    },
+                    childCount: _homeController.vlogVideos.length,
+                  )),
                 ],
                 /* ), */
               ),

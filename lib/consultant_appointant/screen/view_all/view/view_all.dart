@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../services/database/query.dart';
 import '../../../controller/home_controller.dart';
@@ -84,7 +85,8 @@ class ViewAllScreen extends StatelessWidget {
 
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
+                crossAxisCount:
+                    ResponsiveBreakpoints.of(context).isTablet ? 3 : 2,
                 crossAxisSpacing: 3,
                 mainAxisSpacing: 3,
                 childAspectRatio: 1,

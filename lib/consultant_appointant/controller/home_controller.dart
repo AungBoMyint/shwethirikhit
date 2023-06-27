@@ -1,4 +1,6 @@
 import 'dart:async';
+import 'dart:math';
+import 'dart:developer' as developer;
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -12,7 +14,7 @@ import '../service/auth.dart';
 import '../service/database.dart';
 
 class HomeController extends GetxController {
-  var currentIndex = 1.obs;
+  var currentIndex = 2.obs;
   final Auth _auth = Auth();
   final Database _database = Database();
   final RxList<VlogVideo> vlogVideos = <VlogVideo>[].obs;
@@ -40,7 +42,8 @@ class HomeController extends GetxController {
         if (event.docs.isEmpty) {
           vlogVideos.clear();
         } else {
-          vlogVideos.value = await compute(parseVlogVideos, event.docs);
+          developer.log("Vlog Videos: ${event.docs.length}");
+          vlogVideos.value = await parseVlogVideos(event.docs);
         }
       });
 

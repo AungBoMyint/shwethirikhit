@@ -3,10 +3,14 @@ import 'dart:developer';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:kzn/auth/view/auth_page.dart';
 import 'package:kzn/auth/view/sms_page.dart';
 import 'package:kzn/consultant_appointant/controller/home_controller.dart';
+import 'package:kzn/data/constant.dart';
 import 'package:kzn/providers/course_provider.dart';
 import 'package:kzn/providers/subscription_provider.dart';
 import 'package:kzn/providers/user_provider.dart';
@@ -19,9 +23,12 @@ import 'package:kzn/ui/routes/privacy-policy.dart';
 import 'package:kzn/ui/routes/subscription_check_route.dart';
 import 'package:kzn/ui/routes/subscription_route.dart';
 import 'package:kzn/ui/routes/tnc_route.dart';
+import 'package:kzn/utils/fun.dart';
 import 'package:kzn/utils/utils.dart';
 import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/breakpoint.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'affirmations/controller/aff_home_controller.dart';
 import 'auth/controller/auth_controller.dart';
 import 'intro/intro_one_screen.dart';
@@ -53,14 +60,18 @@ Future<void> main() async {
     provisional: false,
     sound: true,
   );
+  await Hive.initFlutter();
+  await Hive.openBox(LOGIN_BOX);
   await FirebaseMessaging.instance.subscribeToTopic('advertisement');
-
-  runApp(MultiProvider(providers: [
-    ChangeNotifierProvider(create: (_) => UserProvider()),
-    ChangeNotifierProvider(create: (_) => CourseProvider()),
-    ChangeNotifierProvider(create: (_) => SubscriptionProvider()),
-    // ChangeNotifierProvider(create: (_) => VlogProvider()),
-  ], child: MyApp()));
+  SystemChrome.setPreferredOrientations([
+    DeviceOrientation.portraitUp,
+    DeviceOrientation.portraitDown,
+  ]).then((value) => runApp(MultiProvider(providers: [
+        ChangeNotifierProvider(create: (_) => UserProvider()),
+        ChangeNotifierProvider(create: (_) => CourseProvider()),
+        ChangeNotifierProvider(create: (_) => SubscriptionProvider()),
+        // ChangeNotifierProvider(create: (_) => VlogProvider()),
+      ], child: MyApp())));
 }
 
 class MyApp extends StatelessWidget {
@@ -73,7 +84,6 @@ class MyApp extends StatelessWidget {
     Get.put(AuthController());
     Get.put(TherapyController());
     Get.put(AffHomeController());
-    final AuthController _authController = Get.find();
     return GetMaterialApp(
         navigatorKey: globalKey,
         debugShowCheckedModeBanner: false,
@@ -81,10 +91,17 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
+        builder: (context, child) => ResponsiveBreakpoints.builder(
+              child: child!,
+              breakpoints: [
+                const Breakpoint(start: 0, end: 450, name: MOBILE),
+                const Breakpoint(start: 451, end: 800, name: TABLET),
+                const Breakpoint(start: 801, end: 1920, name: DESKTOP),
+                const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
+              ],
+            ),
         //home: IntroOneScreen(),
-        initialRoute: _authController.currentUser.value == null
-            ? IntroOneScreen.routeName
-            : MainRoute.routeName,
+        initialRoute: getInitialRoute(),
         routes: {
           IntroOneScreen.routeName: (context) => IntroOneScreen(),
           AuthPage.routeName: (context) => AuthPage(),
