@@ -1,6 +1,7 @@
 import 'dart:developer';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kzn/affirmations/widgets/widgets.dart';
 import 'package:kzn/auth/view/auth_page.dart';
@@ -130,7 +131,6 @@ class _IntroOneScreenState extends State<IntroOneScreen>
       body: SafeArea(
         child: Stack(
           children: [
-            //Video
             Align(
               alignment: Alignment.center,
               child: /* SizedBox(
@@ -146,19 +146,26 @@ class _IntroOneScreenState extends State<IntroOneScreen>
                     child: child,
                   );
                 },
-                child: Container(
-                  height: size.height,
-                  width: size.width,
-                  child: VideoPlayer(_videoPlayerController),
+                child: SizedBox.expand(
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _videoPlayerController.value.size.width,
+                      height: _videoPlayerController.value.size.height,
+                      child: VideoPlayer(_videoPlayerController),
+                    ),
+                  ),
                 ),
-              ), /* ) */
+              ),
             ),
+
             //Intro One
             Align(
               alignment: Alignment.center,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
+                  //video
                   AnimatedBuilder(
                     animation: _animationController,
                     builder: (context, child) {
