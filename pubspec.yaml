@@ -132,7 +132,7 @@ dev_dependencies:
   json_serializable: ^6.1.5
 
 flutter_icons:
-  image_path: "assets/logo.png"
+  image_path: "assets/ic_logo.png"
   android: true
   ios: true
   remove_alpha_ios: true

@@ -50,6 +50,7 @@ class _IntroOneScreenState extends State<IntroOneScreen>
     )..addListener(() {
         if (_animationControllerTwo.status == AnimationStatus.completed) {
           //if Animation complete,we need to play video
+
           _videoPlayerController.play();
           _videoPlayerController.addListener(() {
             final position = _videoPlayerController.value.position;
@@ -124,192 +125,196 @@ class _IntroOneScreenState extends State<IntroOneScreen>
     final size = MediaQuery.of(context).size;
     final logoPosition = 100;
     final buttonWidth = size.width * 0.7;
+    debugPrint("*****Screen height:${size.height}\nwidth:${size.width}");
     return Scaffold(
       body: SafeArea(
-        child: Center(
-          child: Stack(
-            children: [
-              //Video
-              Align(
-                  alignment: Alignment.center,
-                  child: SizedBox(
+        child: Stack(
+          children: [
+            //Video
+            Align(
+              alignment: Alignment.center,
+              child: /* SizedBox(
                     height: size.height,
                     width: size.width,
-                    child: AnimatedBuilder(
-                      animation: _appearCurve,
-                      builder: (context, child) {
-                        return AnimatedOpacity(
-                          opacity: _appearCurve.value,
-                          duration: const Duration(milliseconds: 1000),
+                    child:  */
+                  AnimatedBuilder(
+                animation: _appearCurve,
+                builder: (context, child) {
+                  return AnimatedOpacity(
+                    opacity: _appearCurve.value,
+                    duration: const Duration(milliseconds: 1000),
+                    child: child,
+                  );
+                },
+                child: Container(
+                  height: size.height,
+                  width: size.width,
+                  child: VideoPlayer(_videoPlayerController),
+                ),
+              ), /* ) */
+            ),
+            //Intro One
+            Align(
+              alignment: Alignment.center,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  AnimatedBuilder(
+                    animation: _animationController,
+                    builder: (context, child) {
+                      return Transform.scale(
+                        scale: _animationController.value,
+                        child: AnimatedBuilder(
+                          animation: _fadeCurve,
+                          builder: (context, child) {
+                            return AnimatedOpacity(
+                                duration: _animationControllerTwo.duration!,
+                                opacity: _fadeCurve.value,
+                                child: child);
+                          },
                           child: child,
-                        );
-                      },
-                      child: VideoPlayer(_videoPlayerController),
-                    ),
-                  )),
-              //Intro One
-              Align(
-                alignment: Alignment.center,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    AnimatedBuilder(
-                      animation: _animationController,
-                      builder: (context, child) {
-                        return Transform.scale(
-                          scale: _animationController.value,
-                          child: AnimatedBuilder(
-                            animation: _fadeCurve,
-                            builder: (context, child) {
-                              return AnimatedOpacity(
-                                  duration: _animationControllerTwo.duration!,
-                                  opacity: _fadeCurve.value,
-                                  child: child);
-                            },
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: Image.asset(
-                        AppImage.logo,
-                        width: 100,
-                        height: 100,
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                    verticalSpace(5),
-                    AnimatedBuilder(
-                      animation: _animationController,
-                      builder: (context, child) {
-                        final x = -100 + (_animationController.value * 100);
-                        final y = 1.0;
-                        return Transform.translate(
-                          offset: Offset(x, y),
-                          child: AnimatedBuilder(
-                            animation: _fadeCurve,
-                            builder: (context, child) {
-                              return AnimatedOpacity(
-                                  duration: _animationControllerTwo.duration!,
-                                  opacity: _fadeCurve.value,
-                                  child: child);
-                            },
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "SHWE THIRI KHIT",
-                        style: TextStyle(
-                          fontFamily: 'RobotoMono',
-                          fontWeight: FontWeight.bold,
-                          fontSize: 20,
-                          letterSpacing: 1,
                         ),
-                      ),
-                    ),
-                    verticalSpace(10),
-                    AnimatedBuilder(
-                      animation: _animationController,
-                      builder: (context, child) {
-                        final x = 100 - (_animationController.value * 100);
-                        final y = 1.0;
-                        return Transform.translate(
-                          offset: Offset(x, y),
-                          child: AnimatedBuilder(
-                            animation: _fadeCurve,
-                            builder: (context, child) {
-                              return AnimatedOpacity(
-                                  duration: _animationControllerTwo.duration!,
-                                  opacity: _fadeCurve.value,
-                                  child: child);
-                            },
-                            child: child,
-                          ),
-                        );
-                      },
-                      child: Text(
-                        "Self Improvement Application",
-                        style: TextStyle(
-                          fontFamily: 'RobotoMono',
-                          fontWeight: FontWeight.normal,
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              //Intro Two
-              //Skip
-              Positioned(
-                top: 10,
-                right: 10,
-                child: AnimatedBuilder(
-                  animation: _skipAnimation,
-                  builder: (context, child) {
-                    return AnimatedOpacity(
-                      opacity: _skipAnimation.value,
-                      duration: const Duration(milliseconds: 1000),
-                      child: child,
-                      curve: Curves.easeIn,
-                    );
-                  },
-                  child: TextButton(
-                    onPressed: () {
-                      _videoPlayerController.removeListener(() {});
-                      _getStartAnimation.forward();
-                      _skipAnimation.reverse();
+                      );
                     },
-                    child: Text("SKIP",
-                        style: TextStyle(
-                          color: Colors.white,
-                        )),
+                    child: Image.asset(
+                      AppImage.logo,
+                      width: 100,
+                      height: 100,
+                      fit: BoxFit.cover,
+                    ),
                   ),
+                  verticalSpace(5),
+                  AnimatedBuilder(
+                    animation: _animationController,
+                    builder: (context, child) {
+                      final x = -100 + (_animationController.value * 100);
+                      final y = 1.0;
+                      return Transform.translate(
+                        offset: Offset(x, y),
+                        child: AnimatedBuilder(
+                          animation: _fadeCurve,
+                          builder: (context, child) {
+                            return AnimatedOpacity(
+                                duration: _animationControllerTwo.duration!,
+                                opacity: _fadeCurve.value,
+                                child: child);
+                          },
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "SHWE THIRI KHIT",
+                      style: TextStyle(
+                        fontFamily: 'RobotoMono',
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                  ),
+                  verticalSpace(10),
+                  AnimatedBuilder(
+                    animation: _animationController,
+                    builder: (context, child) {
+                      final x = 100 - (_animationController.value * 100);
+                      final y = 1.0;
+                      return Transform.translate(
+                        offset: Offset(x, y),
+                        child: AnimatedBuilder(
+                          animation: _fadeCurve,
+                          builder: (context, child) {
+                            return AnimatedOpacity(
+                                duration: _animationControllerTwo.duration!,
+                                opacity: _fadeCurve.value,
+                                child: child);
+                          },
+                          child: child,
+                        ),
+                      );
+                    },
+                    child: Text(
+                      "Self Improvement Application",
+                      style: TextStyle(
+                        fontFamily: 'RobotoMono',
+                        fontWeight: FontWeight.normal,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            //Intro Two
+            //Skip
+            Positioned(
+              top: 10,
+              right: 10,
+              child: AnimatedBuilder(
+                animation: _skipAnimation,
+                builder: (context, child) {
+                  return AnimatedOpacity(
+                    opacity: _skipAnimation.value,
+                    duration: const Duration(milliseconds: 1000),
+                    child: child,
+                    curve: Curves.easeIn,
+                  );
+                },
+                child: TextButton(
+                  onPressed: () {
+                    _videoPlayerController.removeListener(() {});
+                    _getStartAnimation.forward();
+                    _skipAnimation.reverse();
+                  },
+                  child: Text("SKIP",
+                      style: TextStyle(
+                        color: Colors.white,
+                      )),
                 ),
               ),
-              //GetSTarted
-              Positioned(
-                top: (size.height / 2) + logoPosition + 20,
-                left: (size.width / 2) - buttonWidth / 2,
-                child: AnimatedBuilder(
-                  animation: _getStartAnimation,
-                  builder: (context, child) {
-                    return AnimatedOpacity(
-                      opacity: _getStartAnimation.value,
-                      duration: const Duration(milliseconds: 1000),
-                      child: child,
-                      curve: Curves.easeIn,
-                    );
-                  },
-                  child: SizedBox(
-                    height: 50,
-                    width: buttonWidth,
-                    child: ElevatedButtonTheme(
-                      data: ElevatedButtonThemeData(
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.red,
-                        ),
+            ),
+            //GetSTarted
+            Positioned(
+              top: (size.height / 2) + logoPosition + 20,
+              left: (size.width / 2) - buttonWidth / 2,
+              child: AnimatedBuilder(
+                animation: _getStartAnimation,
+                builder: (context, child) {
+                  return AnimatedOpacity(
+                    opacity: _getStartAnimation.value,
+                    duration: const Duration(milliseconds: 1000),
+                    child: child,
+                    curve: Curves.easeIn,
+                  );
+                },
+                child: SizedBox(
+                  height: 50,
+                  width: buttonWidth,
+                  child: ElevatedButtonTheme(
+                    data: ElevatedButtonThemeData(
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: Colors.red,
                       ),
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.of(context)
-                              .pushReplacementNamed(AuthPage.routeName);
-                          /* Navigator.of(context)
+                    ),
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.of(context)
+                            .pushReplacementNamed(AuthPage.routeName);
+                        /* Navigator.of(context)
                               .pushReplacementNamed(MainRoute.routeName);
                           vlogController.playVideo(); */
-                        },
-                        child: Text(
-                          "Get Started",
-                          style: TextStyle(
-                            color: Colors.white,
-                          ),
+                      },
+                      child: Text(
+                        "Get Started",
+                        style: TextStyle(
+                          color: Colors.white,
                         ),
                       ),
                     ),
                   ),
                 ),
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

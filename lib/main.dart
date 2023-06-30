@@ -62,7 +62,8 @@ Future<void> main() async {
   );
   await Hive.initFlutter();
   await Hive.openBox(LOGIN_BOX);
-  await FirebaseMessaging.instance.subscribeToTopic('advertisement');
+/*   await FirebaseMessaging.instance.subscribeToTopic('advertisement');
+ */
   SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
@@ -94,8 +95,9 @@ class MyApp extends StatelessWidget {
         builder: (context, child) => ResponsiveBreakpoints.builder(
               child: child!,
               breakpoints: [
-                const Breakpoint(start: 0, end: 450, name: MOBILE),
-                const Breakpoint(start: 451, end: 800, name: TABLET),
+                const Breakpoint(start: 0, end: 415, name: MOBILE),
+                const Breakpoint(start: 416, end: 524, name: TABLET),
+                const Breakpoint(start: 525, end: 800, name: "LTABLET"),
                 const Breakpoint(start: 801, end: 1920, name: DESKTOP),
                 const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
               ],

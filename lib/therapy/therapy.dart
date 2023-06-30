@@ -30,6 +30,11 @@ class _TherapyState extends State<Therapy> {
   Widget build(BuildContext context) {
     final AuthController _authController = Get.find();
     final HomeController _homeController = Get.find();
+    final height = ResponsiveBreakpoints.of(context).smallerThan(TABLET)
+        ? 220
+        : ResponsiveBreakpoints.of(context).smallerThan("LTABLET")
+            ? 300
+            : 420;
     return SafeArea(
         child: Scaffold(
       backgroundColor: color.AppColor.homePageBackground,
@@ -135,7 +140,7 @@ class _TherapyState extends State<Therapy> {
             sliver: SliverToBoxAdapter(
                 child: Container(
               width: MediaQuery.of(context).size.width,
-              height: ResponsiveBreakpoints.of(context).isTablet ? 420 : 220,
+              height: height + 0.0,
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     color.AppColor.gradientFirst.withOpacity(0.8),
