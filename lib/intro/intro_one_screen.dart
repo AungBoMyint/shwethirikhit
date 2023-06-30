@@ -5,6 +5,7 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kzn/affirmations/widgets/widgets.dart';
 import 'package:kzn/auth/view/auth_page.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:video_player/video_player.dart';
 
 import '../bottombar.dart';
@@ -131,34 +132,6 @@ class _IntroOneScreenState extends State<IntroOneScreen>
       body: SafeArea(
         child: Stack(
           children: [
-            Align(
-              alignment: Alignment.center,
-              child: /* SizedBox(
-                    height: size.height,
-                    width: size.width,
-                    child:  */
-                  AnimatedBuilder(
-                animation: _appearCurve,
-                builder: (context, child) {
-                  return AnimatedOpacity(
-                    opacity: _appearCurve.value,
-                    duration: const Duration(milliseconds: 1000),
-                    child: child,
-                  );
-                },
-                child: SizedBox.expand(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: _videoPlayerController.value.size.width,
-                      height: _videoPlayerController.value.size.height,
-                      child: VideoPlayer(_videoPlayerController),
-                    ),
-                  ),
-                ),
-              ),
-            ),
-
             //Intro One
             Align(
               alignment: Alignment.center,
@@ -252,6 +225,34 @@ class _IntroOneScreenState extends State<IntroOneScreen>
               ),
             ),
             //Intro Two
+            Align(
+              alignment: Alignment.center,
+              child: /* SizedBox(
+                    height: size.height,
+                    width: size.width,
+                    child:  */
+                  AnimatedBuilder(
+                animation: _appearCurve,
+                builder: (context, child) {
+                  return AnimatedOpacity(
+                    opacity: _appearCurve.value,
+                    duration: const Duration(milliseconds: 1000),
+                    child: child,
+                  );
+                },
+                child: SizedBox.expand(
+                  child: FittedBox(
+                    fit: BoxFit.cover,
+                    child: SizedBox(
+                      width: _videoPlayerController.value.size.width,
+                      height: _videoPlayerController.value.size.height,
+                      child: VideoPlayer(_videoPlayerController),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+
             //Skip
             Positioned(
               top: 10,
@@ -279,9 +280,13 @@ class _IntroOneScreenState extends State<IntroOneScreen>
                 ),
               ),
             ),
+
             //GetSTarted
             Positioned(
-              top: (size.height / 2) + logoPosition + 20,
+              top: (size.height / 2) +
+                  (ResponsiveBreakpoints.of(context).largerThan(MOBILE)
+                      ? logoPosition + 80
+                      : logoPosition + 20),
               left: (size.width / 2) - buttonWidth / 2,
               child: AnimatedBuilder(
                 animation: _getStartAnimation,
