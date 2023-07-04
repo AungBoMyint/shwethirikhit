@@ -36,6 +36,8 @@ class _IntroOneScreenState extends State<IntroOneScreen>
   bool isFinished = false;
 /*   late Animation tweenAnimation;
  */
+  var isVideo = false;
+
   @override
   void initState() {
     _videoPlayerController = VideoPlayerController.asset("assets/intro.mp4");
@@ -52,7 +54,11 @@ class _IntroOneScreenState extends State<IntroOneScreen>
     )..addListener(() {
         if (_animationControllerTwo.status == AnimationStatus.completed) {
           //if Animation complete,we need to play video
-
+          if (mounted) {
+            setState(() {
+              isVideo = true;
+            });
+          }
           _videoPlayerController.play();
           _videoPlayerController.addListener(() {
             final position = _videoPlayerController.value.position;
@@ -126,9 +132,12 @@ class _IntroOneScreenState extends State<IntroOneScreen>
     final textWidth = textPainter.width;
     final size = MediaQuery.of(context).size;
     final logoPosition = 100;
-    final buttonWidth = size.width * 0.7;
+    final buttonWidth = ResponsiveBreakpoints.of(context).largerThan(MOBILE)
+        ? size.width * 0.5
+        : size.width * 0.7;
     debugPrint("*****Screen height:${size.height}\nwidth:${size.width}");
     return Scaffold(
+      backgroundColor: isVideo ? Colors.black : Colors.white,
       body: SafeArea(
         child: Stack(
           children: [
@@ -240,16 +249,21 @@ class _IntroOneScreenState extends State<IntroOneScreen>
                     child: child,
                   );
                 },
-                child: SizedBox.expand(
-                  child: FittedBox(
-                    fit: BoxFit.cover,
-                    child: SizedBox(
-                      width: _videoPlayerController.value.size.width,
-                      height: _videoPlayerController.value.size.height,
-                      child: VideoPlayer(_videoPlayerController),
-                    ),
-                  ),
-                ),
+                child: ResponsiveBreakpoints.of(context).largerThan(MOBILE)
+                    ? AspectRatio(
+                        aspectRatio: _videoPlayerController.value.aspectRatio,
+                        child: VideoPlayer(_videoPlayerController),
+                      )
+                    : SizedBox.expand(
+                        child: FittedBox(
+                          fit: BoxFit.cover,
+                          child: SizedBox(
+                            width: _videoPlayerController.value.size.width,
+                            height: _videoPlayerController.value.size.height,
+                            child: VideoPlayer(_videoPlayerController),
+                          ),
+                        ),
+                      ),
               ),
             ),
 
