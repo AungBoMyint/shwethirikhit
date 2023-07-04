@@ -192,8 +192,10 @@ class AuthController extends GetxController {
   Future<void> logout() async {
     await _firebaseAuth.signOut();
     box.put(AUTH_KEY, false);
-    Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
-        IntroOneScreen.routeName, ModalRoute.withName(MainRoute.routeName));
+    Navigator.pushReplacementNamed(
+        globalKey.currentState!.context,
+        IntroOneScreen
+            .routeName /* , ModalRoute.withName(MainRoute.routeName) */);
   }
 
   //Delete Account
