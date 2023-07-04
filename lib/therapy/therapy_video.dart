@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../model/category.dart';
@@ -55,7 +56,9 @@ class _VideoInfoState extends State<VideoInfo> {
                           ? Container(
                               padding:
                                   EdgeInsets.only(top: 30, left: 30, right: 30),
-                              height: 300,
+                              height: ResponsiveBreakpoints.of(context).isTablet
+                                  ? 400
+                                  : 300,
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
@@ -287,36 +290,37 @@ class _VideoInfoState extends State<VideoInfo> {
                                         ],
                                       )),
                                   //Video
-                                  Container(
-                                      width: 325,
-                                      height: 200,
+                                  Obx(() {
+                                    return Container(
+                                      width: ResponsiveBreakpoints.of(context)
+                                              .isTablet
+                                          ? 800
+                                          : 325,
+                                      height: ResponsiveBreakpoints.of(context)
+                                              .isTablet
+                                          ? 380
+                                          : 200,
                                       child: controller.selectedVideo.value ==
                                               null
                                           ? Container()
-                                          : AspectRatio(
-                                              aspectRatio: controller
-                                                      .chewieController
-                                                      .value
-                                                      ?.videoPlayerController
-                                                      .value
-                                                      .aspectRatio ??
-                                                  0,
-                                              child: controller.isLoading.value
-                                                  ? Shimmer.fromColors(
-                                                      baseColor:
-                                                          Colors.grey.shade300,
-                                                      highlightColor:
-                                                          Colors.white,
-                                                      child: Container(
-                                                        color: Colors.white,
-                                                      ),
-                                                    )
-                                                  : Chewie(
-                                                      controller: controller
-                                                          .chewieController
-                                                          .value!,
-                                                    ),
-                                            )),
+                                          : controller.isLoading.value
+                                              ? Shimmer.fromColors(
+                                                  baseColor:
+                                                      Colors.grey.shade300,
+                                                  highlightColor: Colors.white,
+                                                  child: Container(
+                                                    color: Colors.white,
+                                                  ),
+                                                )
+                                              : Expanded(
+                                                  child: Chewie(
+                                                    controller: controller
+                                                        .chewieController
+                                                        .value!,
+                                                  ),
+                                                ),
+                                    );
+                                  }),
                                   /*  _controlView(context), */
                                 ],
                               )),
@@ -360,60 +364,67 @@ class _VideoInfoState extends State<VideoInfo> {
                 }),
               ),
             ),
-            Positioned(
-              left: 0,
-              top: controller.selectedVideo.value == null ? 300 : 330,
-              child: Padding(
-                padding: EdgeInsets.symmetric(
-                  vertical: 0,
-                  horizontal: 25,
-                ),
-                child: Center(
-                  child: LayoutBuilder(builder: (context, constraints) {
-                    final height = constraints.maxHeight;
-                    log("ListView.builder's Height: $height");
-                    return SizedBox(
-                      height: size.height,
-                      width: size.width,
-                      child: FirestoreQueryBuilder<TherapyVideo>(
-                        pageSize: 5,
-                        query: therapyVideosQuery(widget.category.id),
-                        builder: (context, snapshot, _) {
-                          return CustomScrollView(
-                            slivers: [
-                              SliverList(
-                                delegate: SliverChildBuilderDelegate(
-                                  (context, index) {
-                                    if (snapshot.hasMore &&
-                                        index + 1 == snapshot.docs.length) {
-                                      // Tell FirestoreQueryBuilder to try to obtain more items.
-                                      // It is safe to call this function from within the build method.
-                                      snapshot.fetchMore();
-                                    }
+            Obx(() {
+              return Positioned(
+                left: 0,
+                top: controller.selectedVideo.value == null
+                    ? 300
+                    : ResponsiveBreakpoints.of(context).isTablet
+                        ? 500
+                        : 330,
+                child: Padding(
+                  padding: EdgeInsets.symmetric(
+                    vertical: 0,
+                    horizontal: 25,
+                  ),
+                  child: Center(
+                    child: LayoutBuilder(builder: (context, constraints) {
+                      final height = constraints.maxHeight;
+                      log("ListView.builder's Height: $height");
+                      return SizedBox(
+                        height: size.height,
+                        width: size.width,
+                        child: FirestoreQueryBuilder<TherapyVideo>(
+                          pageSize: 5,
+                          query: therapyVideosQuery(widget.category.id),
+                          builder: (context, snapshot, _) {
+                            return CustomScrollView(
+                              slivers: [
+                                SliverList(
+                                  delegate: SliverChildBuilderDelegate(
+                                    (context, index) {
+                                      if (snapshot.hasMore &&
+                                          index + 1 == snapshot.docs.length) {
+                                        // Tell FirestoreQueryBuilder to try to obtain more items.
+                                        // It is safe to call this function from within the build method.
+                                        snapshot.fetchMore();
+                                      }
 
-                                    // Data is now typed!
-                                    var video = snapshot.docs[index].data();
-                                    return _buildCard(context, video);
-                                  },
-                                  childCount: snapshot.docs.length,
+                                      // Data is now typed!
+                                      var video = snapshot.docs[index].data();
+                                      return _buildCard(context, video, index);
+                                    },
+                                    childCount: snapshot.docs.length,
+                                  ),
                                 ),
-                              ),
-                            ],
-                          );
-                        },
-                      ),
-                    );
-                  }),
+                              ],
+                            );
+                          },
+                        ),
+                      );
+                    }),
+                  ),
                 ),
-              ),
-            ),
+              );
+            }),
           ],
         ),
       ),
     );
   }
 
-  _buildCard(BuildContext context, TherapyVideo item) {
+  _buildCard(BuildContext context, TherapyVideo item, int index) {
+    final total = ResponsiveBreakpoints.of(context).isTablet ? 200 : 70;
     return GestureDetector(
         onTap: () {
           controller.changeSelectedVideo(item);
@@ -434,14 +445,14 @@ class _VideoInfoState extends State<VideoInfo> {
                     ),
                     child: Center(
                       child: Text(
-                        "Video ${item.order}",
+                        "Video ${index + 1}",
                         style: TextStyle(color: Color(0xFF839fed)),
                       ),
                     ),
                   ),
                   Row(
                     children: [
-                      for (int i = 0; i < 70; i++)
+                      for (int i = 0; i < total; i++)
                         i.isEven
                             ? Container(
                                 width: 3,
@@ -483,7 +494,9 @@ class _VideoInfoState extends State<VideoInfo> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                          width: 160,
+                          width: ResponsiveBreakpoints.of(context).isTablet
+                              ? 250
+                              : 160,
                           child: Text(
                             "${item.title}",
                             overflow: TextOverflow.ellipsis,
@@ -501,7 +514,7 @@ class _VideoInfoState extends State<VideoInfo> {
                       Padding(
                         padding: EdgeInsets.only(top: 3),
                         child: Text(
-                          "${item.minutes}",
+                          "${item.minutes} Mins",
                           style: TextStyle(color: Colors.white),
                         ),
                       )

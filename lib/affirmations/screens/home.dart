@@ -4,6 +4,7 @@ import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:kzn/model/type.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer' as developer;
 import '../../consultant_appointant/controller/home_controller.dart';
@@ -192,7 +193,8 @@ class AffHome extends GetView<HomeController> {
                 builder: (context, snapshot, _) {
                   return GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount: 2,
+                      crossAxisCount:
+                          ResponsiveBreakpoints.of(context).isTablet ? 3 : 2,
                       childAspectRatio: 5 / 2,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,

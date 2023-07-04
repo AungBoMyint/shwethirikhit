@@ -25,13 +25,12 @@ Query<Music> affirmationsCategoryMusicsQuery(String categoryID) =>
         .where("categoryID", isEqualTo: categoryID)
         .orderBy("dateTime");
 
-Query<VlogVideo> vlogVideoQuery =
-    vlogVideoCollection().orderBy("order", descending: true);
+Query<VlogVideo> vlogVideoQuery = vlogVideoCollection().orderBy("dateTime");
 Query<Category> therapyCategoryQuery =
-    therapyCategoryCollection().orderBy("order");
+    therapyCategoryCollection().orderBy("dateTime");
 /* Query<TherapyVideo> therapyVideoQuery =
     therapyVideoCollection().orderBy("order", descending: true); */
 Query<TherapyVideo> therapyVideosQuery(String categoryID) =>
     therapyVideoCollection()
         .where("parentID", isEqualTo: categoryID)
-        .orderBy('order');
+        .orderBy('dateTime');

@@ -4,8 +4,11 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:get/get.dart';
+import 'package:kzn/auth/controller/auth_controller.dart';
 import 'package:kzn/model/category.dart';
+import 'package:kzn/therapy/profile_page.dart';
 import 'package:kzn/therapy/therapy_video.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:shimmer/shimmer.dart';
 import '../consultant_appointant/controller/home_controller.dart';
 import '../controller/main_controller.dart';
@@ -25,7 +28,13 @@ class Therapy extends StatefulWidget {
 class _TherapyState extends State<Therapy> {
   @override
   Widget build(BuildContext context) {
+    final AuthController _authController = Get.find();
     final HomeController _homeController = Get.find();
+    final height = ResponsiveBreakpoints.of(context).smallerThan(TABLET)
+        ? 220
+        : ResponsiveBreakpoints.of(context).smallerThan("LTABLET")
+            ? 300
+            : 420;
     return SafeArea(
         child: Scaffold(
       backgroundColor: color.AppColor.homePageBackground,
@@ -40,14 +49,26 @@ class _TherapyState extends State<Therapy> {
               margin: EdgeInsets.only(top: 30),
               child: Row(
                 children: [
-                  CircleAvatar(
-                    backgroundColor: Colors.white,
-                    backgroundImage: new AssetImage('assets/user.png'),
-                    radius: 15,
-                    // child: new Container(
-                    //   padding: const EdgeInsets.all(0.0),
-                    //   child: new Text('Sight'),
-                    // ),
+                  InkWell(
+                    onTap: () => Navigator.pushNamed(
+                      context,
+                      ProfilePage.routeName,
+                    ),
+                    child: Obx(() {
+                      final profile = _authController.currentUser.value?.avatar;
+
+                      return profile == null
+                          ? CircleAvatar(
+                              backgroundColor: Colors.white,
+                              backgroundImage: AssetImage('assets/user.png'),
+                              radius: 15,
+                            )
+                          : CircleAvatar(
+                              backgroundColor: Colors.white,
+                              backgroundImage: NetworkImage(profile),
+                              radius: 15,
+                            );
+                    }),
                   ),
                   SizedBox(
                     width: 20,
@@ -119,7 +140,7 @@ class _TherapyState extends State<Therapy> {
             sliver: SliverToBoxAdapter(
                 child: Container(
               width: MediaQuery.of(context).size.width,
-              height: 220,
+              height: height + 0.0,
               decoration: BoxDecoration(
                   gradient: LinearGradient(colors: [
                     color.AppColor.gradientFirst.withOpacity(0.8),
@@ -305,8 +326,8 @@ class DataSliverGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverGrid(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: ResponsiveBreakpoints.of(context).isTablet ? 3 : 2,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
           childAspectRatio: 1,

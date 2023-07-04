@@ -26,7 +26,7 @@ class HomeView extends StatelessWidget {
         ///Pickup
         SliverToBoxAdapter(
           child: Container(
-            height: isTablet ? 500 : 220,
+            height: isTablet ? 450 : 220,
             margin: EdgeInsets.only(top: 40),
             child: FirestoreListView<Category>(
               scrollDirection: Axis.horizontal,

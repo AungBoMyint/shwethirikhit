@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:get/get.dart';
 import 'package:kzn/model/category.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'dart:developer' as developer;
 import '../../consultant_appointant/controller/home_controller.dart';
 import '../../services/database/query.dart';
@@ -28,7 +29,8 @@ class AffirmationsCategoryViewAll extends GetView<HomeController> {
           return GridView.builder(
             physics: const BouncingScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
+              crossAxisCount:
+                  ResponsiveBreakpoints.of(context).isTablet ? 3 : 2,
               childAspectRatio: 5 / 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,

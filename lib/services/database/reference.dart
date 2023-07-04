@@ -1,10 +1,19 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:kzn/data/models/auth_user.dart';
 import '../../affirmations/models/music.dart';
 import '../../consultant_appointant/model/expert.dart';
 import '../../model/category.dart';
 import '../../model/therapy_video.dart';
 import '../../model/type.dart';
 import '../../model/vlog_video.dart';
+
+CollectionReference<AuthUser> userCollection() =>
+    FirebaseFirestore.instance.collection("users").withConverter<AuthUser>(
+          fromFirestore: (snap, __) => AuthUser.fromJson(snap.data()!),
+          toFirestore: (user, __) => user.toJson(),
+        );
+
+DocumentReference<AuthUser> userDocument(String id) => userCollection().doc(id);
 
 CollectionReference<Category> categoryCollection() => FirebaseFirestore.instance
     .collection("home_category")

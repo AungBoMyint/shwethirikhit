@@ -19,6 +19,8 @@ final String appIconUrl =
 final Color tileColor = Colors.yellow;
 final Color? iconColor = Colors.indigo[900];
 final logoColor = Color.fromRGBO(85, 38, 38, 1);
+final selectedButtonColor = Color(0xFFBCAA94);
+final unSelectedButtonColor = Color(0xFFCCBFAE);
 const musicCover =
     "https://img.informer.com/articles_uploads/2/2340/cool-backgrounds-hd-music-7773.jpg";
 final String fbProtocolUrl = "fb://page/432554843785776";
@@ -96,6 +98,25 @@ const Map<String, dynamic> paymentAccMap = {
   "5": "099 6790 6768 (AYA Pay)",
 };
 
+const List<String> yearsList = [
+  "Under 18",
+  "Between 18 and 24",
+  "Between 25 and 34",
+  "Between 35 and 44",
+  "Between 45 and 54",
+  "Above 55",
+];
+
+const List<String> areasList = [
+  "Creating the life I desire",
+  "Becoming more joyful",
+  "Improving Self-Esteem",
+  "Becoming more successful",
+  "Eliminating Negative Self Talk",
+  "Healing Inner Child",
+  "Building Good Habits",
+];
+
 //Theme
 const inputLabel = TextStyle(
   color: Colors.black,
@@ -111,6 +132,9 @@ const formBorder = OutlineInputBorder(
     color: Colors.grey,
   ),
 );
-
+const mainColor = Color.fromRGBO(85, 38, 38, 1);
 const enrollCollection = "enrollCollection";
 const courseCollection = "courseCollection";
+
+const LOGIN_BOX = "login_box";
+const AUTH_KEY = "auth_key";
