@@ -1,5 +1,9 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:kzn/data/models/checkbox_model.dart';
+import 'package:kzn/data/models/course.dart';
+import 'package:uuid/uuid.dart';
 
 final String appName = "His's and Her's Fashion School";
 // production server http://13.213.196.157:8000 2021-10-08 Updated
@@ -138,3 +142,17 @@ const courseCollection = "courseCollection";
 
 const LOGIN_BOX = "login_box";
 const AUTH_KEY = "auth_key";
+
+/* List<Course> mockingCourseList = [
+  Course(
+    id: Random().nextInt(100), 
+    lessonSet: [], 
+    name: "Test Course Name", 
+    description: "course description", 
+    coverImgUrl: , 
+    price: 0, 
+    createdAt: DateTime.now().toIso8601String(),
+    modifiedAt: DateTime.now().toIso8601String(),
+    ),
+];
+ */

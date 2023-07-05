@@ -302,29 +302,28 @@ class AuthController extends GetxController {
           email: emailController.text,
           password: password,
         );
-        //hideLoading(globalKey.currentState!.context);
-        /* Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
+        hideLoading(globalKey.currentState!.context);
+        Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
             MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
-         */
       } else {
         await FirebaseAuth.instance.createUserWithEmailAndPassword(
           email: emailController.text,
           password: password,
         );
-        /* hideLoading(globalKey.currentState!.context);
+        hideLoading(globalKey.currentState!.context);
         pageController.jumpToPage(2);
         Navigator.popUntil(
           globalKey.currentState!.context,
           ModalRoute.withName(AuthPage.routeName),
-        ); */
+        );
       }
 
-      hideLoading(globalKey.currentState!.context);
+      /* hideLoading(globalKey.currentState!.context);
       pageController.jumpToPage(2);
       Navigator.popUntil(
         globalKey.currentState!.context,
         ModalRoute.withName(AuthPage.routeName),
-      );
+      ); */
     } on FirebaseAuthException catch (e) {
       hideLoading(globalKey.currentState!.context);
       if (e.code == 'weak-password') {
@@ -344,43 +343,45 @@ class AuthController extends GetxController {
   }
 
   Future<void> whethrePhoneSignInOrNot() async {
-    /* final userRef = await userCollection()
+    userCollection()
         .where("phone", isEqualTo: phoneController.text)
-        .get();
-    final userAlreadyExists = userRef.docs.isNotEmpty;
-    if (userAlreadyExists) {
-      //means log in
-      Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
-          MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
-      
-    } else { */
-    //means create new
-    pageController.jumpToPage(2);
-    Navigator.popUntil(
-      globalKey.currentState!.context,
-      ModalRoute.withName(AuthPage.routeName),
-    );
-    /*  } */
+        .get()
+        .then((value) {
+      final userAlreadyExists = value.docs.isNotEmpty;
+      if (userAlreadyExists) {
+        //means log in
+        box.put(AUTH_KEY, true);
+        Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
+            MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
+      } else {
+        //means create new
+        pageController.jumpToPage(2);
+        Navigator.popUntil(
+          globalKey.currentState!.context,
+          ModalRoute.withName(AuthPage.routeName),
+        );
+      }
+    });
   }
 
   Future<void> whethreEmailSignInOrNot() async {
-    /*  final userRef = await userCollection()
+    final userRef = await userCollection()
         .where("email", isEqualTo: currentUser.value?.email ?? "")
         .get();
     final userAlreadyExists = userRef.docs.isNotEmpty;
     if (userAlreadyExists) {
       //means log in
+      box.put(AUTH_KEY, true);
       Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
           MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
-      
-    } else { */
-    //means create new
-    pageController.jumpToPage(2);
-    Navigator.popUntil(
-      globalKey.currentState!.context,
-      ModalRoute.withName(AuthPage.routeName),
-    );
-    /*   } */
+    } else {
+      //means create new
+      pageController.jumpToPage(2);
+      Navigator.popUntil(
+        globalKey.currentState!.context,
+        ModalRoute.withName(AuthPage.routeName),
+      );
+    }
   }
 
   //Phone Auth

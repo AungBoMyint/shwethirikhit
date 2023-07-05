@@ -5,6 +5,8 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:kzn/data/image.dart';
+import 'package:kzn/utils/utils.dart';
 import '../../model/vlog_video.dart';
 import '../../services/database/query.dart';
 import '../data/constant.dart';
@@ -14,6 +16,8 @@ import '../service/auth.dart';
 import '../service/database.dart';
 
 class HomeController extends GetxController {
+  final Completer<Size> completer = Completer<Size>();
+
   var currentIndex = 2.obs;
   final Auth _auth = Auth();
   final Database _database = Database();
@@ -31,10 +35,23 @@ class HomeController extends GetxController {
   final RxString _codeSentId = ''.obs;
   final RxInt _codeSentToken = 0.obs;
   void changeCurrentIndex(int v) => currentIndex.value = v;
+
+  Future<Size> getImageSize(String imageUrl) async {
+    Image image = new Image.asset(imageUrl);
+    image.image
+        .resolve(new ImageConfiguration())
+        .addListener(ImageStreamListener((imageInfo, synchronousCall) {
+      completer.complete(
+        Size(imageInfo.image.width + 0.0, imageInfo.image.height + 0.0),
+      );
+    }));
+    return completer.future;
+  }
+
   @override
   void onInit() {
     super.onInit();
-
+    getImageSize(AppImage.iPhoneFrame);
     _vlogVideoListener();
   }
 
