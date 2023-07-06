@@ -66,7 +66,8 @@ class _MainRouteState extends State<MainRoute> {
               ),
             ]),
 
-        body: Column(
+        body: ListView(
+          shrinkWrap: true,
           /* shrinkWrap: true, */
           // physics: ClampingScrollPhysics(),
           children: [

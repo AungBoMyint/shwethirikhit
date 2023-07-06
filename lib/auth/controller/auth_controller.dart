@@ -122,13 +122,6 @@ class AuthController extends GetxController {
   void onPageChanged(int v) {
     switch (v) {
       case 1:
-        validateString(nameController.text);
-        if (stringValidator.value?.isLeft() == true) {
-          pageController.jumpToPage(v);
-          return;
-        }
-        break;
-      case 2:
         formIndex == 0
             ? validatePhone(phoneController.text)
             : validateEmail(emailController.text);
@@ -141,6 +134,13 @@ class AuthController extends GetxController {
           //Then startEmailAuth
           promptPasswordForm(globalKey.currentState!.context);
         } else {
+          return;
+        }
+        break;
+      case 2:
+        validateString(nameController.text);
+        if (stringValidator.value?.isLeft() == true) {
+          pageController.jumpToPage(v);
           return;
         }
         break;
@@ -176,8 +176,10 @@ class AuthController extends GetxController {
     showLoading(globalKey.currentState!.context);
     await userDocument(currentUser.value!.id).update(
       {
+        "id": currentUser.value!.id,
         "age": chooseOne.value,
         "areas": multipleChoose,
+        "name": nameController.text,
       },
     );
     hideLoading(globalKey.currentState!.context);
@@ -253,9 +255,10 @@ class AuthController extends GetxController {
 
       // Sign in the user with Firebase. If the nonce we generated earlier does
       // not match the nonce in `appleCredential.identityToken`, sign in will fail.
-      await FirebaseAuth.instance.signInWithCredential(oauthCredential);
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(oauthCredential);
       hideLoading(globalKey.currentState!.context);
-      await whethreEmailSignInOrNot();
+      await whethreEmailSignInOrNot(email: userCredential.user?.email);
     } catch (e) {
       hideLoading(globalKey.currentState!.context);
     }
@@ -279,9 +282,10 @@ class AuthController extends GetxController {
       );
 
       // Once signed in, return the UserCredential
-      await FirebaseAuth.instance.signInWithCredential(credential);
+      final userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
       hideLoading(globalKey.currentState!.context);
-      await whethreEmailSignInOrNot();
+      await whethreEmailSignInOrNot(email: userCredential.user?.email);
     } catch (e) {
       hideLoading(globalKey.currentState!.context);
       errorSnap("$e");
@@ -355,7 +359,7 @@ class AuthController extends GetxController {
             MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
       } else {
         //means create new
-        pageController.jumpToPage(2);
+        pageController.jumpToPage(1);
         Navigator.popUntil(
           globalKey.currentState!.context,
           ModalRoute.withName(AuthPage.routeName),
@@ -364,9 +368,9 @@ class AuthController extends GetxController {
     });
   }
 
-  Future<void> whethreEmailSignInOrNot() async {
+  Future<void> whethreEmailSignInOrNot({String? email}) async {
     final userRef = await userCollection()
-        .where("email", isEqualTo: currentUser.value?.email ?? "")
+        .where("email", isEqualTo: email ?? currentUser.value?.email ?? "")
         .get();
     final userAlreadyExists = userRef.docs.isNotEmpty;
     if (userAlreadyExists) {
@@ -376,7 +380,7 @@ class AuthController extends GetxController {
           MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
     } else {
       //means create new
-      pageController.jumpToPage(2);
+      pageController.jumpToPage(1);
       Navigator.popUntil(
         globalKey.currentState!.context,
         ModalRoute.withName(AuthPage.routeName),

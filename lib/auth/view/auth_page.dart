@@ -20,8 +20,8 @@ class AuthPage extends StatefulWidget {
 
 class _AuthPageState extends State<AuthPage> {
   final pages = [
-    AuthOne(),
     AuthTwo(),
+    AuthOne(),
     AuthThree(),
     AuthFour(),
   ];

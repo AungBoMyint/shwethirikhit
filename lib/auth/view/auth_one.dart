@@ -69,7 +69,7 @@ class AuthOne extends StatelessWidget {
           SizedBox(
             width: size.width * 0.8,
             child: ElevatedButton(
-              onPressed: () => authController.onPageChanged(1),
+              onPressed: () => authController.onPageChanged(2),
               child: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Text("Next"),

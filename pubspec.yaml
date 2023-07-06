@@ -147,8 +147,8 @@ flutter:
     - assets/Dashboard/
     - assets/images/
     - assets/images/slider/
-    - assets/dummy/
     - assets/animations/
+    - assets/slideshow/
 
   fonts:
     - family: RobotoMono

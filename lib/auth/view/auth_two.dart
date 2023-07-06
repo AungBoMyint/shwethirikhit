@@ -175,7 +175,7 @@ class AuthTwo extends StatelessWidget {
               width: size.width * 0.8,
               child: button(
                 onPressed: () {
-                  authController.onPageChanged(2);
+                  authController.onPageChanged(1);
                 },
                 text: "Next",
                 padding: 20,

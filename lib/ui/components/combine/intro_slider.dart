@@ -10,7 +10,7 @@ class IntroSlider extends StatelessWidget {
   Widget build(BuildContext context) {
     final isTablet = MediaQuery.of(context).size.width > 55 * 8;
 
-    return (photos.length == 0)
+    return /* (photos.length == 0)
         ? Container(
             color: Colors.grey,
           )
@@ -19,25 +19,27 @@ class IntroSlider extends StatelessWidget {
             // height: 28.125 * 7,
             height: isTablet ? 55 * 8 : 28.125 * 8,
             //color: Colors.blueAccent,
-            child: CarouselSlider(
-                options: CarouselOptions(
-                  autoPlayCurve: Curves.easeInBack,
-                  enlargeCenterPage: true,
-                  autoPlay: true,
-                  initialPage: 1,
-                  height: isTablet ? 55 * 8 : 28.125 * 8,
+            child: */
+        CarouselSlider(
+            options: CarouselOptions(
+              autoPlayCurve: Curves.easeInOut,
+              enlargeCenterPage: true,
+              autoPlay: true,
+              initialPage: 1,
+              /* height: isTablet ? 55 * 8 : 28.125 * 8,
                   // height: 55 * 8,
-                  // height: 28.125 * 8,
-                  enableInfiniteScroll: true,
-                ),
-                items: List.generate(
-                    photos.length,
-                    (index) => Padding(
-                          padding: const EdgeInsets.only(top: 10, bottom: 10),
-                          child: Container(
-                            child: IntroSliderItem(photo: photos[index]),
-                          ),
-                        ))),
-          );
+                  // height: 28.125 * 8, */
+              enableInfiniteScroll: true,
+            ),
+            items: List.generate(
+                10,
+                (index) => Padding(
+                      padding: const EdgeInsets.only(top: 10, bottom: 10),
+                      child: Image.asset(
+                        "assets/slideshow/${index + 1}.jpg",
+                        fit: BoxFit.fill,
+                      ),
+                    ))); /* ),
+          ); */
   }
 }

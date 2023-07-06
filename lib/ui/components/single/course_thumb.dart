@@ -12,6 +12,7 @@ import 'package:kzn/providers/course_provider.dart';
 import 'package:kzn/ui/components/single/course_thumb_img.dart';
 import 'package:kzn/ui/routes/subscription_check_route.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_breakpoints.dart';
 
 import '../../../data/image.dart';
 
@@ -51,20 +52,9 @@ class _CourseThumbState extends State<CourseThumb> {
                 FrameThumbImg(
                   frameSize: snap.data!,
                 ),
-                Positioned(
-                  left: 16.5,
-                  right: 16.5,
-                  top: 30.5,
-                  bottom: 30.5,
-                  /* left: 23,
-                  right: 23,
-                  top: 30,
-                  bottom: 30, */
-                  child: Image.network(
-                    widget.course.coverImgUrl,
-                    fit: BoxFit.cover,
-                  ),
-                ),
+                ResponsiveBreakpoints.of(context).largerThan(TABLET)
+                    ? LTablet(widget: widget)
+                    : MobileAndTablet(widget: widget),
                 // Align(
                 //   alignment: Alignment.bottomCenter,
                 //   child: Container(
@@ -81,5 +71,59 @@ class _CourseThumbState extends State<CourseThumb> {
             ),
           );
         });
+  }
+}
+
+class MobileAndTablet extends StatelessWidget {
+  const MobileAndTablet({
+    super.key,
+    required this.widget,
+  });
+
+  final CourseThumb widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 16.5,
+      right: 16.5,
+      top: 30.5,
+      bottom: 30.5,
+      /* left: 23,
+      right: 23,
+      top: 30,
+      bottom: 30, */
+      child: Image.network(
+        widget.course.coverImgUrl,
+        fit: BoxFit.cover,
+      ),
+    );
+  }
+}
+
+class LTablet extends StatelessWidget {
+  const LTablet({
+    super.key,
+    required this.widget,
+  });
+
+  final CourseThumb widget;
+
+  @override
+  Widget build(BuildContext context) {
+    return Positioned(
+      left: 23.5,
+      right: 23.5,
+      top: 45.5,
+      bottom: 45.5,
+      /* left: 23,
+      right: 23,
+      top: 30,
+      bottom: 30, */
+      child: Image.network(
+        widget.course.coverImgUrl,
+        fit: BoxFit.cover,
+      ),
+    );
   }
 }
