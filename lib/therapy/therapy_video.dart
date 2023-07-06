@@ -56,7 +56,8 @@ class _VideoInfoState extends State<VideoInfo> {
                           ? Container(
                               padding:
                                   EdgeInsets.only(top: 30, left: 30, right: 30),
-                              height: ResponsiveBreakpoints.of(context).isTablet
+                              height: ResponsiveBreakpoints.of(context)
+                                      .largerThan(MOBILE)
                                   ? 400
                                   : 300,
                               child: Column(
@@ -293,11 +294,11 @@ class _VideoInfoState extends State<VideoInfo> {
                                   Obx(() {
                                     return Container(
                                       width: ResponsiveBreakpoints.of(context)
-                                              .isTablet
+                                              .largerThan(MOBILE)
                                           ? 800
                                           : 325,
                                       height: ResponsiveBreakpoints.of(context)
-                                              .isTablet
+                                              .largerThan(MOBILE)
                                           ? 380
                                           : 200,
                                       child: controller.selectedVideo.value ==
@@ -369,7 +370,7 @@ class _VideoInfoState extends State<VideoInfo> {
                 left: 0,
                 top: controller.selectedVideo.value == null
                     ? 300
-                    : ResponsiveBreakpoints.of(context).isTablet
+                    : ResponsiveBreakpoints.of(context).largerThan(MOBILE)
                         ? 500
                         : 330,
                 child: Padding(
@@ -424,7 +425,8 @@ class _VideoInfoState extends State<VideoInfo> {
   }
 
   _buildCard(BuildContext context, TherapyVideo item, int index) {
-    final total = ResponsiveBreakpoints.of(context).isTablet ? 200 : 70;
+    final total =
+        ResponsiveBreakpoints.of(context).largerThan(MOBILE) ? 200 : 70;
     return GestureDetector(
         onTap: () {
           controller.changeSelectedVideo(item);
@@ -494,7 +496,8 @@ class _VideoInfoState extends State<VideoInfo> {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Container(
-                          width: ResponsiveBreakpoints.of(context).isTablet
+                          width: ResponsiveBreakpoints.of(context)
+                                  .largerThan(MOBILE)
                               ? 250
                               : 160,
                           child: Text(

@@ -280,8 +280,9 @@ class LoadingSliverGrid extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverGrid(
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount:
+              ResponsiveBreakpoints.of(context).largerThan(MOBILE) ? 3 : 2,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
           childAspectRatio: 1,
@@ -327,7 +328,8 @@ class DataSliverGrid extends StatelessWidget {
   Widget build(BuildContext context) {
     return SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: ResponsiveBreakpoints.of(context).isTablet ? 3 : 2,
+          crossAxisCount:
+              ResponsiveBreakpoints.of(context).largerThan(MOBILE) ? 3 : 2,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
           childAspectRatio: 1,

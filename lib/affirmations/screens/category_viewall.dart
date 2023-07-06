@@ -30,7 +30,7 @@ class AffirmationsCategoryViewAll extends GetView<HomeController> {
             physics: const BouncingScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
               crossAxisCount:
-                  ResponsiveBreakpoints.of(context).isTablet ? 3 : 2,
+                  ResponsiveBreakpoints.of(context).largerThan(MOBILE) ? 3 : 2,
               childAspectRatio: 5 / 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,
