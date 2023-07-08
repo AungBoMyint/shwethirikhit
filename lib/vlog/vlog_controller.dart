@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kzn/consultant_appointant/controller/home_controller.dart';
 import 'package:kzn/model/vlog_video.dart';
@@ -23,6 +24,12 @@ class VlogController extends GetxController {
     chewieController.value?.dispose();
     chewieController.value = null;
     chewieController.value = ChewieController(
+        deviceOrientationsAfterFullScreen: [
+          DeviceOrientation.portraitUp,
+        ],
+        deviceOrientationsOnEnterFullScreen: [
+          DeviceOrientation.landscapeRight,
+        ],
         videoPlayerController: VideoPlayerController.network(v.videoURL),
         aspectRatio: 16 / 9,
         autoInitialize: true,
@@ -69,6 +76,12 @@ class VlogController extends GetxController {
       isLoading.value = false;
       debugPrint("Vlog Page Is Loading: ${isLoading.value}");
       chewieController.value = ChewieController(
+          deviceOrientationsAfterFullScreen: [
+            DeviceOrientation.portraitUp,
+          ],
+          deviceOrientationsOnEnterFullScreen: [
+            DeviceOrientation.landscapeRight,
+          ],
           videoPlayerController: VideoPlayerController.network(
               _homeController.vlogVideos.first.videoURL),
           aspectRatio: 16 / 9,

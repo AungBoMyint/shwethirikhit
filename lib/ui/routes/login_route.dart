@@ -40,13 +40,10 @@ class _LoginRouteState extends State<LoginRoute>
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-
-        elevation: 0,
-        iconTheme: const IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
-
+          elevation: 0,
+          iconTheme: const IconThemeData(color: Colors.black),
+          backgroundColor: Colors.white,
           actions: [
-
             SizedBox(
               width: 90,
               child: ElevatedButton(
@@ -55,7 +52,7 @@ class _LoginRouteState extends State<LoginRoute>
                   backgroundColor: MaterialStateProperty.all(Colors.white),
                   elevation: MaterialStateProperty.resolveWith<double>(
                     // As you said you dont need elevation. I'm returning 0 in both case
-                        (Set<MaterialState> states) {
+                    (Set<MaterialState> states) {
                       if (states.contains(MaterialState.disabled)) {
                         return 0;
                       }
@@ -77,8 +74,7 @@ class _LoginRouteState extends State<LoginRoute>
                 ),
               ),
             ),
-          ]
-      ),
+          ]),
       body: SingleChildScrollView(
         child: Column(
           children: [
@@ -112,8 +108,8 @@ class _LoginRouteState extends State<LoginRoute>
                   padding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
                   child: Container(
                     decoration: BoxDecoration(
-                      //border: Border.all(color: Colors.white)
-                    ),
+                        //border: Border.all(color: Colors.white)
+                        ),
                     child: TextField(
                       onChanged: (String str) {
                         setState(() {
@@ -124,14 +120,14 @@ class _LoginRouteState extends State<LoginRoute>
                       decoration: InputDecoration(
                         //border: OutlineInputBorder(),
                         enabledBorder: OutlineInputBorder(
-                          //borderSide: const BorderSide(color: Colors.white)
-                        ),
+                            //borderSide: const BorderSide(color: Colors.white)
+                            ),
                         focusedBorder: OutlineInputBorder(
-                          //borderSide: const BorderSide(color: Colors.white)
-                        ),
+                            //borderSide: const BorderSide(color: Colors.white)
+                            ),
                         disabledBorder: OutlineInputBorder(
-                          //borderSide: const BorderSide(color: Colors.red)
-                        ),
+                            //borderSide: const BorderSide(color: Colors.red)
+                            ),
                         hintText: 'Enter username',
                         labelText: 'Username',
                         //hintStyle: TextStyle(color: Colors.white),
@@ -146,8 +142,8 @@ class _LoginRouteState extends State<LoginRoute>
                   padding: EdgeInsets.all(24),
                   child: Container(
                     decoration: BoxDecoration(
-                      //border: Border.all(color: Colors.white)
-                    ),
+                        //border: Border.all(color: Colors.white)
+                        ),
                     child: TextField(
                       obscureText: true,
                       onChanged: (String str) {
@@ -159,14 +155,14 @@ class _LoginRouteState extends State<LoginRoute>
                       decoration: InputDecoration(
                         //border: OutlineInputBorder(),
                         enabledBorder: OutlineInputBorder(
-                          //borderSide: const BorderSide(color: Colors.white)
-                        ),
+                            //borderSide: const BorderSide(color: Colors.white)
+                            ),
                         focusedBorder: OutlineInputBorder(
-                          //borderSide: const BorderSide(color: Colors.white)
-                        ),
+                            //borderSide: const BorderSide(color: Colors.white)
+                            ),
                         disabledBorder: OutlineInputBorder(
-                          //borderSide: const BorderSide(color: Colors.red)
-                        ),
+                            //borderSide: const BorderSide(color: Colors.red)
+                            ),
                         hintText: '****',
                         labelText: 'Password',
                         //hintStyle: TextStyle(color: Colors.white),
@@ -205,7 +201,10 @@ class _LoginRouteState extends State<LoginRoute>
                           gradient: LinearGradient(
                               begin: Alignment.topLeft,
                               end: Alignment.bottomRight,
-                              colors: [Color.fromRGBO(85,38,38, 1), Color.fromRGBO(85,38,38, 1),]),
+                              colors: [
+                                Color.fromRGBO(85, 38, 38, 1),
+                                Color.fromRGBO(85, 38, 38, 1),
+                              ]),
                           border: Border.all(color: Colors.pink),
                           borderRadius: BorderRadius.circular(8),
                         ),
@@ -213,25 +212,25 @@ class _LoginRouteState extends State<LoginRoute>
                           padding: const EdgeInsets.only(top: 15, bottom: 15),
                           child: Center(
                             child: Text(
-                                'Login',
-                                style: TextStyle(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                  fontWeight: FontWeight.bold,
-                                ),
+                              'Login',
+                              style: TextStyle(
+                                fontSize: 15,
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
                               ),
+                            ),
                           ),
-                        ),
                         ),
                       ),
                     ),
                   ),
+                ),
               ],
             ),
 
             SizedBox(height: 30),
             // don't have an account, register here
-            Container(
+            /*   Container(
               //height: size.height /6,
               //color: Colors.green,
               child: Row(
@@ -275,7 +274,7 @@ class _LoginRouteState extends State<LoginRoute>
                 ],
               ),
             ),
-            // login status
+           */ // login status
           ],
         ),
       ),
@@ -321,8 +320,8 @@ class _LoginRouteState extends State<LoginRoute>
 
   void loginAccount(
       {required String username,
-        required String password,
-        required BuildContext context}) async {
+      required String password,
+      required BuildContext context}) async {
     print('loginAccount is called with username $username, password $password');
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
@@ -357,10 +356,10 @@ class CustomCardShapePainter extends CustomPainter {
     Paint paint = Paint();
     paint.shader =
         ui.Gradient.linear(Offset(0, size.height), Offset(size.width, 0), [
-          //HSLColor.fromColor(startColor).withLightness(0.8).toColor(),
-          startColor,
-          endColor
-        ]);
+      //HSLColor.fromColor(startColor).withLightness(0.8).toColor(),
+      startColor,
+      endColor
+    ]);
 
     final double w = size.width;
     final double h = size.height;
@@ -389,7 +388,7 @@ class CustomCardShapePainter extends CustomPainter {
       ..quadraticBezierTo(pointFiveX, pointFiveY, pointSixX, pointSixY)
       ..lineTo(size.width, 0)
       ..lineTo(0, 0)
-    /*
+      /*
       ..lineTo(size.width - radius, size.height)
       ..quadraticBezierTo(size.width, size.height, size.width, size.height - radius)
       ..lineTo(size.width, radius)

@@ -1,5 +1,6 @@
 import 'package:better_player/better_player.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:kzn/data/models/lesson.dart';
 import 'package:kzn/providers/course_provider.dart';
 import 'package:provider/provider.dart';
@@ -16,20 +17,26 @@ class _LessonVideoPlayerState extends State<LessonVideoPlayer> {
   void initState() {
     // TODO: implement initState
     super.initState();
-    _betterPlayerController = BetterPlayerController(
-        BetterPlayerConfiguration(
-          autoPlay: true,
-          looping: true,
-          fullScreenByDefault: false,
-        )
-    );
+    _betterPlayerController = BetterPlayerController(BetterPlayerConfiguration(
+      autoPlay: true,
+      looping: true,
+      fullScreenByDefault: false,
+      deviceOrientationsAfterFullScreen: [
+        DeviceOrientation.portraitUp,
+      ],
+      deviceOrientationsOnFullScreen: [
+        DeviceOrientation.landscapeRight,
+      ],
+    ));
   }
+
   @override
   void dispose() {
     // TODO: implement dispose
     _betterPlayerController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     final isTablet = MediaQuery.of(context).size.width > 700;
@@ -40,43 +47,38 @@ class _LessonVideoPlayerState extends State<LessonVideoPlayer> {
     );
   }
 
-  Widget _videoPlayerFuture(){
+  Widget _videoPlayerFuture() {
     return FutureBuilder(
-        future: Provider
-            .of<CourseProvider>(context, listen: true)
-            .lesson,
+        future: Provider.of<CourseProvider>(context, listen: true).lesson,
         builder: (BuildContext context, AsyncSnapshot<Lesson> snapshot) {
           if (snapshot.hasData) {
-            if (snapshot.data == null){
+            if (snapshot.data == null) {
               return Container(
-                child: Center(child: Text('no lesson')),);
-            }
-            else{
-             // print("video url is ${snapshot.data.videoUrl}");
-              BetterPlayerDataSource betterPlayerDataSource = BetterPlayerDataSource(
-                  BetterPlayerDataSourceType.network,
-                  snapshot.data!.videoUrl
+                child: Center(child: Text('no lesson')),
               );
+            } else {
+              // print("video url is ${snapshot.data.videoUrl}");
+              BetterPlayerDataSource betterPlayerDataSource =
+                  BetterPlayerDataSource(BetterPlayerDataSourceType.network,
+                      snapshot.data!.videoUrl);
               _betterPlayerController.setupDataSource(betterPlayerDataSource);
-              return  _videoPlayer();
+              return _videoPlayer();
             }
-          }
-          else if (snapshot.hasError) {
+          } else if (snapshot.hasError) {
             //_refreshController.refreshCompleted();
             return Container(
-              child: Center(
-                child: Text('error ${snapshot.error.toString()}')),);
-          }
-          else {
+              child: Center(child: Text('error ${snapshot.error.toString()}')),
+            );
+          } else {
             //_refreshController.refreshCompleted();
             return Container(
-              child: Center(child: Text('loading lesson...')),);
+              child: Center(child: Text('loading lesson...')),
+            );
           }
-        }
-    );
+        });
   }
 
-  Widget _videoPlayer(){
+  Widget _videoPlayer() {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: BetterPlayer(

@@ -1,5 +1,6 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:video_player/video_player.dart';
 
@@ -31,6 +32,12 @@ class TherapyController extends GetxController {
     chewieController.value?.dispose();
     chewieController.value = null;
     chewieController.value = ChewieController(
+        deviceOrientationsAfterFullScreen: [
+          DeviceOrientation.portraitUp,
+        ],
+        deviceOrientationsOnEnterFullScreen: [
+          DeviceOrientation.landscapeRight,
+        ],
         videoPlayerController: VideoPlayerController.network(v.videoURL),
         aspectRatio: 16 / 9,
         autoInitialize: true,

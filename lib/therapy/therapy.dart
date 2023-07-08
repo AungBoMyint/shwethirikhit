@@ -47,76 +47,80 @@ class _TherapyState extends State<Therapy> {
             sliver: SliverToBoxAdapter(
                 child: Container(
               margin: EdgeInsets.only(top: 30),
-              child: Row(
-                children: [
-                  InkWell(
-                    onTap: () => Navigator.pushNamed(
-                      context,
-                      ProfilePage.routeName,
-                    ),
-                    child: Obx(() {
-                      final profile = _authController.currentUser.value?.avatar;
+              child: SingleChildScrollView(
+                scrollDirection: Axis.horizontal,
+                child: Row(
+                  children: [
+                    InkWell(
+                      onTap: () => Navigator.pushNamed(
+                        context,
+                        ProfilePage.routeName,
+                      ),
+                      child: Obx(() {
+                        final profile =
+                            _authController.currentUser.value?.avatar;
 
-                      return profile == null
-                          ? CircleAvatar(
-                              backgroundColor: Colors.white,
-                              backgroundImage: AssetImage('assets/user.png'),
-                              radius: 15,
-                            )
-                          : CircleAvatar(
-                              backgroundColor: Colors.white,
-                              backgroundImage: NetworkImage(profile),
-                              radius: 15,
-                            );
-                    }),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Text(
-                    'Shwe Thiri Khit',
-                    style: TextStyle(
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18,
-                      wordSpacing: 1,
-                      letterSpacing: 1,
+                        return profile == null
+                            ? CircleAvatar(
+                                backgroundColor: Colors.white,
+                                backgroundImage: AssetImage('assets/user.png'),
+                                radius: 15,
+                              )
+                            : CircleAvatar(
+                                backgroundColor: Colors.white,
+                                backgroundImage: NetworkImage(profile),
+                                radius: 15,
+                              );
+                      }),
                     ),
-                  ),
-                  SizedBox(
-                    width: 90,
-                  ),
-                  SizedBox(
-                    width: 40,
-                    child: ElevatedButton(
-                      style: ButtonStyle(
-                        alignment: Alignment.center,
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.transparent),
-                        elevation: MaterialStateProperty.resolveWith<double>(
-                          // As you said you dont need elevation. I'm returning 0 in both case
-                          (Set<MaterialState> states) {
-                            if (states.contains(MaterialState.disabled)) {
-                              return 0;
-                            }
-                            return 0; // Defer to the widget's default.
-                          },
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Text(
+                      'Shwe Thiri Khit',
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 18,
+                        wordSpacing: 1,
+                        letterSpacing: 1,
+                      ),
+                    ),
+                    SizedBox(
+                      width: 90,
+                    ),
+                    SizedBox(
+                      width: 40,
+                      child: ElevatedButton(
+                        style: ButtonStyle(
+                          alignment: Alignment.center,
+                          backgroundColor:
+                              MaterialStateProperty.all(Colors.transparent),
+                          elevation: MaterialStateProperty.resolveWith<double>(
+                            // As you said you dont need elevation. I'm returning 0 in both case
+                            (Set<MaterialState> states) {
+                              if (states.contains(MaterialState.disabled)) {
+                                return 0;
+                              }
+                              return 0; // Defer to the widget's default.
+                            },
+                          ),
+                        ),
+                        onPressed: () async {
+                          try {
+                            await launch('https://m.me/selfmasterywithkhit');
+                          } catch (e) {
+                            print(e);
+                          }
+                        },
+                        child: FaIcon(
+                          FontAwesomeIcons.facebookMessenger,
+                          color: Colors.blue,
+                          size: 23,
                         ),
                       ),
-                      onPressed: () async {
-                        try {
-                          await launch('https://m.me/selfmasterywithkhit');
-                        } catch (e) {
-                          print(e);
-                        }
-                      },
-                      child: FaIcon(
-                        FontAwesomeIcons.facebookMessenger,
-                        color: Colors.blue,
-                        size: 23,
-                      ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ))),
         SliverPadding(

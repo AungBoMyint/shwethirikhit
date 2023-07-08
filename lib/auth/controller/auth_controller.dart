@@ -306,6 +306,7 @@ class AuthController extends GetxController {
           email: emailController.text,
           password: password,
         );
+        box.put(AUTH_KEY, true);
         hideLoading(globalKey.currentState!.context);
         Navigator.pushNamedAndRemoveUntil(globalKey.currentState!.context,
             MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
