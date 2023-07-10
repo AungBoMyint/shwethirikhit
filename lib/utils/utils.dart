@@ -101,3 +101,26 @@ String? stringValidator(String key, String? value) {
     return null;
   }
 }
+
+const MOBILE = 415;
+const TABLET = 524;
+const XTABLET = 800;
+const DESKTOP = 1920;
+
+bool largerThanMobile(double width) => width > MOBILE;
+
+bool largerThanTablet(double width) => width > TABLET;
+
+bool largerThanXTablet(double width) => width > XTABLET;
+
+bool isMobile(double width) {
+  return width <= MOBILE;
+}
+
+bool isTablet(double width) {
+  return width > MOBILE && width <= TABLET;
+}
+
+bool isxTablet(double width) {
+  return width > TABLET && width <= XTABLET;
+}

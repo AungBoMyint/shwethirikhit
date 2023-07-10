@@ -8,7 +8,7 @@ import 'package:kzn/auth/controller/auth_controller.dart';
 import 'package:kzn/model/category.dart';
 import 'package:kzn/therapy/profile_page.dart';
 import 'package:kzn/therapy/therapy_video.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:kzn/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 import '../consultant_appointant/controller/home_controller.dart';
 import '../controller/main_controller.dart';
@@ -30,9 +30,10 @@ class _TherapyState extends State<Therapy> {
   Widget build(BuildContext context) {
     final AuthController _authController = Get.find();
     final HomeController _homeController = Get.find();
-    final height = ResponsiveBreakpoints.of(context).smallerThan(TABLET)
+    final width = MediaQuery.of(context).size.width;
+    final height = !largerThanXTablet(width)
         ? 220
-        : ResponsiveBreakpoints.of(context).smallerThan("LTABLET")
+        : !largerThanXTablet(width)
             ? 300
             : 420;
     return SafeArea(
@@ -163,73 +164,76 @@ class _TherapyState extends State<Therapy> {
                   ]),
               child: Container(
                 padding: const EdgeInsets.only(left: 10, top: 10, right: 20),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Expanded(
-                          child: Image.asset('assets/intro-illustration1.png'),
-                        ),
-                        SizedBox(
-                          width: 15,
-                        ),
-                        Expanded(
-                          child: Text(
-                            "Increased Self-Esteem and Achieve Your True Potential.Be YOU that you've always wanted to be...",
-                            style: TextStyle(
-                                wordSpacing: 1,
-                                letterSpacing: 1,
-                                fontSize: 14,
-                                color:
-                                    color.AppColor.homePageContainerTextSmall),
+                child: SingleChildScrollView(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Expanded(
+                            child:
+                                Image.asset('assets/intro-illustration1.png'),
                           ),
-                        ),
-                      ],
-                    ),
-                    Row(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.all(15),
-                          child: Text(
-                            "Shwe Thiri Khit",
-                            style: TextStyle(
-                                wordSpacing: 1,
-                                letterSpacing: 1,
-                                fontSize: 14,
-                                color:
-                                    color.AppColor.homePageContainerTextSmall),
+                          SizedBox(
+                            width: 15,
                           ),
-                        ),
-                        Expanded(child: Container()),
-                        Container(
-                          decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(60),
-                              boxShadow: [
-                                BoxShadow(
-                                    color: color.AppColor.gradientFirst,
-                                    blurRadius: 10,
-                                    offset: Offset(4, 8))
-                              ]),
-                          child: InkWell(
-                            onTap: () {
-                              /* ///
-                              TODO
-                              Get.to(() => VideoInfo()); */
-                            },
-                            child: Icon(
-                              Icons.play_circle_fill,
-                              color: Colors.white,
-                              size: 60,
+                          Expanded(
+                            child: Text(
+                              "Increased Self-Esteem and Achieve Your True Potential.Be YOU that you've always wanted to be...",
+                              style: TextStyle(
+                                  wordSpacing: 1,
+                                  letterSpacing: 1,
+                                  fontSize: 14,
+                                  color: color
+                                      .AppColor.homePageContainerTextSmall),
                             ),
                           ),
-                        ),
-                      ],
-                    )
-                  ],
+                        ],
+                      ),
+                      Row(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.all(15),
+                            child: Text(
+                              "Shwe Thiri Khit",
+                              style: TextStyle(
+                                  wordSpacing: 1,
+                                  letterSpacing: 1,
+                                  fontSize: 14,
+                                  color: color
+                                      .AppColor.homePageContainerTextSmall),
+                            ),
+                          ),
+                          Expanded(child: Container()),
+                          Container(
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(60),
+                                boxShadow: [
+                                  BoxShadow(
+                                      color: color.AppColor.gradientFirst,
+                                      blurRadius: 10,
+                                      offset: Offset(4, 8))
+                                ]),
+                            child: InkWell(
+                              onTap: () {
+                                /* ///
+                                TODO
+                                Get.to(() => VideoInfo()); */
+                              },
+                              child: Icon(
+                                Icons.play_circle_fill,
+                                color: Colors.white,
+                                size: 60,
+                              ),
+                            ),
+                          ),
+                        ],
+                      )
+                    ],
+                  ),
                 ),
               ),
             ))),
@@ -283,10 +287,10 @@ class LoadingSliverGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount:
-              ResponsiveBreakpoints.of(context).largerThan(MOBILE) ? 3 : 2,
+          crossAxisCount: largerThanMobile(width) ? 3 : 2,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
           childAspectRatio: 1,
@@ -330,10 +334,10 @@ class DataSliverGrid extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return SliverGrid(
         gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount:
-              ResponsiveBreakpoints.of(context).largerThan(MOBILE) ? 3 : 2,
+          crossAxisCount: largerThanMobile(width) ? 3 : 2,
           mainAxisSpacing: 20,
           crossAxisSpacing: 20,
           childAspectRatio: 1,

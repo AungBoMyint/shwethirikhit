@@ -5,7 +5,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 import 'package:kzn/affirmations/widgets/widgets.dart';
 import 'package:kzn/auth/view/auth_page.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:video_player/video_player.dart';
 
 import '../bottombar.dart';
@@ -132,9 +131,8 @@ class _IntroOneScreenState extends State<IntroOneScreen>
     final textWidth = textPainter.width;
     final size = MediaQuery.of(context).size;
     final logoPosition = 100;
-    final buttonWidth = ResponsiveBreakpoints.of(context).largerThan(MOBILE)
-        ? size.width * 0.5
-        : size.width * 0.7;
+    final buttonWidth =
+        largerThanMobile(size.width) ? size.width * 0.5 : size.width * 0.7;
     debugPrint("*****Screen height:${size.height}\nwidth:${size.width}");
     return Scaffold(
       backgroundColor: isVideo ? Colors.black : Colors.white,
@@ -249,7 +247,7 @@ class _IntroOneScreenState extends State<IntroOneScreen>
                     child: child,
                   );
                 },
-                child: ResponsiveBreakpoints.of(context).largerThan(MOBILE)
+                child: largerThanMobile(size.width)
                     ? AspectRatio(
                         aspectRatio: _videoPlayerController.value.aspectRatio,
                         child: VideoPlayer(_videoPlayerController),
@@ -298,7 +296,7 @@ class _IntroOneScreenState extends State<IntroOneScreen>
             //GetSTarted
             Positioned(
               top: (size.height / 2) +
-                  (ResponsiveBreakpoints.of(context).largerThan(MOBILE)
+                  (largerThanMobile(size.width)
                       ? logoPosition + 80
                       : logoPosition + 20),
               left: (size.width / 2) - buttonWidth / 2,

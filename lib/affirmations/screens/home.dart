@@ -4,12 +4,12 @@ import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:kzn/model/type.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer' as developer;
 import '../../consultant_appointant/controller/home_controller.dart';
 import '../../model/category.dart';
 import '../../services/database/query.dart';
+import '../../utils/utils.dart';
 import '../controller/aff_home_controller.dart';
 import '../controller/affirmations_controller.dart';
 import '../models/music.dart';
@@ -152,6 +152,7 @@ class AffHome extends GetView<HomeController> {
 
   @override
   Widget build(BuildContext context) {
+    final width = MediaQuery.of(context).size.width;
     return SafeArea(
       child: Container(
         color: Color.fromRGBO(85, 38, 38, 1),
@@ -193,10 +194,7 @@ class AffHome extends GetView<HomeController> {
                 builder: (context, snapshot, _) {
                   return GridView.builder(
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                      crossAxisCount:
-                          ResponsiveBreakpoints.of(context).largerThan(MOBILE)
-                              ? 3
-                              : 2,
+                      crossAxisCount: largerThanMobile(width) ? 3 : 2,
                       childAspectRatio: 5 / 2,
                       crossAxisSpacing: 10,
                       mainAxisSpacing: 10,

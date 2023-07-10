@@ -5,10 +5,10 @@ import 'package:flutter/src/widgets/placeholder.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:get/get.dart';
 import 'package:kzn/model/category.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'dart:developer' as developer;
 import '../../consultant_appointant/controller/home_controller.dart';
 import '../../services/database/query.dart';
+import '../../utils/utils.dart';
 import '../controller/aff_home_controller.dart';
 import '../controller/affirmations_controller.dart';
 import '../widgets/widgets.dart';
@@ -20,7 +20,7 @@ class AffirmationsCategoryViewAll extends GetView<HomeController> {
   @override
   Widget build(BuildContext context) {
     final AffHomeController affHomeController = Get.find();
-
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: createAppBar('Affirmations Categories'),
       body: FirestoreQueryBuilder<Category>(
@@ -29,8 +29,7 @@ class AffirmationsCategoryViewAll extends GetView<HomeController> {
           return GridView.builder(
             physics: const BouncingScrollPhysics(),
             gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount:
-                  ResponsiveBreakpoints.of(context).largerThan(MOBILE) ? 3 : 2,
+              crossAxisCount: largerThanMobile(width) ? 3 : 2,
               childAspectRatio: 5 / 2,
               crossAxisSpacing: 10,
               mainAxisSpacing: 10,

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:kzn/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../../../services/database/query.dart';
 import '../../../controller/home_controller.dart';
@@ -20,6 +20,7 @@ class ViewAllScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController _homeController = Get.find();
+    final width = MediaQuery.of(context).size.width;
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
@@ -85,8 +86,7 @@ class ViewAllScreen extends StatelessWidget {
 
             return GridView.builder(
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount:
-                    ResponsiveBreakpoints.of(context).isTablet ? 3 : 2,
+                crossAxisCount: largerThanMobile(width) ? 3 : 2,
                 crossAxisSpacing: 3,
                 mainAxisSpacing: 3,
                 childAspectRatio: 1,

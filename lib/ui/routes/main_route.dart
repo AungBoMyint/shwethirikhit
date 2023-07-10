@@ -131,11 +131,9 @@ class _MainRouteState extends State<MainRoute> {
               ),
             ),
             //Course List
-            Expanded(
-              child: Container(
-                color: Color(0xFFEAE1D7),
-                child: _courseListFutureBuilder(),
-              ),
+            Container(
+              color: Color(0xFFEAE1D7),
+              child: _courseListFutureBuilder(),
             ),
           ],
         ),

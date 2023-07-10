@@ -27,8 +27,6 @@ import 'package:kzn/utils/fun.dart';
 import 'package:kzn/utils/utils.dart';
 import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_framework/breakpoint.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
 import 'affirmations/controller/aff_home_controller.dart';
 import 'auth/controller/auth_controller.dart';
 import 'intro/intro_one_screen.dart';
@@ -92,7 +90,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        builder: (context, child) => ResponsiveBreakpoints.builder(
+        /*  builder: (context, child) => ResponsiveBreakpoints.builder(
               child: child!,
               breakpoints: [
                 const Breakpoint(start: 0, end: 415, name: MOBILE),
@@ -101,7 +99,7 @@ class MyApp extends StatelessWidget {
                 const Breakpoint(start: 801, end: 1920, name: DESKTOP),
                 const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
               ],
-            ),
+            ), */
         //home: IntroOneScreen(),
         initialRoute: getInitialRoute(),
         routes: {

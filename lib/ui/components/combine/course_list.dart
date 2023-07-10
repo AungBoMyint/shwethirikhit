@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kzn/data/models/course.dart';
 import 'package:kzn/ui/components/single/course_thumb.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
+import 'package:kzn/utils/utils.dart';
 
 import '../../../affirmations/screens/home.dart';
 import '../../../consultant_appointant/controller/home_controller.dart';
@@ -13,7 +13,7 @@ class CourseList extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find();
-
+    final width = MediaQuery.of(context).size.width;
     return FutureBuilder<Size>(
         future: homeController.completer.future,
         builder: (context, AsyncSnapshot<Size> snap) {
@@ -29,10 +29,7 @@ class CourseList extends StatelessWidget {
               padding: const EdgeInsets.only(bottom: 10, left: 5, right: 5),
               shrinkWrap: true,
               gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount:
-                    ResponsiveBreakpoints.of(context).largerThan(MOBILE)
-                        ? 3
-                        : 2,
+                crossAxisCount: largerThanMobile(width) ? 3 : 2,
                 /* mainAxisSpacing: 20,
                 crossAxisSpacing: 35, */
                 childAspectRatio: (snap.data!.width / snap.data!.height),

@@ -37,7 +37,7 @@ class IntroSlider extends StatelessWidget {
                       padding: const EdgeInsets.only(top: 10, bottom: 10),
                       child: Image.asset(
                         "assets/slideshow/${index + 1}.jpg",
-                        fit: BoxFit.fill,
+                        fit: BoxFit.contain,
                       ),
                     ))); /* ),
           ); */

@@ -11,8 +11,8 @@ import 'package:kzn/data/models/course.dart';
 import 'package:kzn/providers/course_provider.dart';
 import 'package:kzn/ui/components/single/course_thumb_img.dart';
 import 'package:kzn/ui/routes/subscription_check_route.dart';
+import 'package:kzn/utils/utils.dart';
 import 'package:provider/provider.dart';
-import 'package:responsive_framework/responsive_breakpoints.dart';
 
 import '../../../data/image.dart';
 
@@ -28,6 +28,7 @@ class _CourseThumbState extends State<CourseThumb> {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find();
+    final width = MediaQuery.of(context).size.width;
     return FutureBuilder<Size>(
         future: homeController.completer.future,
         builder: (context, AsyncSnapshot<Size> snap) {
@@ -52,7 +53,7 @@ class _CourseThumbState extends State<CourseThumb> {
                 FrameThumbImg(
                   frameSize: snap.data!,
                 ),
-                ResponsiveBreakpoints.of(context).largerThan(TABLET)
+                largerThanTablet(width)
                     ? LTablet(widget: widget)
                     : MobileAndTablet(widget: widget),
                 // Align(
