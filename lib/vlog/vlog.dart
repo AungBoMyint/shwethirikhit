@@ -3,6 +3,7 @@ import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
+import 'package:kzn/utils/utils.dart';
 import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:shimmer/shimmer.dart';
 import 'dart:developer';
@@ -92,7 +93,7 @@ class Vlog extends GetView<VlogController> {
         body: Column(
           children: [
             Expanded(
-              flex: 4,
+              flex: largerThanMobile(width) ? 4 : 3,
               child: AppBar(
                 excludeHeaderSemantics: true,
                 backgroundColor: Color(0xFFEAE1D7),
@@ -123,6 +124,7 @@ class Vlog extends GetView<VlogController> {
                 ),
               ),
             ),
+            verticalSpace(10),
             Expanded(
               flex: 6,
               child: CustomScrollView(

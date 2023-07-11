@@ -102,7 +102,7 @@ String? stringValidator(String key, String? value) {
   }
 }
 
-const MOBILE = 415;
+const MOBILE = 430;
 const TABLET = 524;
 const XTABLET = 800;
 const DESKTOP = 1920;

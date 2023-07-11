@@ -46,10 +46,12 @@ class _VideoInfoState extends State<VideoInfo> {
             children: [
               //if not video,top container or video
               Expanded(
-                flex: 4,
+                flex: largerThanMobile(width) ? 4 : 3,
                 child: AppBar(
                   automaticallyImplyLeading: false,
-                  backgroundColor: Color.fromRGBO(85, 38, 38, 1),
+                  backgroundColor: controller.selectedVideo.value == null
+                      ? Color.fromRGBO(85, 38, 38, 1)
+                      : Color(0xFFEAE1D7),
                   excludeHeaderSemantics: true,
                   toolbarHeight: 230,
                   flexibleSpace: FlexibleSpaceBarSettings(
@@ -97,7 +99,7 @@ class _VideoInfoState extends State<VideoInfo> {
               //video list
               Expanded(
                 flex: controller.selectedVideo.value == null
-                    ? (largerThanMobile(width) ? 12 : 11)
+                    ? (largerThanMobile(width) ? 12 : 7)
                     : 4,
                 child: Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -287,22 +289,24 @@ class NotVideoTopWidget extends StatelessWidget {
               width: 90,
               height: 30,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(
+                color: Color(0xFFEAE1D7),
+                borderRadius: BorderRadius.circular(10),
+                /*  gradient: LinearGradient(
                     colors: [
                       color.AppColor.secondPageContainerGradient1stColor,
                       color.AppColor.secondPageContainerGradient2ndColor
                     ],
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
-                  )),
+                  ) */
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.person,
                     size: 20,
-                    color: color.AppColor.secondPageIconColor,
+                    color: Color.fromRGBO(85, 38, 38, 1),
                   ),
                   SizedBox(
                     width: 5,
@@ -323,22 +327,24 @@ class NotVideoTopWidget extends StatelessWidget {
               width: 200,
               height: 30,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(10),
-                  gradient: LinearGradient(
+                color: Color(0xFFEAE1D7),
+                borderRadius: BorderRadius.circular(10),
+                /* gradient: LinearGradient(
                     colors: [
                       color.AppColor.secondPageContainerGradient1stColor,
                       color.AppColor.secondPageContainerGradient2ndColor
                     ],
                     begin: Alignment.bottomLeft,
                     end: Alignment.topRight,
-                  )),
+                  ) */
+              ),
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   Icon(
                     Icons.video_collection_outlined,
                     size: 20,
-                    color: color.AppColor.secondPageIconColor,
+                    color: Color.fromRGBO(85, 38, 38, 1),
                   ),
                   SizedBox(
                     width: 5,
@@ -351,8 +357,9 @@ class NotVideoTopWidget extends StatelessWidget {
                       maxLines: 1,
                       softWrap: false,
                       style: TextStyle(
-                          fontSize: 14,
-                          color: color.AppColor.secondPageIconColor),
+                        fontSize: 14,
+                        color: Color.fromRGBO(85, 38, 38, 1),
+                      ),
                     ),
                   )
                 ],
@@ -372,49 +379,53 @@ class TopAppBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.only(left: 20, right: 20),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          InkWell(
-            onTap: () {
-              Get.back();
-            },
-            child: Icon(Icons.arrow_back_ios,
-                size: 20, color: color.AppColor.secondPageIconColor),
-          ),
-          SizedBox(
-            width: 30,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                alignment: Alignment.center,
-                backgroundColor: MaterialStateProperty.all(Colors.transparent),
-                elevation: MaterialStateProperty.resolveWith<double>(
-                  // As you said you dont need elevation. I'm returning 0 in both case
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
-                      return 0;
-                    }
-                    return 0; // Defer to the widget's default.
-                  },
+    return Container(
+      color: Color.fromRGBO(85, 38, 38, 1),
+      child: Padding(
+        padding: const EdgeInsets.only(left: 20, right: 20),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            InkWell(
+              onTap: () {
+                Get.back();
+              },
+              child: Icon(Icons.arrow_back_ios,
+                  size: 20, color: color.AppColor.secondPageIconColor),
+            ),
+            SizedBox(
+              width: 30,
+              child: ElevatedButton(
+                style: ButtonStyle(
+                  alignment: Alignment.center,
+                  backgroundColor:
+                      MaterialStateProperty.all(Colors.transparent),
+                  elevation: MaterialStateProperty.resolveWith<double>(
+                    // As you said you dont need elevation. I'm returning 0 in both case
+                    (Set<MaterialState> states) {
+                      if (states.contains(MaterialState.disabled)) {
+                        return 0;
+                      }
+                      return 0; // Defer to the widget's default.
+                    },
+                  ),
+                ),
+                onPressed: () async {
+                  try {
+                    await launch('https://m.me/selfmasterywithkhit');
+                  } catch (e) {
+                    print(e);
+                  }
+                },
+                child: FaIcon(
+                  FontAwesomeIcons.facebookMessenger,
+                  color: Colors.blue,
+                  size: 23,
                 ),
               ),
-              onPressed: () async {
-                try {
-                  await launch('https://m.me/selfmasterywithkhit');
-                } catch (e) {
-                  print(e);
-                }
-              },
-              child: FaIcon(
-                FontAwesomeIcons.facebookMessenger,
-                color: Colors.blue,
-                size: 23,
-              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
