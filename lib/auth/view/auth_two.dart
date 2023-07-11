@@ -216,7 +216,7 @@ class AuthTwo extends StatelessWidget {
                 ),
                 15.w(),
                 ThirdPartyAuthButton(
-                  onTap: () => authController.signInWithGoogle(),
+                  onTap: () => authController.signInWithApple(),
                   assetImage: AppImage.apple,
                 ),
               ],
