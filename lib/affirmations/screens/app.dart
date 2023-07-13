@@ -27,18 +27,25 @@ class _AffState extends State<Aff> {
   Widget audioProgressBar() {
     return Obx(
       () {
+        final theme = Theme.of(Get.context!);
         final progress = affHomeController.streamPosition.value;
         /* final buffered = durationState?.buffered ?? Duration.zero; */
         final total = affHomeController.streamDuration.value;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
           child: ProgressBar(
+            barHeight: 2,
+            thumbRadius: 8,
             progress: progress,
-            thumbColor: Colors.black,
-            progressBarColor: Colors.black,
-            baseBarColor: Colors.white,
+            timeLabelPadding: 5,
+            thumbColor: Colors.white,
+            progressBarColor: Colors.white,
+            baseBarColor: Colors.grey.shade400,
             /*  buffered: buffered, */
             total: total,
+            timeLabelTextStyle: TextStyle(
+              color: Colors.grey.shade400,
+            ),
             onSeek: (duration) {
               affHomeController.player?.seek(duration);
             },
@@ -63,7 +70,12 @@ class _AffState extends State<Aff> {
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.network(music.image.replaceAll("'", ""), fit: BoxFit.cover),
+              Image.network(
+                music.image.replaceAll("'", ""),
+                fit: BoxFit.contain,
+                height: 100,
+                width: 200,
+              ),
               Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -112,19 +124,24 @@ class _AffState extends State<Aff> {
   // UI Design Code Goes inside Build
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     print("Lets Build it");
     return Scaffold(
       body: Tabs[currentTabIndex],
-      backgroundColor: Colors.black,
-      bottomNavigationBar: Column(
-        mainAxisSize: MainAxisSize.min,
-        children: [
-          Obx(() {
-            final music = affHomeController.selectedMusic.value;
-            final isPlaying = affHomeController.isPlaying.value;
-            return miniPlayer(music, isPlaying);
-          }),
-        ],
+      backgroundColor: Colors.blueGrey,
+      bottomNavigationBar: Padding(
+        padding: EdgeInsets.symmetric(
+            horizontal: largerThanMobile(size.width) ? 20 : 10),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Obx(() {
+              final music = affHomeController.selectedMusic.value;
+              final isPlaying = affHomeController.isPlaying.value;
+              return miniPlayer(music, isPlaying);
+            }),
+          ],
+        ),
       ),
     );
   }
