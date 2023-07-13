@@ -188,6 +188,7 @@ class AffHome extends GetView<HomeController> {
                 ),
               ),
             ),
+            //Category
             SliverToBoxAdapter(
               child: FirestoreQueryBuilder<Category>(
                 query: affirmationsCategoryQuery,
@@ -219,6 +220,7 @@ class AffHome extends GetView<HomeController> {
                 },
               ),
             ),
+            //Music List
             SliverToBoxAdapter(
               child: FirestoreListView<ItemType>(
                 shrinkWrap: true,

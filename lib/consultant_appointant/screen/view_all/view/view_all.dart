@@ -31,7 +31,7 @@ class ViewAllScreen extends StatelessWidget {
         backgroundColor: Colors.white,
         elevation: 0,
         title: Text(
-          "His's and Her's Learning",
+          "Shwe Thiri Khit",
           style: TextStyle(
             fontSize: 15,
             fontWeight: FontWeight.bold,
@@ -60,7 +60,7 @@ class ViewAllScreen extends StatelessWidget {
               ),
               onPressed: () async {
                 try {
-                  await launch('https://m.me/hisandhermyanmar');
+                  await launch('https://m.me/selfmasterywithkhit');
                 } catch (e) {
                   print(e);
                 }

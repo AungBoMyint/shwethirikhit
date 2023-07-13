@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:developer';
+
 import 'package:audioplayers/audioplayers.dart';
 import 'package:get/get.dart';
 import '../../utils/debouncer.dart';
@@ -9,6 +12,10 @@ class AffHomeController extends GetxController {
   AudioPlayer? player;
   var isPlaying = false.obs;
   var isLoading = false.obs;
+  var streamDuration = Duration.zero.obs;
+  var streamPosition = Duration.zero.obs;
+  PlayerState? streamState;
+  List<StreamSubscription<Duration>?>? streams;
 
   Future<void> setSelectedMusic(Music music) async {
     if (!(selectedMusic.value == null) &&
@@ -16,6 +23,7 @@ class AffHomeController extends GetxController {
       //if user press the same music
       if (isPlaying.value) {
         await player!.pause();
+
         isPlaying.value = false;
       } else {
         await player!.resume();
@@ -39,6 +47,34 @@ class AffHomeController extends GetxController {
     player = AudioPlayer();
     isPlaying.value = true;
     await player!.play(UrlSource(music.audioURL));
+    streamState = player?.state;
+    player?.getDuration().then((it) {
+      streamDuration.value = it ?? Duration.zero;
+      log("Total Durations:$it");
+    });
+    player?.getCurrentPosition().then(
+      (it) {
+        streamPosition.value = it ?? Duration.zero;
+        log("Player State: $it");
+      },
+    );
+
+    if (!(streams == null)) streams?.map((e) => e?.cancel());
+    streams = <StreamSubscription<Duration>?>[
+      player?.onDurationChanged.listen((it) {
+        streamDuration.value = it;
+      }),
+
+      /*  player?.onPlayerStateChanged
+          .listen((it) =>  streamState = it), */
+      player?.onPositionChanged.listen((it) {
+        streamPosition.value = it;
+        if (streamPosition.value == streamDuration.value && isPlaying.value) {
+          isPlaying.value = false;
+          log("Finished");
+        }
+      }),
+    ];
     isLoading.value = false;
   }
 
