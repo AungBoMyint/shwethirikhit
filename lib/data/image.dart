@@ -5,5 +5,6 @@ class AppImage {
   static const facebook = "assets/ic_facebook.png";
   static const google = "assets/ic_google.png";
   static const apple = "assets/ic_apple.png";
+  static const sa = "assets/shwethirikhit_avatar.jpeg";
   static const iPhoneFrame = "assets/course-covers.png";
 }

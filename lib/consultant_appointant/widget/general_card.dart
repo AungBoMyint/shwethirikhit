@@ -19,12 +19,16 @@ class GeneralCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.of(context).push(route(DetailPage(
+        Get.toNamed(
+          DetailPage.routeName,
+          arguments: expertModel,
+        );
+        /* Navigator.of(context).push(route(DetailPage(
           expertModel: expertModel,
-        )));
+        ))); */
       },
       child: Container(
-        width: 190,
+        width: 180,
         child: Card(
           elevation: 2,
           child: Padding(
@@ -175,9 +179,7 @@ class SearchCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(
-          DetailPage(expertModel: expertModel),
-        );
+        Get.toNamed(DetailPage.routeName, arguments: expertModel);
       },
       child: Container(
         width: double.infinity,
@@ -333,8 +335,9 @@ class _CheckOutCardState extends State<CheckOutCard> {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Get.to(
-          DetailPage(expertModel: widget.expertModel),
+        Get.toNamed(
+          DetailPage.routeName,
+          arguments: widget.expertModel,
         );
       },
       child: Container(

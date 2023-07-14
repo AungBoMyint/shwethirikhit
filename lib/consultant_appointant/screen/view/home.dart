@@ -8,7 +8,9 @@ import '../../../model/type.dart';
 import '../../../services/database/query.dart';
 import '../../controller/home_controller.dart';
 import '../../model/expert.dart';
+import '../../widget/custom_tag.dart';
 import '../../widget/general_card.dart';
+import '../../widget/image_container.dart';
 import '../../widget/pick_up.dart';
 import '../view_all/view/view_all.dart';
 
@@ -26,21 +28,85 @@ class HomeView extends StatelessWidget {
         ///Pickup
         SliverToBoxAdapter(
           child: Container(
-            height: isTablet ? 450 : 220,
+            height: isTablet ? 450 : 300,
             margin: EdgeInsets.only(top: 40),
             child: FirestoreListView<Category>(
               scrollDirection: Axis.horizontal,
-              padding: EdgeInsets.only(left: 20),
               physics: const BouncingScrollPhysics(),
               query: homeCategoryQuery,
               loadingBuilder: (context) => SliderLoadingWidget(),
               errorBuilder: (context, error, stackTrace) => ErrorWidget(error),
               itemBuilder: (context, snapshot) {
                 final category = snapshot.data();
-                return PickUp(
+                return ImageContainer(
+                  height: MediaQuery.of(context).size.height * 0.45,
+                  width: MediaQuery.of(context).size.width,
+                  padding: const EdgeInsets.all(20.0),
+                  imageUrl: category.image,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      CustomTag(
+                        backgroundColor: Colors.grey.withAlpha(150),
+                        children: [
+                          Text(
+                            'News of the Day',
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyMedium!
+                                .copyWith(
+                                  color: Colors.white,
+                                ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 10),
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.2),
+                            borderRadius: BorderRadius.all(Radius.circular(5))),
+                        child: Text(
+                          category.name,
+                          style: Theme.of(context)
+                              .textTheme
+                              .headlineSmall!
+                              .copyWith(
+                                  fontWeight: FontWeight.bold,
+                                  height: 1.25,
+                                  color: Colors.white),
+                        ),
+                      ),
+                      /*   TextButton(
+                        onPressed: () {},
+                        style: TextButton.styleFrom(padding: EdgeInsets.zero),
+                        child: Row(
+                          children: [
+                            Text(
+                              'Learn More',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyLarge!
+                                  .copyWith(
+                                    color: Colors.white,
+                                  ),
+                            ),
+                            const SizedBox(width: 10),
+                            const Icon(
+                              Icons.arrow_right_alt,
+                              color: Colors.white,
+                            ),
+                          ],
+                        ),
+                      ),
+                     */
+                    ],
+                  ),
+                ); /* PickUp(
                   current: category.order ?? 1,
                   category: category,
-                );
+                ); */
               },
             ),
           ),
@@ -92,7 +158,7 @@ class HomeView extends StatelessWidget {
                   SliverToBoxAdapter(
                     child: Container(
                       margin: EdgeInsets.only(top: 20),
-                      height: 190,
+                      height: 180,
                       child: FirestoreListView<ExpertModel>(
                         shrinkWrap: true,
                         scrollDirection: Axis.horizontal,

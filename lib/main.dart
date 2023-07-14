@@ -10,6 +10,7 @@ import 'package:hive_flutter/adapters.dart';
 import 'package:kzn/auth/view/auth_page.dart';
 import 'package:kzn/auth/view/sms_page.dart';
 import 'package:kzn/consultant_appointant/controller/home_controller.dart';
+import 'package:kzn/consultant_appointant/screen/detail.dart';
 import 'package:kzn/data/constant.dart';
 import 'package:kzn/providers/course_provider.dart';
 import 'package:kzn/providers/subscription_provider.dart';
@@ -116,7 +117,8 @@ class MyApp extends StatelessWidget {
           EnrollFormRoute.routeName: (context) => EnrollFormRoute(),
           PrivacyPolicyRoute.routeName: (context) => PrivacyPolicyRoute(),
           SubscriptionCheckRoute.routeName: (context) =>
-              SubscriptionCheckRoute()
+              SubscriptionCheckRoute(),
+          DetailPage.routeName: (context) => DetailPage(),
         });
   }
 }

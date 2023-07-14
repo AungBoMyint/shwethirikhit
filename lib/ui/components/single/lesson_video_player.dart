@@ -80,7 +80,7 @@ class _LessonVideoPlayerState extends State<LessonVideoPlayer> {
 
   Widget _videoPlayer() {
     return AspectRatio(
-      aspectRatio: 16 / 8,
+      aspectRatio: 16 / 9,
       child: BetterPlayer(
         controller: _betterPlayerController,
       ),
