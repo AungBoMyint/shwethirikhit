@@ -1,3 +1,5 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+
 class ItemType {
   final String id;
   final String name;
@@ -18,7 +20,9 @@ class ItemType {
   factory ItemType.fromJson(Map<String, dynamic> json) => ItemType(
         id: json["id"],
         name: json["name"],
-        dateTime: json["dateTime"],
+        dateTime: json["dateTime"] is Timestamp
+            ? (json["dateTime"] as Timestamp).toString()
+            : json["dateTime"],
         order: json["order"],
       );
 }

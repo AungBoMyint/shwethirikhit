@@ -61,51 +61,51 @@ class _AffState extends State<Aff> {
     }
     Size deviceSize = MediaQuery.of(context).size;
     return AnimatedContainer(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        color: Colors.blueGrey,
+      ),
       duration: const Duration(milliseconds: 500),
-      color: Colors.blueGrey,
       width: deviceSize.width,
       height: 150,
+      padding: const EdgeInsets.only(
+        top: 15,
+        left: 15,
+        right: 15,
+      ),
       child: Column(
         children: [
           Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Image.network(
-                music.image.replaceAll("'", ""),
-                fit: BoxFit.contain,
-                height: 100,
-                width: 200,
-              ),
-              Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    music.name,
-                    style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 16,
-                        wordSpacing: 1,
-                        letterSpacing: 1),
-                  ),
-                  SizedBox(
-                    height: 5,
-                  ),
-                  Text(music.desc,
-                      style: TextStyle(
-                          color: Colors.white,
-                          wordSpacing: 1,
-                          letterSpacing: 1)),
-                ],
-              ),
               SizedBox(
-                width: 50,
+                height: 80,
+                width: 80,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  child: Image.network(
+                    music.image.replaceAll("'", ""),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              Text(
+                music.name,
+                style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                    wordSpacing: 1,
+                    letterSpacing: 1),
               ),
               IconButton(
                   onPressed: () => affHomeController.setSelectedMusic(music),
                   icon: isPlaying
                       ? Icon(Icons.pause, color: Colors.white)
-                      : Icon(Icons.play_arrow, color: Colors.white))
+                      : Icon(Icons.play_arrow, color: Colors.white)),
             ],
           ),
           verticalSpace(5),
@@ -128,20 +128,16 @@ class _AffState extends State<Aff> {
     print("Lets Build it");
     return Scaffold(
       body: Tabs[currentTabIndex],
-      backgroundColor: Colors.blueGrey,
-      bottomNavigationBar: Padding(
-        padding: EdgeInsets.symmetric(
-            horizontal: largerThanMobile(size.width) ? 20 : 10),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Obx(() {
-              final music = affHomeController.selectedMusic.value;
-              final isPlaying = affHomeController.isPlaying.value;
-              return miniPlayer(music, isPlaying);
-            }),
-          ],
-        ),
+      backgroundColor: Color.fromRGBO(85, 38, 38, 1),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Obx(() {
+            final music = affHomeController.selectedMusic.value;
+            final isPlaying = affHomeController.isPlaying.value;
+            return miniPlayer(music, isPlaying);
+          }),
+        ],
       ),
     );
   }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:kzn/model/category.dart';
+import 'package:kzn/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../controller/main_controller.dart';
 import '../../../model/type.dart';
@@ -28,7 +29,8 @@ class HomeView extends StatelessWidget {
         ///Pickup
         SliverToBoxAdapter(
           child: Container(
-            height: isTablet ? 450 : 300,
+            height:
+                largerThanMobile(MediaQuery.of(context).size.width) ? 450 : 300,
             margin: EdgeInsets.only(top: 40),
             child: FirestoreListView<Category>(
               scrollDirection: Axis.horizontal,
@@ -39,7 +41,10 @@ class HomeView extends StatelessWidget {
               itemBuilder: (context, snapshot) {
                 final category = snapshot.data();
                 return ImageContainer(
-                  height: MediaQuery.of(context).size.height * 0.45,
+                  height: /* largerThanMobile(MediaQuery.of(context).size.width)
+                      ? MediaQuery.of(context).size.height * 0.6
+                      : */
+                      MediaQuery.of(context).size.height * 0.45,
                   width: MediaQuery.of(context).size.width,
                   padding: const EdgeInsets.all(20.0),
                   imageUrl: category.image,
@@ -78,29 +83,6 @@ class HomeView extends StatelessWidget {
                                   color: Colors.white),
                         ),
                       ),
-                      /*   TextButton(
-                        onPressed: () {},
-                        style: TextButton.styleFrom(padding: EdgeInsets.zero),
-                        child: Row(
-                          children: [
-                            Text(
-                              'Learn More',
-                              style: Theme.of(context)
-                                  .textTheme
-                                  .bodyLarge!
-                                  .copyWith(
-                                    color: Colors.white,
-                                  ),
-                            ),
-                            const SizedBox(width: 10),
-                            const Icon(
-                              Icons.arrow_right_alt,
-                              color: Colors.white,
-                            ),
-                          ],
-                        ),
-                      ),
-                     */
                     ],
                   ),
                 ); /* PickUp(

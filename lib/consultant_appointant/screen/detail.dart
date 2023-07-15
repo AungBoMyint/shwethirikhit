@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
 import 'package:kzn/data/image.dart';
 import 'package:kzn/utils/utils.dart';
@@ -16,6 +17,7 @@ class DetailPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final expertModel = Get.arguments as ExpertModel;
+    final rating = int.tryParse(expertModel.rating) ?? 0;
     final isTablet = MediaQuery.of(context).size.width > 800;
     return Scaffold(
       backgroundColor: Colors.white,
@@ -42,7 +44,7 @@ class DetailPage extends StatelessWidget {
                             CarouselChild(photolink: expertModel.photolink3),
                           ],
                           options: CarouselOptions(
-                            height: 300,
+                            height: 350,
                             viewportFraction: 1,
                             initialPage: 0,
                             enableInfiniteScroll: true,
@@ -86,8 +88,26 @@ class DetailPage extends StatelessWidget {
                           CustomTag(
                             insidePadding: 10,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            backgroundColor: Colors.grey.shade200,
+                            backgroundColor: Colors.white,
                             children: [
+                              RatingBar.builder(
+                                itemSize: 20,
+                                ignoreGestures: true,
+                                initialRating: rating / 2,
+                                minRating: 0,
+                                direction: Axis.horizontal,
+                                allowHalfRating: true,
+                                itemCount: 5,
+                                itemPadding:
+                                    EdgeInsets.symmetric(horizontal: 4.0),
+                                itemBuilder: (context, _) => Icon(
+                                  Icons.star,
+                                  color: Colors.amber,
+                                ),
+                                onRatingUpdate: (rating) {
+                                  print(rating);
+                                },
+                              ),
                               Text(
                                 expertModel.rating,
                               )
@@ -157,7 +177,7 @@ class CarouselChild extends StatelessWidget {
         bottomRight: Radius.circular(25),
       ),
       child: CachedNetworkImage(
-          imageUrl: photolink, width: double.infinity, fit: BoxFit.fill),
+          imageUrl: photolink, width: double.infinity, fit: BoxFit.cover),
     );
   }
 }
