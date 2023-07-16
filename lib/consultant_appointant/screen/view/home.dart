@@ -30,7 +30,7 @@ class HomeView extends StatelessWidget {
         SliverToBoxAdapter(
           child: Container(
             height:
-                largerThanMobile(MediaQuery.of(context).size.width) ? 450 : 300,
+                largerThanMobile(MediaQuery.of(context).size.width) ? 680 : 300,
             margin: EdgeInsets.only(top: 40),
             child: FirestoreListView<Category>(
               scrollDirection: Axis.horizontal,

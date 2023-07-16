@@ -153,7 +153,8 @@ class _MainRouteState extends State<MainRoute> {
             if (snapshot.data!.length == 0) {
               return HomeView();
             } else {
-              return CourseList(courses: snapshot.data!);
+              final courses = snapshot.data!.reversed.toList();
+              return CourseList(courses: courses);
             }
           } else if (snapshot.hasError) {
             //_refreshController.refreshCompleted();
