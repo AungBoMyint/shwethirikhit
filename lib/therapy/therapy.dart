@@ -372,8 +372,9 @@ class DataSliverGrid extends StatelessWidget {
                         image: CachedNetworkImageProvider(
                           category.image,
                           cacheKey: category.image,
-                          maxHeight: height.round(),
-                          maxWidth: width.round(),
+                          /* maxHeight: height.round(),
+                          
+                          maxWidth: width.round(), */
                         ),
                       ),
                       boxShadow: [

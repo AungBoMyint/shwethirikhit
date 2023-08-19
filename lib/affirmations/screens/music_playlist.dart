@@ -78,56 +78,66 @@ class _MusicPlayListState extends State<MusicPlayList> {
                 final width = constraints.maxWidth;
                 return Padding(
                   padding: const EdgeInsets.only(left: 10, right: 10),
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //Category or Tag Image
-                      SizedBox(
-                        width: width / 2,
-                        height: 150,
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.all(Radius.circular(20)),
-                          child: CachedNetworkImage(
-                            imageUrl: widget.category == null
-                                ? musicCover
-                                : widget.category!.image,
-                            fit: BoxFit.cover,
-                            width: width / 2,
-                            height: 150,
-                            cacheKey: widget.category == null
-                                ? musicCover
-                                : widget.category!.image,
-                          ),
-                        ),
-                      ),
-                      const SizedBox(width: 20),
-                      //Right Text
-                      Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            widget.category?.name ?? widget.type?.name ?? "",
-                            style: TextStyle(
-                              fontSize: 20,
-                              fontWeight: FontWeight.bold,
-                              letterSpacing: 1,
-                              wordSpacing: 1,
-                              color: Colors.black,
+                  child: SizedBox(
+                    width: width,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //Category or Tag Image
+                        SizedBox(
+                          width: width / 2,
+                          height: 150,
+                          child: ClipRRect(
+                            borderRadius: BorderRadius.all(Radius.circular(20)),
+                            child: CachedNetworkImage(
+                              imageUrl: widget.category == null
+                                  ? musicCover
+                                  : widget.category!.image,
+                              fit: BoxFit.cover,
+                              width: width / 2,
+                              height: 150,
+                              cacheKey: widget.category == null
+                                  ? musicCover
+                                  : widget.category!.image,
                             ),
                           ),
-                          const SizedBox(height: 10),
-                          FutureBuilder<int>(
-                            future: musicCount(),
-                            builder: (context, AsyncSnapshot<int> snapshot) {
-                              return Text(
-                                "${snapshot.data} songs",
-                              );
-                            },
+                        ),
+                        const SizedBox(width: 20),
+                        //Right Text
+                        Expanded(
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                widget.category?.name ??
+                                    widget.type?.name ??
+                                    "",
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                                style: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.bold,
+                                  letterSpacing: 1,
+                                  wordSpacing: 1,
+                                  color: Colors.black,
+                                ),
+                              ),
+                              const SizedBox(height: 10),
+                              FutureBuilder<int>(
+                                future: musicCount(),
+                                builder:
+                                    (context, AsyncSnapshot<int> snapshot) {
+                                  return Text(
+                                    "${snapshot.data} songs",
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                        ],
-                      ),
-                    ],
+                        ),
+                      ],
+                    ),
                   ),
                 );
               }),

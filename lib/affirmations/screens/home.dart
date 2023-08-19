@@ -51,7 +51,7 @@ class AffHome extends GetView<HomeController> {
             Expanded(
               child: Text(
                 category.name,
-                maxLines: 3,
+                maxLines: 2,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(color: Colors.white),
               ),
@@ -66,43 +66,48 @@ class AffHome extends GetView<HomeController> {
   Widget createMusic(Music music) {
     return Padding(
       padding: EdgeInsets.all(10),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Container(
-            height: 160,
-            width: 160,
-            child: InkWell(
-              onTap: () {
-                affHomeController.setSelectedMusic(music);
-              },
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(10),
-                child: CachedNetworkImage(
-                  imageUrl: music.image.replaceAll("'", ""),
-                  fit: BoxFit.fitHeight,
-                  height: 160,
-                  width: 160,
-                  cacheKey: music.image.replaceAll("'", ""),
+      child: SizedBox(
+        width: 160,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Container(
+              height: 160,
+              width: 160,
+              child: InkWell(
+                onTap: () {
+                  affHomeController.setSelectedMusic(music);
+                },
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: CachedNetworkImage(
+                    imageUrl: music.image.replaceAll("'", ""),
+                    fit: BoxFit.fitHeight,
+                    height: 160,
+                    width: 160,
+                    cacheKey: music.image.replaceAll("'", ""),
+                  ),
                 ),
               ),
             ),
-          ),
-          SizedBox(
-            height: 10,
-          ),
-          Text(
-            music.name,
-            style: TextStyle(
-                color: Colors.white, letterSpacing: 0.5, wordSpacing: 0.5),
-          ),
-          Text(music.desc,
+            SizedBox(
+              height: 10,
+            ),
+            Text(
+              music.name,
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
               style: TextStyle(
-                color: Colors.white,
-                letterSpacing: 0.5,
-                wordSpacing: 0.5,
-              ))
-        ],
+                  color: Colors.white, letterSpacing: 0.5, wordSpacing: 0.5),
+            ),
+            Text(music.desc,
+                style: TextStyle(
+                  color: Colors.white,
+                  letterSpacing: 0.5,
+                  wordSpacing: 0.5,
+                ))
+          ],
+        ),
       ),
     );
   }
