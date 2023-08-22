@@ -71,6 +71,8 @@ class VlogController extends GetxController {
   }
 
   initializeImplementation(List<VlogVideo> v) {
+/*     log("====video url: ${_homeController.vlogVideos.first.videoURL}");
+ */
     if (v.isNotEmpty && (chewieController.value == null)) {
       selectedVideo.value = _homeController.vlogVideos.first;
       isLoading.value = false;

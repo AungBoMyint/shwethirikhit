@@ -95,7 +95,7 @@ class AffHome extends GetView<HomeController> {
             ),
             Text(
               music.name,
-              maxLines: 1,
+              maxLines: 2,
               overflow: TextOverflow.ellipsis,
               style: TextStyle(
                   color: Colors.white, letterSpacing: 0.5, wordSpacing: 0.5),
@@ -275,7 +275,7 @@ class AffHome extends GetView<HomeController> {
                           ],
                         ),
                         Container(
-                          height: 230,
+                          height: 260,
                           child: FirestoreListView<Music>(
                             query: affirmationsTypeMusicsQuery(affType.id),
                             scrollDirection: Axis.horizontal,

@@ -1,7 +1,6 @@
 import 'dart:async';
 
 import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kzn/affirmations/screens/search.dart';
@@ -29,7 +28,7 @@ class _AffState extends State<Aff> {
       () {
         final theme = Theme.of(Get.context!);
         final progress = affHomeController.streamPosition.value;
-        /* final buffered = durationState?.buffered ?? Duration.zero; */
+        final buffered = affHomeController.streamBuffer.value;
         final total = affHomeController.streamDuration.value;
         return Padding(
           padding: const EdgeInsets.symmetric(horizontal: 5),
@@ -40,14 +39,15 @@ class _AffState extends State<Aff> {
             timeLabelPadding: 5,
             thumbColor: Colors.white,
             progressBarColor: Colors.white,
-            baseBarColor: Colors.grey.shade400,
-            /*  buffered: buffered, */
+            baseBarColor: Colors.grey.shade500,
+            bufferedBarColor: Colors.grey.shade200,
+            buffered: buffered,
             total: total,
             timeLabelTextStyle: TextStyle(
               color: Colors.grey.shade400,
             ),
             onSeek: (duration) {
-              affHomeController.player?.seek(duration);
+              affHomeController.player.seek(duration);
             },
           ),
         );
@@ -86,20 +86,23 @@ class _AffState extends State<Aff> {
                 height: 80,
                 width: 80,
                 child: ClipRRect(
-                  borderRadius: BorderRadius.all(Radius.circular(20)),
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
                   child: Image.network(
                     music.image.replaceAll("'", ""),
                     fit: BoxFit.contain,
                   ),
                 ),
               ),
-              Text(
-                music.name,
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
-                    wordSpacing: 1,
-                    letterSpacing: 1),
+              horizontalSpace(10),
+              Expanded(
+                child: Text(
+                  music.name,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      wordSpacing: 1,
+                      letterSpacing: 1),
+                ),
               ),
               IconButton(
                   onPressed: () => affHomeController.setSelectedMusic(music),

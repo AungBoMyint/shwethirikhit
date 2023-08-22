@@ -1,8 +1,8 @@
 import 'dart:developer';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutterfire_ui/firestore.dart';
+import 'package:kzn/affirmations/controller/aff_home_controller.dart';
 import 'package:rive/rive.dart';
-import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
@@ -39,7 +39,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
   @override
   Widget build(BuildContext context) {
     final HomeController controller = Get.find();
-    final AffirmationsController afController = Get.find();
+    final AffHomeController afController = Get.find();
     final query = widget.category == null
         ? affirmationsTypeMusicsQuery(widget.type!.id)
         : affirmationsCategoryMusicsQuery(widget.category!.id);
@@ -153,9 +153,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
                       if (snapshot.hasData && !(snapshot.data == null)) {
                         return Obx(() {
                           final music = afController.selectedMusic.value;
-                          final isPlaying = afController.playerStatus.value!
-                                  .getOrElse(() => PlayerStatus.nothing()) ==
-                              PlayerStatus.playing();
+                          final isPlaying = afController.isPlaying.value;
                           return ElevatedButton(
                             style: ElevatedButton.styleFrom(
                               backgroundColor: logoColor,
@@ -235,10 +233,10 @@ class _MusicPlayListState extends State<MusicPlayList> {
             const SizedBox(height: 20),
             Expanded(
               child: Obx(() {
-                final state = afController.playerStatus.value!
-                    .getOrElse(() => PlayerStatus.nothing());
+                /* final state = afController.playerStatus.value!
+                    .getOrElse(() => PlayerStatus.nothing()); */
                 final selectedMusic = afController.selectedMusic.value;
-
+                final isPlaying = afController.isPlaying.value;
                 return FirestoreQueryBuilder<Music>(
                   query: query,
                   builder: (context, snapshot, _) {
@@ -265,29 +263,17 @@ class _MusicPlayListState extends State<MusicPlayList> {
                                   onTap: () =>
                                       afController.setSelectedMusic(music),
                                   leading: Text("${index + 1}"),
+
                                   /* isPlaying
                             ? Image.asset("assets/animations/cd.gif")
                             : Text("${index + 1}"),*/
                                   title: Text(music.name),
                                   subtitle: Text(music.desc),
-                                  trailing:
-                                      afController.playerStatus.value!.fold(
-                                    (l) => const SizedBox(),
-                                    (r) => r.map(
-                                      loading: (v) =>
+                                  trailing: isPlaying &&
                                           !(selectedMusic == null) &&
-                                                  (selectedMusic.id == music.id)
-                                              ? circularProgress()
-                                              : pauseImage(),
-                                      playing: (v) =>
-                                          !(selectedMusic == null) &&
-                                                  (selectedMusic.id == music.id)
-                                              ? playingAnimation()
-                                              : pauseImage(),
-                                      pause: (v) => pauseImage(),
-                                      nothing: (v) => pauseImage(),
-                                    ),
-                                  ),
+                                          (selectedMusic.id == music.id)
+                                      ? playingAnimation()
+                                      : pauseImage(),
                                 ),
                               );
                             },

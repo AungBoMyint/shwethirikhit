@@ -1,78 +1,72 @@
 import 'dart:async';
 import 'dart:developer';
 
-import 'package:audioplayers/audioplayers.dart';
+/* import 'package:audioplayers/audioplayers.dart';
+ */
 import 'package:get/get.dart';
+import 'package:just_audio/just_audio.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import '../../utils/debouncer.dart';
 import '../models/music.dart';
 
 class AffHomeController extends GetxController {
   final _debouncer = Debouncer(milliseconds: 300);
   Rxn<Music> selectedMusic = Rxn<Music>(null);
-  AudioPlayer? player;
+  AudioPlayer player = AudioPlayer();
   var isPlaying = false.obs;
   var isLoading = false.obs;
   var streamDuration = Duration.zero.obs;
   var streamPosition = Duration.zero.obs;
+  var streamBuffer = Duration.zero.obs;
   PlayerState? streamState;
-  List<StreamSubscription<Duration>?>? streams;
+  StreamSubscription<PlayerState>? playerStreams;
+  List<StreamSubscription<Duration?>?>? streams;
 
   Future<void> setSelectedMusic(Music music) async {
+/*     selectedMusic.value = music;
+ */
     if (!(selectedMusic.value == null) &&
-        (music.id == selectedMusic.value!.id)) {
+        (music.id == selectedMusic.value?.id)) {
       //if user press the same music
-      if (isPlaying.value) {
-        await player!.pause();
-
-        isPlaying.value = false;
+      if (!isPlaying.value) {
+        await player.play();
       } else {
-        await player!.resume();
-        isPlaying.value = true;
+        await player.pause();
       }
       return;
-    } else {
-      //if different song
-      if (isLoading.value) {
-        //but it is still loading,nothing do,return
-        return;
-      }
     }
     selectedMusic.value = music;
     isLoading.value = true;
     if (isPlaying.value) {
-      player!.pause();
-      isPlaying.value = false;
+      player.pause();
     }
-    player = null;
-    player = AudioPlayer();
-    isPlaying.value = true;
-    await player!.play(UrlSource(music.audioURL));
-    streamState = player?.state;
-    player?.getDuration().then((it) {
-      streamDuration.value = it ?? Duration.zero;
-      log("Total Durations:$it");
+    player = player
+      ..setAudioSource(AudioSource.uri(
+        Uri.parse(music.audioURL),
+        tag: MediaItem(
+            // Specify a unique ID for each media item:
+            id: music.id,
+            // Metadata to display in the notification:
+            album: music.categoryID,
+            title: music.name,
+            artUri: Uri.parse(music.image)),
+      ));
+    await player.play();
+
+    if ((streams == null)) streams?.map((e) => e?.cancel());
+    if ((playerStreams == null)) playerStreams?.cancel();
+    player.playerStateStream.listen((event) {
+      isPlaying.value = event.playing;
     });
-    player?.getCurrentPosition().then(
-      (it) {
-        streamPosition.value = it ?? Duration.zero;
-        log("Player State: $it");
-      },
-    );
-
-    if (!(streams == null)) streams?.map((e) => e?.cancel());
-    streams = <StreamSubscription<Duration>?>[
-      player?.onDurationChanged.listen((it) {
-        streamDuration.value = it;
+    streams = <StreamSubscription<Duration?>?>[
+      player.durationStream.listen((event) {
+        streamDuration.value = event ?? Duration.zero;
       }),
-
-      /*  player?.onPlayerStateChanged
-          .listen((it) =>  streamState = it), */
-      player?.onPositionChanged.listen((it) {
-        streamPosition.value = it;
-        if (streamPosition.value == streamDuration.value && isPlaying.value) {
-          isPlaying.value = false;
-          log("Finished");
-        }
+      player.positionStream.listen((event) {
+        streamPosition.value = event;
+      }),
+      player.bufferedPositionStream.listen((event) {
+        streamBuffer.value = event;
       }),
     ];
     isLoading.value = false;
@@ -80,16 +74,16 @@ class AffHomeController extends GetxController {
 
   Future<void> justPause() async {
     if (isPlaying.value) {
-      await player?.pause();
+      await player.pause();
       isPlaying.value = false;
     }
   }
 
   @override
   void onClose() {
-    player?.stop();
-    player == null;
-    player?.dispose();
+    player.stop();
+    player.dispose();
+    log("========Disposed Aff Home Audio Player");
     super.onClose();
   }
 }

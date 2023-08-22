@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:just_audio_background/just_audio_background.dart';
 import 'package:kzn/auth/view/auth_page.dart';
 import 'package:kzn/auth/view/sms_page.dart';
 import 'package:kzn/consultant_appointant/controller/home_controller.dart';
@@ -41,6 +42,11 @@ Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await JustAudioBackground.init(
+    androidNotificationChannelId: 'com.ryanheise.bg_demo.channel.audio',
+    androidNotificationChannelName: 'Audio playback',
+    androidNotificationOngoing: true,
+  );
   try {
     await Firebase.initializeApp();
   } on FirebaseException catch (e) {
