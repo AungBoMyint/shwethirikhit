@@ -202,43 +202,45 @@ class _VideoInfoState extends State<VideoInfo> {
                         image: DecorationImage(
                             image: CachedNetworkImageProvider(
                               item.image,
-                              maxHeight: 80,
-                              maxWidth: 80,
-                              cacheKey: item.image,
+                              /* maxHeight: 80,
+                              maxWidth: 80, */
+                              /* cacheKey: item.image, */
                             ),
                             fit: BoxFit.cover)),
                   ),
                   SizedBox(
                     width: 10,
                   ),
-                  Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                          width: largerThanMobile(size.width) ? 250 : 160,
+                  Expanded(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Container(
+                            /* width: largerThanMobile(size.width) ? 250 : 160, */
+                            child: Text(
+                          "${item.title}",
+                          overflow: TextOverflow.ellipsis,
+                          maxLines: 2,
+                          style: TextStyle(
+                              color: Colors.white,
+                              wordSpacing: 1,
+                              letterSpacing: 1,
+                              fontSize: 14,
+                              fontWeight: FontWeight.bold),
+                        )),
+                        /* SizedBox(
+                          height: 5,
+                        ), */
+                        Padding(
+                          padding: EdgeInsets.only(top: 0),
                           child: Text(
-                            "${item.title}",
-                            overflow: TextOverflow.ellipsis,
-                            maxLines: 2,
-                            style: TextStyle(
-                                color: Colors.white,
-                                wordSpacing: 1,
-                                letterSpacing: 1,
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold),
-                          )),
-                      SizedBox(
-                        height: 10,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 3),
-                        child: Text(
-                          "${item.minutes} Mins",
-                          style: TextStyle(color: Colors.white),
-                        ),
-                      )
-                    ],
+                            "${item.minutes} Mins",
+                            style: TextStyle(color: Colors.white),
+                          ),
+                        )
+                      ],
+                    ),
                   )
                 ],
               ),
