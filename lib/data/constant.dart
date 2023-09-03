@@ -156,3 +156,5 @@ const AUTH_KEY = "auth_key";
     ),
 ];
  */
+
+const Color mainThemeColor = Color(0xFFEBDFD5);

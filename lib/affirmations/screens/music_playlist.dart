@@ -113,7 +113,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
                                 widget.category?.name ??
                                     widget.type?.name ??
                                     "",
-                                maxLines: 1,
+                                maxLines: 4,
                                 overflow: TextOverflow.ellipsis,
                                 style: TextStyle(
                                   fontSize: 20,

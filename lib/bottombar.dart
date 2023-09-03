@@ -33,6 +33,7 @@ class _BottomBarState extends State<BottomBar> {
     final HomeController _homeController = Get.find();
     final AffHomeController affHomeController = Get.find();
     return Scaffold(
+      backgroundColor: Color(0xFFEBDFD5),
       body: Obx(() {
         final currentIndex = _homeController.currentIndex.value;
         return _widgetOption[currentIndex];

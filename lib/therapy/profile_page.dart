@@ -43,8 +43,9 @@ class ProfilePage extends StatelessWidget {
                       /* child: changeIconWidget(), */
                     )
                   : CircleAvatar(
-                      backgroundColor: Colors.white,
-                      backgroundImage: NetworkImage(profile),
+/*                       backgroundColor: Colors.white,
+ */
+                      foregroundImage: NetworkImage(profile),
                       radius: 100,
                       /* child: changeIconWidget(), */
                     ),

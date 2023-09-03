@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:kzn/affirmations/screens/search.dart';
 import 'package:kzn/affirmations/screens/yourlibrary.dart';
+import 'package:kzn/data/constant.dart';
 import 'package:kzn/utils/utils.dart';
 
 import '../controller/aff_home_controller.dart';
@@ -66,7 +67,7 @@ class _AffState extends State<Aff> {
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
         ),
-        color: Colors.blueGrey,
+        color: mainThemeColor,
       ),
       duration: const Duration(milliseconds: 500),
       width: deviceSize.width,
@@ -98,7 +99,7 @@ class _AffState extends State<Aff> {
                 child: Text(
                   music.name,
                   style: TextStyle(
-                      color: Colors.white,
+                      color: Colors.black,
                       fontSize: 16,
                       wordSpacing: 1,
                       letterSpacing: 1),

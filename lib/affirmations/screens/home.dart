@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:kzn/data/constant.dart';
 import 'package:kzn/model/type.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer' as developer;
@@ -30,7 +31,7 @@ class AffHome extends GetView<HomeController> {
         Navigator.push(context, route(MusicPlayList(category: category)));
       },
       child: Container(
-        color: Colors.blueGrey.shade400,
+        color: mainThemeColor,
         child: Row(
           children: [
             Expanded(
@@ -53,7 +54,9 @@ class AffHome extends GetView<HomeController> {
                 category.name,
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
-                style: TextStyle(color: Colors.white),
+                style: TextStyle(
+                  color: Colors.black,
+                ),
               ),
             ),
             const SizedBox(width: 10),
