@@ -84,23 +84,25 @@ class _MusicPlayListState extends State<MusicPlayList> {
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
                         //Category or Tag Image
-                        SizedBox(
-                          width: width / 2,
+                        Container(
+                          width: width / 3,
                           height: 150,
-                          child: ClipRRect(
-                            borderRadius: BorderRadius.all(Radius.circular(20)),
-                            child: CachedNetworkImage(
-                              imageUrl: widget.category == null
-                                  ? musicCover
-                                  : widget.category!.image,
-                              fit: BoxFit.cover,
-                              width: width / 2,
-                              height: 150,
-                              cacheKey: widget.category == null
-                                  ? musicCover
-                                  : widget.category!.image,
-                            ),
-                          ),
+                          decoration: BoxDecoration(
+                              borderRadius:
+                                  BorderRadius.all(Radius.circular(20)),
+                              image: DecorationImage(
+                                image: CachedNetworkImageProvider(
+                                  widget.category == null
+                                      ? musicCover
+                                      : widget.category!.image,
+                                  cacheKey: widget.category == null
+                                      ? musicCover
+                                      : widget.category!.image,
+                                ),
+                                fit: BoxFit.cover,
+                                /*  width: width / 3,
+                              height: 150, */
+                              )),
                         ),
                         const SizedBox(width: 20),
                         //Right Text

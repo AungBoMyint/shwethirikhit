@@ -5,6 +5,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:get/get.dart';
+import 'package:kzn/data/constant.dart';
 import 'package:kzn/data/image.dart';
 import 'package:kzn/utils/utils.dart';
 import '../model/expert.dart';
@@ -20,7 +21,7 @@ class DetailPage extends StatelessWidget {
     final rating = int.tryParse(expertModel.rating) ?? 0;
     final isTablet = MediaQuery.of(context).size.width > 800;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: mainThemeColor,
       body: Container(
         width: MediaQuery.of(context).size.width,
         height: MediaQuery.of(context).size.height,

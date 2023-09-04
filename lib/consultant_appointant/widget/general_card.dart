@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_swipe_action_cell/core/cell.dart';
+import 'package:kzn/data/constant.dart';
 
 import '../../affirmations/widgets/widgets.dart';
 import '../controller/home_controller.dart';
@@ -30,6 +31,7 @@ class GeneralCard extends StatelessWidget {
       child: Container(
         width: 180,
         child: Card(
+          color: mainThemeColor,
           elevation: 2,
           child: Padding(
             padding: EdgeInsets.only(bottom: 5),
@@ -73,95 +75,6 @@ class GeneralCard extends StatelessWidget {
                     ),
                   ),
                 ),
-
-                // Padding(
-                //   padding: const EdgeInsets.only(bottom: 5,left: 10, right: 10),
-                //   child: Row(
-                //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                //     children: [
-                //       Column(
-                //         crossAxisAlignment: CrossAxisAlignment.start,
-                //         children: [
-                //           // Text(
-                //           //   "  👉  Type",
-                //           //   style: TextStyle(
-                //           //     fontSize: 12,
-                //           //     fontWeight: FontWeight.bold,
-                //           //     color: Colors.grey,
-                //           //   ),
-                //           // ),
-                //           Padding(
-                //             padding: const EdgeInsets.all(5),
-                //             child: Expanded(
-                //               child: Text(
-                //                 expertModel.description,
-                //                 maxLines: 2,
-                //                 overflow: TextOverflow.ellipsis,
-                //                 style: TextStyle(
-                //                   fontSize: 11,
-                //                   fontWeight: FontWeight.bold,
-                //                   color: Colors.black,
-                //                 ),
-                //               ),
-                //             ),
-                //           ),
-                //
-                //         ],
-                //       ),
-                //
-                //       // Column(
-                //       //   crossAxisAlignment: CrossAxisAlignment.start,
-                //       //   children: [
-                //       //     Text(
-                //       //       "  💰 Price",
-                //       //       style: TextStyle(
-                //       //         fontSize: 12,
-                //       //         fontWeight: FontWeight.bold,
-                //       //         color: Colors.grey,
-                //       //       ),
-                //       //     ),
-                //       //     SizedBox(
-                //       //       height: 5,
-                //       //     ),
-                //       //     Text(
-                //       //       expertModel.rate,
-                //       //       style: TextStyle(
-                //       //         fontSize: 12,
-                //       //         fontWeight: FontWeight.bold,
-                //       //         color: Colors.black,
-                //       //       ),
-                //       //     ),
-                //       //   ],
-                //       // ),
-                //
-                //
-                //       // Column(
-                //       //   crossAxisAlignment: CrossAxisAlignment.start,
-                //       //   children: [
-                //       //     Text(
-                //       //       "     💰 Price",
-                //       //       style: TextStyle(
-                //       //         fontSize: 12,
-                //       //         fontWeight: FontWeight.bold,
-                //       //         color: Colors.grey,
-                //       //       ),
-                //       //     ),
-                //       //     Padding(
-                //       //       padding: const EdgeInsets.all(5),
-                //       //       child: Text(
-                //       //         expertModel.rate,
-                //       //         style: TextStyle(
-                //       //           fontSize: 12,
-                //       //           fontWeight: FontWeight.bold,
-                //       //           color: Colors.black,
-                //       //         ),
-                //       //       ),
-                //       //     ),
-                //       //   ],
-                //       // ),
-                //     ],
-                //   ),
-                // ),
               ],
             ),
           ),
