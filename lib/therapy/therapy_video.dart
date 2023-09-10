@@ -5,6 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:kzn/data/image.dart';
 import 'package:kzn/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -90,9 +91,11 @@ class _VideoInfoState extends State<VideoInfo> {
                         child: Text(
                           controller.selectedVideo.value?.title ?? "",
                           style: TextStyle(
+                              color: Colors.white,
+                              wordSpacing: 1,
+                              letterSpacing: 1,
                               fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white),
+                              fontWeight: FontWeight.bold),
                         ),
                       ),
                     ),
@@ -384,7 +387,7 @@ class TopAppBar extends StatelessWidget {
     return Container(
       color: Color.fromRGBO(85, 38, 38, 1),
       child: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
+        padding: const EdgeInsets.only(left: 20, right: 20, top: 20),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -396,12 +399,12 @@ class TopAppBar extends StatelessWidget {
                   size: 20, color: color.AppColor.secondPageIconColor),
             ),
             SizedBox(
-              width: 30,
-              child: ElevatedButton(
-                style: ButtonStyle(
+              width: 25,
+              child: InkWell(
+                /*  style: ButtonStyle(
                   alignment: Alignment.center,
-                  backgroundColor:
-                      MaterialStateProperty.all(Colors.transparent),
+                  /* backgroundColor:
+                      MaterialStateProperty.all(Colors.transparent), */
                   elevation: MaterialStateProperty.resolveWith<double>(
                     // As you said you dont need elevation. I'm returning 0 in both case
                     (Set<MaterialState> states) {
@@ -411,18 +414,18 @@ class TopAppBar extends StatelessWidget {
                       return 0; // Defer to the widget's default.
                     },
                   ),
-                ),
-                onPressed: () async {
+                ), */
+                onTap: () async {
                   try {
                     await launch('https://m.me/selfmasterywithkhit');
                   } catch (e) {
                     print(e);
                   }
                 },
-                child: FaIcon(
-                  FontAwesomeIcons.facebookMessenger,
-                  color: Colors.blue,
-                  size: 23,
+                child: Image.asset(
+                  AppImage.messenger,
+                  /* width: 23,
+                  height: 23, */
                 ),
               ),
             ),

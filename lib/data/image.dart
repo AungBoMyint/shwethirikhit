@@ -7,4 +7,5 @@ class AppImage {
   static const apple = "assets/ic_apple.png";
   static const sa = "assets/shwethirikhit_avatar.jpeg";
   static const iPhoneFrame = "assets/course-covers.png";
+  static const messenger = "assets/messenger.png";
 }

@@ -12,6 +12,7 @@ class AppDrawer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Drawer(
+      backgroundColor: mainThemeColor,
       // Add a ListView to the drawer. This ensures the user can scroll
       // through the options in the drawer if there isn't enough vertical
       // space to fit everything.
@@ -20,9 +21,9 @@ class AppDrawer extends StatelessWidget {
         padding: EdgeInsets.zero,
         children: <Widget>[
           DrawerHeader(
-            decoration: BoxDecoration(
+            /* decoration: BoxDecoration(
               color: Colors.white38,
-            ),
+            ), */
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               mainAxisAlignment: MainAxisAlignment.center,
@@ -37,10 +38,10 @@ class AppDrawer extends StatelessWidget {
             child: ListTile(
               leading: Icon(
                 Icons.privacy_tip,
-                color: Colors.black,
+                color: secondMainThemeColor,
               ),
-              title:
-                  Text('Privacy Policy', style: TextStyle(color: Colors.black)),
+              title: Text('Privacy Policy',
+                  style: TextStyle(color: secondMainThemeColor)),
               onTap: () {
                 // Update the state of the app
                 // ...
@@ -53,9 +54,9 @@ class AppDrawer extends StatelessWidget {
           Container(
             margin: EdgeInsets.all(8),
             child: ListTile(
-              leading: Icon(Icons.book, color: Colors.black),
+              leading: Icon(Icons.book, color: secondMainThemeColor),
               title: Text('Terms of Conditions',
-                  style: TextStyle(color: Colors.black)),
+                  style: TextStyle(color: secondMainThemeColor)),
               onTap: () {
                 // Update the state of the app
                 // ...
@@ -68,10 +69,10 @@ class AppDrawer extends StatelessWidget {
           Container(
             margin: EdgeInsets.all(8),
             child: ListTile(
-              leading: Icon(Icons.article, color: Colors.black),
+              leading: Icon(Icons.article, color: secondMainThemeColor),
               title: Text(
                 'About',
-                style: TextStyle(color: Colors.black),
+                style: TextStyle(color: secondMainThemeColor),
               ),
               onTap: () {
                 // Update the state of the app
@@ -86,8 +87,8 @@ class AppDrawer extends StatelessWidget {
           // Container(
           //   margin: EdgeInsets.all(8),
           //   child: ListTile(
-          //     leading: Icon(Icons.article, color: Colors.black),
-          //     title: Text('Appointment', style: TextStyle(color: Colors.black),),
+          //     leading: Icon(Icons.article, color: secondMainThemeColor),
+          //     title: Text('Appointment', style: TextStyle(color: secondMainThemeColor),),
           //     onTap: () {
           //       // Update the state of the app
           //       // ...

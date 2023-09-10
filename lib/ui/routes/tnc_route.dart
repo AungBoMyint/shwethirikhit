@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kzn/data/constant.dart';
 import 'package:kzn/utils/utils.dart';
 
 class TnCRoute extends StatefulWidget {
@@ -13,14 +14,15 @@ class _TnCRouteState extends State<TnCRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: mainThemeColor,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: secondMainThemeColor),
+        backgroundColor: mainThemeColor,
         title: Text("Terms & Conditions",
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 16.0,
-                color: Colors.black)),
+                color: secondMainThemeColor)),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20, left: 8, right: 8),
@@ -34,7 +36,7 @@ class _TnCRouteState extends State<TnCRoute> {
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 16,
-                        color: Colors.black,
+                        color: secondMainThemeColor,
                       ),
                   children: [
                     TextSpan(
@@ -43,7 +45,7 @@ class _TnCRouteState extends State<TnCRoute> {
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             /* fontWeight: FontWeight.normal, */
                             fontSize: 14,
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                           ),
                     ),
                     subTitle("1.1. WELCOME TO SHWE THIRI KHIT APPLICATION\n",
@@ -211,7 +213,7 @@ TextSpan subTitle(String text, BuildContext context) {
       style: Theme.of(context).textTheme.bodyText2?.copyWith(
             /* fontWeight: FontWeight.normal, */
             fontSize: 14,
-            color: Colors.black,
+            color: secondMainThemeColor,
           ));
 }
 

@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:audio_video_progress_bar/audio_video_progress_bar.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:kzn/affirmations/controller/aff_home_controller.dart';
@@ -12,6 +13,7 @@ import 'package:kzn/model/category.dart';
 
 import '../../model/type.dart';
 import '../../services/database/query.dart';
+import '../../utils/utils.dart';
 import '../controller/affirmations_controller.dart';
 import '../models/music.dart';
 import '../models/playerstatus.dart';
@@ -36,6 +38,103 @@ class _MusicPlayListState extends State<MusicPlayList> {
     super.dispose();
   }
 
+  final AffHomeController affHomeController = Get.find();
+  Widget miniPlayer(Music? music, bool isPlaying) {
+    if (music == null) {
+      return SizedBox();
+    }
+    Size deviceSize = MediaQuery.of(context).size;
+    return AnimatedContainer(
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.only(
+          topLeft: Radius.circular(20),
+          topRight: Radius.circular(20),
+        ),
+        color: mainThemeColor,
+      ),
+      duration: const Duration(milliseconds: 500),
+      width: deviceSize.width,
+      height: 150,
+      padding: const EdgeInsets.only(
+        top: 15,
+        left: 15,
+        right: 15,
+      ),
+      child: Column(
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              SizedBox(
+                height: 80,
+                width: 80,
+                child: ClipRRect(
+                  borderRadius: BorderRadius.all(Radius.circular(5)),
+                  child: Image.network(
+                    music.image.replaceAll("'", ""),
+                    fit: BoxFit.contain,
+                  ),
+                ),
+              ),
+              horizontalSpace(10),
+              Expanded(
+                child: Text(
+                  music.name,
+                  style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      wordSpacing: 1,
+                      letterSpacing: 1),
+                ),
+              ),
+              IconButton(
+                  onPressed: () => affHomeController.setSelectedMusic(music),
+                  icon: isPlaying
+                      ? Icon(Icons.pause, color: Color.fromRGBO(85, 38, 38, 1))
+                      : Icon(Icons.play_arrow,
+                          color: Color.fromRGBO(85, 38, 38, 1))),
+            ],
+          ),
+          verticalSpace(10),
+          Expanded(child: audioProgressBar()),
+        ],
+      ),
+    );
+  }
+
+  Widget audioProgressBar() {
+    return Obx(
+      () {
+        final theme = Theme.of(Get.context!);
+        final progress = affHomeController.streamPosition.value;
+        final buffered = affHomeController.streamBuffer.value;
+        final total = affHomeController.streamDuration.value;
+        return Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 5),
+          child: ProgressBar(
+            barHeight: 2,
+            thumbRadius: 8,
+            progress: progress,
+            timeLabelPadding: 5,
+            thumbColor: Color.fromRGBO(85, 38, 38, 1),
+            progressBarColor: Color.fromRGBO(85, 38, 38, 1),
+            baseBarColor: Colors.white,
+            bufferedBarColor: Color.fromRGBO(85, 38, 38, 1).withOpacity(0.5),
+            buffered: buffered,
+            total: total,
+            timeLabelTextStyle: TextStyle(
+              color: Color.fromRGBO(85, 38, 38, 1),
+            ),
+            onSeek: (duration) {
+              affHomeController.player.seek(duration);
+            },
+          ),
+        );
+      },
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final HomeController controller = Get.find();
@@ -58,13 +157,13 @@ class _MusicPlayListState extends State<MusicPlayList> {
 
     return Scaffold(
       /* appBar: createAppBar(""), */
-      backgroundColor: Color(0xFFEAE1D7),
+      backgroundColor: Color.fromRGBO(85, 38, 38, 1),
       appBar: AppBar(
-        backgroundColor: Color(0xFFEAE1D7),
+        backgroundColor: Color.fromRGBO(85, 38, 38, 1),
         automaticallyImplyLeading: true,
         elevation: 0,
         iconTheme: IconThemeData(
-          color: Colors.black,
+          color: Colors.white,
         ),
       ),
       body: SafeArea(
@@ -73,7 +172,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
           /* physics: NeverScrollableScrollPhysics(), */
           children: [
             SizedBox(
-              height: 150,
+              height: 100,
               child: LayoutBuilder(builder: (context, constraints) {
                 final width = constraints.maxWidth;
                 return Padding(
@@ -86,10 +185,10 @@ class _MusicPlayListState extends State<MusicPlayList> {
                         //Category or Tag Image
                         Container(
                           width: width / 3,
-                          height: 150,
+                          height: 100,
                           decoration: BoxDecoration(
                               borderRadius:
-                                  BorderRadius.all(Radius.circular(20)),
+                                  BorderRadius.all(Radius.circular(10)),
                               image: DecorationImage(
                                 image: CachedNetworkImageProvider(
                                   widget.category == null
@@ -122,7 +221,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
                                   fontWeight: FontWeight.bold,
                                   letterSpacing: 1,
                                   wordSpacing: 1,
-                                  color: Colors.black,
+                                  color: Colors.white,
                                 ),
                               ),
                               const SizedBox(height: 10),
@@ -132,6 +231,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
                                     (context, AsyncSnapshot<int> snapshot) {
                                   return Text(
                                     "${snapshot.data} songs",
+                                    style: TextStyle(color: Colors.white),
                                   );
                                 },
                               ),
@@ -144,6 +244,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
                 );
               }),
             ),
+            verticalSpace(10),
             Padding(
               padding: const EdgeInsets.all(8.0),
               child: Center(
@@ -158,7 +259,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
                           final isPlaying = afController.isPlaying.value;
                           return ElevatedButton(
                             style: ElevatedButton.styleFrom(
-                              backgroundColor: logoColor,
+                              backgroundColor: mainThemeColor,
                               shape: RoundedRectangleBorder(
                                 borderRadius: BorderRadius.all(
                                   Radius.circular(10),
@@ -181,16 +282,16 @@ class _MusicPlayListState extends State<MusicPlayList> {
                                   isPlaying
                                       ? Icon(
                                           FontAwesomeIcons.pause,
-                                          color: Colors.white,
+                                          color: secondMainThemeColor,
                                         )
                                       : Icon(
                                           FontAwesomeIcons.play,
-                                          color: Colors.white,
+                                          color: secondMainThemeColor,
                                         ),
                                   const SizedBox(width: 10),
                                   Text("Play",
                                       style: TextStyle(
-                                        color: Colors.white,
+                                        color: secondMainThemeColor,
                                       )),
                                 ],
                               ),
@@ -232,7 +333,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
                 ),
               ),
             ),
-            const SizedBox(height: 20),
+            const SizedBox(height: 10),
             Expanded(
               child: Obx(() {
                 /* final state = afController.playerStatus.value!
@@ -255,29 +356,72 @@ class _MusicPlayListState extends State<MusicPlayList> {
                               final music = snapshot.docs[index].data();
                               final isSelected = !(selectedMusic == null) &&
                                   (selectedMusic.id == music.id);
-                              return Container(
-                                color: isSelected
-                                    ? Colors.white
-                                    : Color(0xFFEAE1D7),
-                                child: ListTile(
-                                  /* selected: isSelected,
-                        selectedColor: Colors.white, */
-                                  onTap: () =>
-                                      afController.setSelectedMusic(music),
-                                  leading: Text("${index + 1}"),
-
-                                  /* isPlaying
-                            ? Image.asset("assets/animations/cd.gif")
-                            : Text("${index + 1}"),*/
-                                  title: Text(music.name),
-                                  subtitle: Text(music.desc),
-                                  trailing: isPlaying &&
-                                          !(selectedMusic == null) &&
-                                          (selectedMusic.id == music.id)
-                                      ? playingAnimation()
-                                      : pauseImage(),
-                                ),
-                              );
+                              return LayoutBuilder(
+                                  builder: (context, constraints) {
+                                final width = constraints.maxWidth;
+                                return InkWell(
+                                  onTap: () {
+                                    afController.setSelectedMusic(music);
+                                    /*    //show bottom sheet
+                                    Get.bottomSheet(
+                                      Obx(() {
+                                        final music = affHomeController
+                                            .selectedMusic.value;
+                                        final isPlaying =
+                                            affHomeController.isPlaying.value;
+                                        return miniPlayer(music, isPlaying);
+                                      }),
+                                    );
+                                   */
+                                  },
+                                  child: Container(
+                                    width: width,
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 10,
+                                      horizontal: 10,
+                                    ),
+                                    /* color: isSelected
+                                        ? Colors.white
+                                        : Color(0xFFEAE1D7), */
+                                    child: Row(
+                                      crossAxisAlignment:
+                                          CrossAxisAlignment.center,
+                                      children: [
+                                        //Leading Number
+                                        Text(
+                                          "( ${index + 1} )",
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              /*   fontSize: 18,
+                                              fontWeight: FontWeight.bold, */
+                                              letterSpacing: 1,
+                                              wordSpacing: 1),
+                                        ),
+                                        horizontalSpace(20),
+                                        //Music Title
+                                        Expanded(
+                                            child: Text(
+                                          music.name,
+                                          style: TextStyle(
+                                              color: Colors.white,
+                                              /*  fontSize: 18, */
+/*                                               fontWeight: FontWeight.bold,
+ */
+                                              letterSpacing: 1,
+                                              wordSpacing: 1),
+                                        )),
+                                        horizontalSpace(20),
+                                        /* //Play Icon and animation
+                                        isPlaying &&
+                                                !(selectedMusic == null) &&
+                                                (selectedMusic.id == music.id)
+                                            ? playingAnimation()
+                                            : pauseImage(), */
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              });
                             },
                             childCount: snapshot.docs.length,
                           ),
@@ -290,6 +434,16 @@ class _MusicPlayListState extends State<MusicPlayList> {
             )
           ],
         ),
+      ),
+      bottomNavigationBar: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Obx(() {
+            final music = affHomeController.selectedMusic.value;
+            final isPlaying = affHomeController.isPlaying.value;
+            return miniPlayer(music, isPlaying);
+          }),
+        ],
       ),
     );
   }

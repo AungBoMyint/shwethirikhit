@@ -8,6 +8,7 @@ import 'package:kzn/model/type.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'dart:developer' as developer;
 import '../../consultant_appointant/controller/home_controller.dart';
+import '../../data/image.dart';
 import '../../model/category.dart';
 import '../../services/database/query.dart';
 import '../../utils/utils.dart';
@@ -96,12 +97,14 @@ class AffHome extends GetView<HomeController> {
             SizedBox(
               height: 10,
             ),
-            Text(
-              music.name,
-              maxLines: 2,
-              overflow: TextOverflow.ellipsis,
-              style: TextStyle(
-                  color: Colors.white, letterSpacing: 0.5, wordSpacing: 0.5),
+            Expanded(
+              child: Text(
+                music.name,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                style: TextStyle(
+                    color: Colors.white, letterSpacing: 0.5, wordSpacing: 0.5),
+              ),
             ),
             Text(music.desc,
                 style: TextStyle(
@@ -125,7 +128,7 @@ class AffHome extends GetView<HomeController> {
       ),
       actions: [
         SizedBox(
-          width: 90,
+          width: 60,
           child: ElevatedButton(
             style: ButtonStyle(
               alignment: Alignment.center,
@@ -147,10 +150,10 @@ class AffHome extends GetView<HomeController> {
                 print(e);
               }
             },
-            child: FaIcon(
-              FontAwesomeIcons.facebookMessenger,
-              color: Colors.blue,
-              size: 23,
+            child: Image.asset(
+              AppImage.messenger,
+              /* width: 23,
+                  height: 23, */
             ),
           ),
         ),
@@ -228,6 +231,11 @@ class AffHome extends GetView<HomeController> {
                 },
               ),
             ),
+            SliverToBoxAdapter(
+              child: SizedBox(
+                height: 10,
+              ),
+            ),
             //Music List
             SliverToBoxAdapter(
               child: FirestoreListView<ItemType>(
@@ -247,14 +255,16 @@ class AffHome extends GetView<HomeController> {
                         Row(
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
-                            Text(
-                              affType.name,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1,
-                                  wordSpacing: 1),
+                            Expanded(
+                              child: Text(
+                                affType.name,
+                                style: TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 18,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1,
+                                    wordSpacing: 1),
+                              ),
                             ),
                             Padding(
                               padding: const EdgeInsets.only(right: 10),

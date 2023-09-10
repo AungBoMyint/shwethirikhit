@@ -9,6 +9,7 @@ import 'package:provider/provider.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 import '../../consultant_appointant/screen/view/home.dart';
+import '../../data/image.dart';
 
 class MainRoute extends StatefulWidget {
   static const routeName = '/main_route';
@@ -48,7 +49,7 @@ class _MainRouteState extends State<MainRoute> {
                 )),
             actions: [
               SizedBox(
-                width: 90,
+                width: 40,
                 child: IconButton(
                   onPressed: () async {
                     try {
@@ -57,10 +58,10 @@ class _MainRouteState extends State<MainRoute> {
                       print(e);
                     }
                   },
-                  icon: FaIcon(
-                    FontAwesomeIcons.facebookMessenger,
-                    color: Colors.white,
-                    size: 23,
+                  icon: Image.asset(
+                    AppImage.messenger,
+                    /* width: 23,
+                  height: 23, */
                   ),
                 ),
               ),
@@ -100,7 +101,7 @@ class _MainRouteState extends State<MainRoute> {
               ),
             ),
             //Search Bar
-            Container(
+            /*  Container(
               width: size.width,
               color: Color(0xFFEAE1D7),
               child: SizedBox(
@@ -130,7 +131,7 @@ class _MainRouteState extends State<MainRoute> {
                 ),
               ),
             ),
-            //Course List
+            */ //Course List
             Container(
               color: Color(0xFFEAE1D7),
               child: _courseListFutureBuilder(),

@@ -38,14 +38,14 @@ class _AffState extends State<Aff> {
             thumbRadius: 8,
             progress: progress,
             timeLabelPadding: 5,
-            thumbColor: Colors.white,
-            progressBarColor: Colors.white,
-            baseBarColor: Colors.grey.shade500,
-            bufferedBarColor: Colors.grey.shade200,
+            thumbColor: Color.fromRGBO(85, 38, 38, 1),
+            progressBarColor: Color.fromRGBO(85, 38, 38, 1),
+            baseBarColor: Colors.white,
+            bufferedBarColor: Color.fromRGBO(85, 38, 38, 1).withOpacity(0.5),
             buffered: buffered,
             total: total,
             timeLabelTextStyle: TextStyle(
-              color: Colors.grey.shade400,
+              color: Color.fromRGBO(85, 38, 38, 1),
             ),
             onSeek: (duration) {
               affHomeController.player.seek(duration);
@@ -108,11 +108,12 @@ class _AffState extends State<Aff> {
               IconButton(
                   onPressed: () => affHomeController.setSelectedMusic(music),
                   icon: isPlaying
-                      ? Icon(Icons.pause, color: Colors.white)
-                      : Icon(Icons.play_arrow, color: Colors.white)),
+                      ? Icon(Icons.pause, color: Color.fromRGBO(85, 38, 38, 1))
+                      : Icon(Icons.play_arrow,
+                          color: Color.fromRGBO(85, 38, 38, 1))),
             ],
           ),
-          verticalSpace(5),
+          verticalSpace(10),
           Expanded(child: audioProgressBar()),
         ],
       ),

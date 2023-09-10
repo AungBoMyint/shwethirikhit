@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:kzn/data/constant.dart';
 // import 'package:kzn/bottom_nav/bankslip.dart';
 import 'package:kzn/data/models/user.dart';
 import 'package:kzn/providers/user_provider.dart';
 import 'package:kzn/ui/routes/enroll_form_route.dart';
+import 'package:kzn/utils/utils.dart';
 import 'dart:ui' as ui;
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../data/image.dart';
 import 'main_route.dart';
 
 class LoginRoute extends StatefulWidget {
@@ -38,42 +41,30 @@ class _LoginRouteState extends State<LoginRoute>
   Widget build(BuildContext context) {
     final Size size = MediaQuery.of(context).size;
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: mainThemeColor,
       appBar: AppBar(
           elevation: 0,
-          iconTheme: const IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
+          iconTheme: const IconThemeData(color: secondMainThemeColor),
+          backgroundColor: mainThemeColor,
           actions: [
             SizedBox(
-              width: 90,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  alignment: Alignment.center,
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                  elevation: MaterialStateProperty.resolveWith<double>(
-                    // As you said you dont need elevation. I'm returning 0 in both case
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.disabled)) {
-                        return 0;
-                      }
-                      return 0; // Defer to the widget's default.
-                    },
-                  ),
-                ),
-                onPressed: () async {
+              width: 25,
+              child: InkWell(
+                onTap: () async {
                   try {
                     await launch('https://m.me/selfmasterywithkhit');
                   } catch (e) {
                     print(e);
                   }
                 },
-                child: FaIcon(
-                  FontAwesomeIcons.facebookMessenger,
-                  color: Colors.blue,
-                  size: 23,
+                child: Image.asset(
+                  AppImage.messenger,
+                  /* width: 23,
+                                          height: 23, */
                 ),
               ),
             ),
+            horizontalSpace(20),
           ]),
       body: SingleChildScrollView(
         child: Column(
@@ -108,7 +99,7 @@ class _LoginRouteState extends State<LoginRoute>
                   padding: EdgeInsets.only(left: 24, right: 24, bottom: 24),
                   child: Container(
                     decoration: BoxDecoration(
-                        //border: Border.all(color: Colors.white)
+                        //border: Border.all(color: mainThemeColor)
                         ),
                     child: TextField(
                       onChanged: (String str) {
@@ -116,23 +107,23 @@ class _LoginRouteState extends State<LoginRoute>
                           username = str;
                         });
                       },
-                      //style: TextStyle(color: Colors.white),
+                      //style: TextStyle(color: mainThemeColor),
                       decoration: InputDecoration(
                         //border: OutlineInputBorder(),
                         enabledBorder: OutlineInputBorder(
-                            //borderSide: const BorderSide(color: Colors.white)
+                            //borderSide: const BorderSide(color: mainThemeColor)
                             ),
                         focusedBorder: OutlineInputBorder(
-                            //borderSide: const BorderSide(color: Colors.white)
+                            //borderSide: const BorderSide(color: mainThemeColor)
                             ),
                         disabledBorder: OutlineInputBorder(
                             //borderSide: const BorderSide(color: Colors.red)
                             ),
                         hintText: 'Enter username',
                         labelText: 'Username',
-                        //hintStyle: TextStyle(color: Colors.white),
-                        //labelStyle: TextStyle(color: Colors.white),
-                        //fillColor: Colors.white
+                        //hintStyle: TextStyle(color: mainThemeColor),
+                        //labelStyle: TextStyle(color: mainThemeColor),
+                        //fillColor: mainThemeColor
                       ),
                     ),
                   ),
@@ -142,7 +133,7 @@ class _LoginRouteState extends State<LoginRoute>
                   padding: EdgeInsets.all(24),
                   child: Container(
                     decoration: BoxDecoration(
-                        //border: Border.all(color: Colors.white)
+                        //border: Border.all(color: mainThemeColor)
                         ),
                     child: TextField(
                       obscureText: true,
@@ -151,23 +142,23 @@ class _LoginRouteState extends State<LoginRoute>
                           password = str;
                         });
                       },
-                      //style: TextStyle(color: Colors.white),
+                      //style: TextStyle(color: mainThemeColor),
                       decoration: InputDecoration(
                         //border: OutlineInputBorder(),
                         enabledBorder: OutlineInputBorder(
-                            //borderSide: const BorderSide(color: Colors.white)
+                            //borderSide: const BorderSide(color: mainThemeColor)
                             ),
                         focusedBorder: OutlineInputBorder(
-                            //borderSide: const BorderSide(color: Colors.white)
+                            //borderSide: const BorderSide(color: mainThemeColor)
                             ),
                         disabledBorder: OutlineInputBorder(
                             //borderSide: const BorderSide(color: Colors.red)
                             ),
                         hintText: '****',
                         labelText: 'Password',
-                        //hintStyle: TextStyle(color: Colors.white),
-                        //labelStyle: TextStyle(color: Colors.white),
-                        //fillColor: Colors.white
+                        //hintStyle: TextStyle(color: mainThemeColor),
+                        //labelStyle: TextStyle(color: mainThemeColor),
+                        //fillColor: mainThemeColor
                       ),
                     ),
                   ),
@@ -215,7 +206,7 @@ class _LoginRouteState extends State<LoginRoute>
                               'Login',
                               style: TextStyle(
                                 fontSize: 15,
-                                color: Colors.white,
+                                color: mainThemeColor,
                                 fontWeight: FontWeight.bold,
                               ),
                             ),
@@ -240,7 +231,7 @@ class _LoginRouteState extends State<LoginRoute>
                   ElevatedButton.icon(
                     style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                      MaterialStateProperty.all<Color>(mainThemeColor),
                     ),
                     icon: Icon(Icons.school_outlined, color: Colors.black),
                     label: Text(
@@ -259,7 +250,7 @@ class _LoginRouteState extends State<LoginRoute>
                   ElevatedButton.icon(
                     style: ButtonStyle(
                       backgroundColor:
-                      MaterialStateProperty.all<Color>(Colors.white),
+                      MaterialStateProperty.all<Color>(mainThemeColor),
                     ),
                     icon: Icon(Icons.phone_outlined, color: Colors.black),
                     label: Text(
@@ -284,7 +275,7 @@ class _LoginRouteState extends State<LoginRoute>
   void forgetPassword(BuildContext context) {
     print('forgetPassword is called');
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.white,
+      backgroundColor: mainThemeColor,
       content: TextButton.icon(
         icon: Icon(Icons.phone, color: Colors.black),
         label: Text(
@@ -301,7 +292,7 @@ class _LoginRouteState extends State<LoginRoute>
     print('registerAccount is called');
 
     ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-      backgroundColor: Colors.white,
+      backgroundColor: mainThemeColor,
       content: TextButton.icon(
         icon: Icon(Icons.phone, color: Colors.black),
         label: Text(

@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutterfire_ui/firestore.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:kzn/data/constant.dart';
 import 'package:kzn/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
+import '../../../../data/image.dart';
 import '../../../../services/database/query.dart';
 import '../../../controller/home_controller.dart';
 import '../../../data/constant.dart';
@@ -22,13 +24,14 @@ class ViewAllScreen extends StatelessWidget {
     final HomeController _homeController = Get.find();
     final width = MediaQuery.of(context).size.width;
     return Scaffold(
+      backgroundColor: mainThemeColor,
       appBar: AppBar(
         leading: IconButton(
           icon: Icon(Icons.arrow_back, color: Colors.black),
           onPressed: () => Navigator.of(context).pop(),
         ),
         automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
+        backgroundColor: mainThemeColor,
         elevation: 0,
         title: Text(
           "Shwe Thiri Khit",
@@ -43,32 +46,19 @@ class ViewAllScreen extends StatelessWidget {
         // centerTitle: true,
         actions: [
           SizedBox(
-            width: 45,
-            child: ElevatedButton(
-              style: ButtonStyle(
-                alignment: Alignment.center,
-                backgroundColor: MaterialStateProperty.all(Colors.white),
-                elevation: MaterialStateProperty.resolveWith<double>(
-                  // As you said you dont need elevation. I'm returning 0 in both case
-                  (Set<MaterialState> states) {
-                    if (states.contains(MaterialState.disabled)) {
-                      return 0;
-                    }
-                    return 0; // Defer to the widget's default.
-                  },
-                ),
-              ),
-              onPressed: () async {
+            width: 25,
+            child: InkWell(
+              onTap: () async {
                 try {
                   await launch('https://m.me/selfmasterywithkhit');
                 } catch (e) {
                   print(e);
                 }
               },
-              child: FaIcon(
-                FontAwesomeIcons.facebookMessenger,
-                color: Colors.blue,
-                size: 23,
+              child: Image.asset(
+                AppImage.messenger,
+                /* width: 23,
+                                          height: 23, */
               ),
             ),
           ),

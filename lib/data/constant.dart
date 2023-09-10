@@ -158,3 +158,4 @@ const AUTH_KEY = "auth_key";
  */
 
 const Color mainThemeColor = Color(0xFFEBDFD5);
+const Color secondMainThemeColor = Color.fromRGBO(85, 38, 38, 1);

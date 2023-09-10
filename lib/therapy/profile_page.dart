@@ -16,12 +16,13 @@ class ProfilePage extends StatelessWidget {
   Widget build(BuildContext context) {
     final AuthController _authController = Get.find();
     return Scaffold(
+      backgroundColor: mainThemeColor,
       appBar: AppBar(
         automaticallyImplyLeading: true,
         backgroundColor: Color(0xFFEAE1D7),
         elevation: 0,
         iconTheme: IconThemeData(
-          color: Colors.black,
+          color: secondMainThemeColor,
         ),
       ),
       body: Obx(() {
@@ -37,7 +38,7 @@ class ProfilePage extends StatelessWidget {
 
               profile == null
                   ? CircleAvatar(
-                      backgroundColor: Colors.white,
+                      backgroundColor: mainThemeColor,
                       backgroundImage: AssetImage('assets/user.png'),
                       radius: 100,
                       /* child: changeIconWidget(), */
@@ -53,7 +54,7 @@ class ProfilePage extends StatelessWidget {
               Text(
                 name ?? "",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: secondMainThemeColor,
                   fontWeight: FontWeight.bold,
                 ),
               ),
@@ -62,7 +63,7 @@ class ProfilePage extends StatelessWidget {
               Text(
                 email ?? phone ?? "",
                 style: TextStyle(
-                  color: Colors.black,
+                  color: secondMainThemeColor,
                 ),
               ),
               verticalSpace(25),
@@ -106,7 +107,7 @@ class ProfilePage extends StatelessWidget {
 
 changeIconWidget() {
   return CircleAvatar(
-    backgroundColor: Colors.black.withOpacity(0.5),
+    backgroundColor: secondMainThemeColor.withOpacity(0.5),
     radius: 80,
     child: Center(
       child: IconButton(

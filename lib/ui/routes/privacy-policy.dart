@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kzn/data/constant.dart';
 import 'package:kzn/utils/utils.dart';
 
 class PrivacyPolicyRoute extends StatefulWidget {
@@ -13,14 +14,15 @@ class _PrivacyPolicyRouteState extends State<PrivacyPolicyRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: mainThemeColor,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: secondMainThemeColor),
+        backgroundColor: mainThemeColor,
         title: Text("Privacy Policy",
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 16.0,
-                color: Colors.black)),
+                color: secondMainThemeColor)),
       ),
       body: Padding(
         padding: const EdgeInsets.only(top: 20, left: 8, right: 8),
@@ -34,7 +36,7 @@ class _PrivacyPolicyRouteState extends State<PrivacyPolicyRoute> {
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 18,
-                        color: Colors.black,
+                        color: secondMainThemeColor,
                       ),
                   children: <TextSpan>[
                     TextSpan(
@@ -51,14 +53,14 @@ class _PrivacyPolicyRouteState extends State<PrivacyPolicyRoute> {
                         style: Theme.of(context).textTheme.bodyText2?.copyWith(
                               /* fontWeight: FontWeight.normal, */
                               fontSize: 16,
-                              color: Colors.black,
+                              color: secondMainThemeColor,
                             )),
                     TextSpan(
                       text:
                           'When you give it to us or give us permission to obtain it\n',
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                             fontSize: 16,
                           ),
                     ),
@@ -66,7 +68,7 @@ class _PrivacyPolicyRouteState extends State<PrivacyPolicyRoute> {
                       text:
                           'When you sign up for or use SHWE THIRI KHIT Application you voluntarily share certain information including your name, email address, phone number, photos, comments, and any other information you give us. You will also have the option to share other information about yourself such as your gender, age and preferred language.If you connect your Facebook, Google or other third-party accounts to SHWE THIRI KHIT Application, we use information from those accounts (such as your friends or contacts) to improve your user experience. This is dependent on the privacy policies or settings for those accounts.\n\n',
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                             fontSize: 14,
                           ),
                     ),
@@ -75,7 +77,7 @@ class _PrivacyPolicyRouteState extends State<PrivacyPolicyRoute> {
                           'We’re committed to showing you content that’s relevant, interesting and personal to you. To do that, we use your information to provide and improve your experience, including:\n',
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontWeight: FontWeight.bold,
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                           ),
                     ),
                   ],
@@ -111,7 +113,7 @@ class _PrivacyPolicyRouteState extends State<PrivacyPolicyRoute> {
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                         fontWeight: FontWeight.bold,
                         fontSize: 12,
-                        color: Colors.black,
+                        color: secondMainThemeColor,
                       ),
                   children: [
                     TextSpan(
@@ -119,14 +121,14 @@ class _PrivacyPolicyRouteState extends State<PrivacyPolicyRoute> {
                           'Children under 16 are not allowed to use SHWE THIRI KHIT Application. However, if you are younger than the required age consemt to use online services, we encourage you to invite the parent or guardian to open an account and help you access content that is appropriate for you.\n\n',
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontSize: 12,
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                           ),
                     ),
                     TextSpan(
                       text: 'Contact us\n',
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontSize: 12,
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                             fontWeight: FontWeight.bold,
                           ),
                     ),
@@ -134,7 +136,7 @@ class _PrivacyPolicyRouteState extends State<PrivacyPolicyRoute> {
                       text: 'The best way to get in touch with us through the ',
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontSize: 12,
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                           ),
                     ),
                     TextSpan(
@@ -149,7 +151,7 @@ class _PrivacyPolicyRouteState extends State<PrivacyPolicyRoute> {
                       text: 'on Facebook (or) send email via ',
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontSize: 12,
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                           ),
                     ),
                     TextSpan(
@@ -200,7 +202,7 @@ class UnorderListItem extends StatelessWidget {
               rightString,
               maxLines: 2,
               style: Theme.of(context).textTheme.bodyText2?.copyWith(
-                    color: Colors.black,
+                    color: secondMainThemeColor,
                   ),
             ),
           ),

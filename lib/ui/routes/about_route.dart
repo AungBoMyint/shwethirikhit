@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kzn/data/constant.dart';
 import 'package:kzn/ui/routes/tnc_route.dart';
 import 'package:kzn/utils/utils.dart';
 
@@ -14,14 +15,15 @@ class _AboutRouteState extends State<AboutRoute> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: mainThemeColor,
       appBar: AppBar(
-        iconTheme: IconThemeData(color: Colors.black),
-        backgroundColor: Colors.white,
+        iconTheme: IconThemeData(color: secondMainThemeColor),
+        backgroundColor: mainThemeColor,
         title: Text("About",
             style: TextStyle(
                 fontWeight: FontWeight.w700,
                 fontSize: 16.0,
-                color: Colors.black)),
+                color: secondMainThemeColor)),
       ),
       // appBar: AppBar(title: Text("About")),
       body: Padding(
@@ -37,7 +39,7 @@ class _AboutRouteState extends State<AboutRoute> {
                   style: Theme.of(context).textTheme.bodyText2?.copyWith(
                         /* fontWeight: FontWeight.normal, */
                         fontSize: 14,
-                        color: Colors.black,
+                        color: secondMainThemeColor,
                       ),
                   children: [
                     subTitle(
@@ -52,7 +54,7 @@ class _AboutRouteState extends State<AboutRoute> {
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                           ),
                     ),
                     subTitle(
@@ -70,7 +72,7 @@ class _AboutRouteState extends State<AboutRoute> {
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                           ),
                     ),
                     TextSpan(
@@ -78,7 +80,7 @@ class _AboutRouteState extends State<AboutRoute> {
                       style: Theme.of(context).textTheme.bodyText2?.copyWith(
                             fontWeight: FontWeight.bold,
                             fontSize: 14,
-                            color: Colors.black,
+                            color: secondMainThemeColor,
                             fontStyle: FontStyle.italic,
                           ),
                     ),
