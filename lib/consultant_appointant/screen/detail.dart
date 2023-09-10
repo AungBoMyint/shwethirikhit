@@ -89,7 +89,7 @@ class DetailPage extends StatelessWidget {
                           CustomTag(
                             insidePadding: 10,
                             borderRadius: BorderRadius.all(Radius.circular(10)),
-                            backgroundColor: Colors.white,
+                            backgroundColor: mainThemeColor,
                             children: [
                               RatingBar.builder(
                                 itemSize: 20,
