@@ -1,7 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 import 'dart:developer';
-import 'dart:math';
+import 'dart:math' hide log;
 
 import 'package:crypto/crypto.dart';
 import 'package:dartz/dartz.dart';
@@ -260,6 +260,7 @@ class AuthController extends GetxController {
       hideLoading(globalKey.currentState!.context);
       await whethreEmailSignInOrNot(email: userCredential.user?.email);
     } catch (e) {
+      log("======Sign In With Apple Error:$e");
       hideLoading(globalKey.currentState!.context);
     }
   }

@@ -50,9 +50,9 @@ class _VideoInfoState extends State<VideoInfo> {
                 flex: largerThanMobile(width) ? 4 : 3,
                 child: AppBar(
                   automaticallyImplyLeading: false,
-                  backgroundColor: controller.selectedVideo.value == null
-                      ? Color.fromRGBO(85, 38, 38, 1)
-                      : Color(0xFFEAE1D7),
+                  backgroundColor: /*  controller.selectedVideo.value == null
+                      ? */
+                      Color.fromRGBO(85, 38, 38, 1) /* : Color(0xFFEAE1D7) */,
                   excludeHeaderSemantics: true,
                   toolbarHeight: 230,
                   flexibleSpace: FlexibleSpaceBarSettings(
@@ -67,6 +67,7 @@ class _VideoInfoState extends State<VideoInfo> {
                                 crossAxisAlignment: CrossAxisAlignment.center,
                                 children: [
                                   TopAppBar(),
+                                  verticalSpace(width > 415 ? 20 : 10),
                                   Expanded(
                                     child: Chewie(
                                       controller:

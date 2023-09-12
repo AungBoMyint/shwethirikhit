@@ -39,7 +39,8 @@ class _IntroOneScreenState extends State<IntroOneScreen>
 
   @override
   void initState() {
-    _videoPlayerController = VideoPlayerController.asset("assets/intro.mp4");
+    _videoPlayerController =
+        VideoPlayerController.asset("assets/video/intro.mp4");
     _videoPlayerController.initialize().then((value) {
       _videoPlayerController.setLooping(true);
     });

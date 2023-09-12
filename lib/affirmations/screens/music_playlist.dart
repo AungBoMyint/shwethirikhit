@@ -155,6 +155,8 @@ class _MusicPlayListState extends State<MusicPlayList> {
       return null;
     }
 
+    final size = MediaQuery.of(context).size;
+
     return Scaffold(
       /* appBar: createAppBar(""), */
       backgroundColor: Color.fromRGBO(85, 38, 38, 1),
@@ -172,7 +174,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
           /* physics: NeverScrollableScrollPhysics(), */
           children: [
             SizedBox(
-              height: 100,
+              height: size.width > 415 ? 180 : 100,
               child: LayoutBuilder(builder: (context, constraints) {
                 final width = constraints.maxWidth;
                 return Padding(
@@ -184,8 +186,8 @@ class _MusicPlayListState extends State<MusicPlayList> {
                       children: [
                         //Category or Tag Image
                         Container(
-                          width: width / 3,
-                          height: 100,
+                          width: size.width > 415 ? width / 4 : width / 3,
+                          height: size.width > 415 ? 180 : 100,
                           decoration: BoxDecoration(
                               borderRadius:
                                   BorderRadius.all(Radius.circular(10)),

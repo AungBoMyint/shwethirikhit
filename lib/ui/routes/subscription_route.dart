@@ -3,8 +3,11 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
+import 'package:kzn/data/constant.dart';
+import 'package:kzn/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 
+import '../../data/image.dart';
 import 'enroll_form_route.dart';
 
 class SubscriptionRoute extends StatefulWidget {
@@ -18,11 +21,11 @@ class _SubscriptionRouteState extends State<SubscriptionRoute> {
   Widget build(BuildContext context) {
     log("Width: ${MediaQuery.of(context).size.width}");
     return Scaffold(
-      backgroundColor: Colors.white,
+      backgroundColor: mainThemeColor,
       appBar: AppBar(
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
-          backgroundColor: Colors.white,
+          backgroundColor: mainThemeColor,
           title: Text("သင်တန်းအပ်ရန်",
               style: TextStyle(
                   fontWeight: FontWeight.w700,
@@ -30,35 +33,23 @@ class _SubscriptionRouteState extends State<SubscriptionRoute> {
                   color: Colors.black)),
           actions: [
             SizedBox(
-              width: 90,
-              child: ElevatedButton(
-                style: ButtonStyle(
-                  alignment: Alignment.center,
-                  backgroundColor: MaterialStateProperty.all(Colors.white),
-                  elevation: MaterialStateProperty.resolveWith<double>(
-                    // As you said you dont need elevation. I'm returning 0 in both case
-                    (Set<MaterialState> states) {
-                      if (states.contains(MaterialState.disabled)) {
-                        return 0;
-                      }
-                      return 0; // Defer to the widget's default.
-                    },
-                  ),
-                ),
-                onPressed: () async {
+              width: 25,
+              child: InkWell(
+                onTap: () async {
                   try {
                     await launch('https://m.me/selfmasterywithkhit');
                   } catch (e) {
                     print(e);
                   }
                 },
-                child: FaIcon(
-                  FontAwesomeIcons.facebookMessenger,
-                  color: Colors.blue,
-                  size: 23,
+                child: Image.asset(
+                  AppImage.messenger,
+                  /* width: 23,
+                                          height: 23, */
                 ),
               ),
             ),
+            horizontalSpace(20),
           ]),
       body: Column(
         children: [
@@ -84,7 +75,7 @@ class _SubscriptionRouteState extends State<SubscriptionRoute> {
                 ElevatedButton.icon(
                   style: ButtonStyle(
                     backgroundColor:
-                        MaterialStateProperty.all<Color>(Colors.white),
+                        MaterialStateProperty.all<Color>(mainThemeColor),
                   ),
                   icon: Icon(Icons.school_outlined, color: Colors.black),
                   label: Text(
