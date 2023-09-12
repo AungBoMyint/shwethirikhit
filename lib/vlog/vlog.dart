@@ -1,3 +1,4 @@
+import 'package:better_player/better_player.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
@@ -106,7 +107,7 @@ class Vlog extends GetView<VlogController> {
                   child: FlexibleSpaceBar(
                     background: Obx(() {
                       if (controller.isLoading.value &&
-                          (controller.chewieController.value == null)) {
+                          (controller.betterPlayerController.value == null)) {
                         return Shimmer.fromColors(
                           baseColor: Colors.grey.shade300,
                           highlightColor: Colors.white,
@@ -116,8 +117,11 @@ class Vlog extends GetView<VlogController> {
                           ),
                         );
                       }
-                      return Chewie(
-                        controller: controller.chewieController.value!,
+                      return AspectRatio(
+                        aspectRatio: 16 / 9,
+                        child: BetterPlayer(
+                          controller: controller.betterPlayerController.value!,
+                        ),
                       );
                     }),
                   ),

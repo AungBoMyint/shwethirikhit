@@ -1,3 +1,4 @@
+import 'package:better_player/better_player.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -10,44 +11,33 @@ import 'dart:developer';
 class VlogController extends GetxController {
   Rxn<VlogVideo> selectedVideo = Rxn<VlogVideo>(null);
   final HomeController _homeController = Get.find();
-  Rxn<ChewieController> chewieController = Rxn<ChewieController>(null);
+  Rxn<BetterPlayerController> betterPlayerController =
+      Rxn<BetterPlayerController>(null);
   var isLoading = true.obs;
   Worker? worker;
 
-  playVideo() => chewieController.value?.play();
+  playVideo() => betterPlayerController.value?.play();
   changeSelectedVideo(VlogVideo v) {
     selectedVideo.value = v;
-    if (chewieController.value?.isPlaying == true) {
-      chewieController.value?.pause();
+    if (betterPlayerController.value?.isPlaying == true) {
+      betterPlayerController.value?.pause();
     }
-    chewieController.value?.videoPlayerController.dispose();
-    chewieController.value?.dispose();
-    chewieController.value = null;
-    chewieController.value = ChewieController(
-        deviceOrientationsAfterFullScreen: [
-          DeviceOrientation.portraitUp,
-        ],
-        deviceOrientationsOnEnterFullScreen: [
-          DeviceOrientation.landscapeRight,
-        ],
-        videoPlayerController: VideoPlayerController.network(v.videoURL),
-        aspectRatio: 16 / 9,
-        autoInitialize: true,
-        autoPlay: false,
-        looping: true,
-        errorBuilder: (context, errorMessage) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                errorMessage,
-                style: TextStyle(
-                  color: Colors.white,
-                ),
-              ),
-            ),
-          );
-        });
+    betterPlayerController.value?.dispose();
+    betterPlayerController.value?.dispose();
+    betterPlayerController.value = null;
+    betterPlayerController.value = BetterPlayerController(
+        BetterPlayerConfiguration(
+          autoPlay: true,
+          looping: true,
+          fullScreenByDefault: false,
+          deviceOrientationsAfterFullScreen: [
+            DeviceOrientation.portraitUp,
+          ],
+          deviceOrientationsOnFullScreen: [
+            DeviceOrientation.landscapeRight,
+          ],
+        ),
+        betterPlayerDataSource: BetterPlayerDataSource.network(v.videoURL));
   }
 
   @override
@@ -60,8 +50,8 @@ class VlogController extends GetxController {
 
   @override
   void onClose() {
-    chewieController.value?.videoPlayerController.dispose();
-    chewieController.value?.dispose();
+    betterPlayerController.value?.videoPlayerController?.dispose();
+    betterPlayerController.value?.dispose();
     worker?.dispose();
     super.onClose();
   }
@@ -73,38 +63,26 @@ class VlogController extends GetxController {
   initializeImplementation(List<VlogVideo> v) {
 /*     log("====video url: ${_homeController.vlogVideos.first.videoURL}");
  */
-    if (v.isNotEmpty && (chewieController.value == null)) {
+    if (v.isNotEmpty && (betterPlayerController.value == null)) {
       selectedVideo.value = _homeController.vlogVideos.first;
       isLoading.value = false;
       debugPrint("Vlog Page Is Loading: ${isLoading.value}");
-      chewieController.value = ChewieController(
-          deviceOrientationsAfterFullScreen: [
-            DeviceOrientation.portraitUp,
-          ],
-          deviceOrientationsOnEnterFullScreen: [
-            DeviceOrientation.landscapeRight,
-          ],
-          videoPlayerController: VideoPlayerController.network(
-              _homeController.vlogVideos.first.videoURL),
-          aspectRatio: 16 / 9,
-          autoInitialize: true,
-          autoPlay: false,
-          looping: true,
-          errorBuilder: (context, errorMessage) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  errorMessage,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            );
-          });
-      log("Vlog Page Is Loading: ${isLoading.value}");
-      log("Vlog Page ChewieController is Null: ${chewieController.value == null}");
+      betterPlayerController.value = BetterPlayerController(
+          BetterPlayerConfiguration(
+            autoPlay: true,
+            looping: true,
+            fullScreenByDefault: false,
+            deviceOrientationsAfterFullScreen: [
+              DeviceOrientation.portraitUp,
+            ],
+            deviceOrientationsOnFullScreen: [
+              DeviceOrientation.landscapeRight,
+            ],
+          ),
+          betterPlayerDataSource:
+              BetterPlayerDataSource.network(v.first.videoURL));
+      /*  log("Vlog Page Is Loading: ${isLoading.value}");
+      log("Vlog Page ChewieController is Null: ${chewieController.value == null}"); */
     }
   }
 }
