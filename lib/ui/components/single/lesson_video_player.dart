@@ -1,9 +1,13 @@
+import 'dart:developer';
+
 import 'package:better_player/better_player.dart';
+import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:kzn/data/models/lesson.dart';
 import 'package:kzn/providers/course_provider.dart';
 import 'package:provider/provider.dart';
+import 'package:video_player/video_player.dart';
 
 class LessonVideoPlayer extends StatefulWidget {
   @override
@@ -11,29 +15,22 @@ class LessonVideoPlayer extends StatefulWidget {
 }
 
 class _LessonVideoPlayerState extends State<LessonVideoPlayer> {
-  late BetterPlayerController _betterPlayerController;
+  ChewieController? chewieController;
 
   @override
-  void initState() {
-    // TODO: implement initState
-    super.initState();
-    _betterPlayerController = BetterPlayerController(BetterPlayerConfiguration(
-      autoPlay: true,
-      looping: true,
-      fullScreenByDefault: false,
-      deviceOrientationsAfterFullScreen: [
-        DeviceOrientation.portraitUp,
-      ],
-      deviceOrientationsOnFullScreen: [
-        DeviceOrientation.landscapeRight,
-      ],
-    ));
-  }
+  void initState() {}
 
   @override
   void dispose() {
-    // TODO: implement dispose
-    _betterPlayerController.dispose();
+    log('------------Dispose course video route');
+    // TODO: implement dispose\
+    try {
+      chewieController?.pause();
+    } catch (e) {
+      log("Error chewie controller pause.");
+    }
+    chewieController?.videoPlayerController?.dispose();
+    chewieController?.dispose();
     super.dispose();
   }
 
@@ -57,12 +54,35 @@ class _LessonVideoPlayerState extends State<LessonVideoPlayer> {
                 child: Center(child: Text('no lesson')),
               );
             } else {
-              // print("video url is ${snapshot.data.videoUrl}");
-              BetterPlayerDataSource betterPlayerDataSource =
-                  BetterPlayerDataSource(BetterPlayerDataSourceType.network,
-                      snapshot.data!.videoUrl);
-              _betterPlayerController.setupDataSource(betterPlayerDataSource);
-              return _videoPlayer();
+              chewieController = ChewieController(
+                  deviceOrientationsAfterFullScreen: [
+                    DeviceOrientation.portraitUp,
+                  ],
+                  deviceOrientationsOnEnterFullScreen: [
+                    DeviceOrientation.landscapeRight,
+                  ],
+                  videoPlayerController:
+                      VideoPlayerController.network(snapshot.data!.videoUrl),
+                  aspectRatio: 16 / 9,
+                  autoInitialize: true,
+                  autoPlay: false,
+                  looping: true,
+                  errorBuilder: (context, errorMessage) {
+                    return Center(
+                      child: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Text(
+                          errorMessage,
+                          style: TextStyle(
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+                    );
+                  });
+              return Chewie(
+                controller: chewieController!,
+              );
             }
           } else if (snapshot.hasError) {
             //_refreshController.refreshCompleted();
@@ -78,12 +98,12 @@ class _LessonVideoPlayerState extends State<LessonVideoPlayer> {
         });
   }
 
-  Widget _videoPlayer() {
+  /* Widget _videoPlayer() {
     return AspectRatio(
       aspectRatio: 16 / 9,
       child: BetterPlayer(
         controller: _betterPlayerController,
       ),
     );
-  }
+  } */
 }

@@ -4,6 +4,10 @@ import 'package:kzn/providers/course_provider.dart';
 import 'package:kzn/ui/components/single/lesson_card.dart';
 import 'package:kzn/ui/components/single/lesson_video_player.dart';
 import 'package:provider/provider.dart';
+import 'package:url_launcher/url_launcher.dart';
+
+import '../../data/image.dart';
+import '../../utils/utils.dart';
 
 class CourseRoute extends StatefulWidget {
   static const routeName = '/course_route';
@@ -25,6 +29,26 @@ class _CourseRouteState extends State<CourseRoute> {
             Provider.of<CourseProvider>(context, listen: true).course!.name,
             style: TextStyle(fontSize: 14.0, color: Colors.black),
           ),
+          actions: [
+            SizedBox(
+              width: 25,
+              child: InkWell(
+                onTap: () async {
+                  try {
+                    await launch('https://m.me/selfmasterywithkhit');
+                  } catch (e) {
+                    print(e);
+                  }
+                },
+                child: Image.asset(
+                  AppImage.messenger,
+                  /* width: 23,
+                                          height: 23, */
+                ),
+              ),
+            ),
+            horizontalSpace(20),
+          ],
         ),
         body: Column(
           children: [
