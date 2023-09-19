@@ -258,7 +258,8 @@ class AuthController extends GetxController {
       final userCredential =
           await FirebaseAuth.instance.signInWithCredential(oauthCredential);
       hideLoading(globalKey.currentState!.context);
-      await whethreEmailSignInOrNot(email: userCredential.user?.email);
+      await whethreEmailSignInOrNot(
+          email: userCredential.user?.email, isApple: true);
     } catch (e) {
       log("======Sign In With Apple Error:$e");
       hideLoading(globalKey.currentState!.context);
@@ -370,7 +371,8 @@ class AuthController extends GetxController {
     });
   }
 
-  Future<void> whethreEmailSignInOrNot({String? email}) async {
+  Future<void> whethreEmailSignInOrNot(
+      {String? email, bool isApple = false}) async {
     final userRef = await userCollection()
         .where("email", isEqualTo: email ?? currentUser.value?.email ?? "")
         .get();
@@ -382,7 +384,7 @@ class AuthController extends GetxController {
           MainRoute.routeName, ModalRoute.withName(IntroOneScreen.routeName));
     } else {
       //means create new
-      pageController.jumpToPage(1);
+      isApple ? pageController.jumpToPage(2) : pageController.jumpToPage(1);
       Navigator.popUntil(
         globalKey.currentState!.context,
         ModalRoute.withName(AuthPage.routeName),

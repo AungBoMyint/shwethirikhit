@@ -67,76 +67,52 @@ class _MainRouteState extends State<MainRoute> {
               ),
             ]),
 
-        body: ListView(
-          shrinkWrap: true,
-          /* shrinkWrap: true, */
-          // physics: ClampingScrollPhysics(),
-          children: [
-            IntroSlider(
-              photos: introSliderImages,
-            ),
-            Container(
-              width: size.width,
-              decoration: BoxDecoration(
-                color: Color(0xFFEAE1D7),
-                borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10),
-                ),
+        body: SingleChildScrollView(
+          child: Column(
+            /* shrinkWrap: true,
+              primary: false, */
+            children: [
+              IntroSlider(
+                photos: introSliderImages,
               ),
-              child: Padding(
-                padding: const EdgeInsets.only(
-                  top: 10,
-                  bottom: 10,
-                  left: 20,
-                ),
-                child: Text(
-                  "Courses for you",
-                  style: TextStyle(
-                    color: Colors.black,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 16,
+              Container(
+                width: size.width,
+                decoration: BoxDecoration(
+                  color: Color(0xFFEAE1D7),
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
                   ),
                 ),
-              ),
-            ),
-            //Search Bar
-            /*  Container(
-              width: size.width,
-              color: Color(0xFFEAE1D7),
-              child: SizedBox(
-                height: 50,
                 child: Padding(
                   padding: const EdgeInsets.only(
+                    top: 10,
+                    bottom: 10,
                     left: 20,
-                    right: 20,
                   ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.all(
-                      Radius.circular(
-                        10,
-                      ),
-                    ),
-                    child: TextFormField(
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          fillColor: Colors.white,
-                          filled: true,
-                          hintText: "Search",
-                          hintStyle: TextStyle(
-                            color: Colors.grey,
-                          )),
+                  child: Text(
+                    "Courses for you",
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontWeight: FontWeight.bold,
+                      fontSize: 16,
                     ),
                   ),
                 ),
               ),
-            ),
-            */ //Course List
-            Container(
-              color: Color(0xFFEAE1D7),
-              child: _courseListFutureBuilder(),
-            ),
-          ],
+              Container(
+                color: Color(0xFFEAE1D7),
+                child: _courseListFutureBuilder(),
+              ),
+              /* Expanded(
+                child:  */
+              /*  Container(
+                color: Color(0xFFEAE1D7),
+                child: _courseListFutureBuilder(),
+              ), */
+              /*  ), */
+            ],
+          ),
         ),
 
         drawer: AppDrawer(),
@@ -164,9 +140,7 @@ class _MainRouteState extends State<MainRoute> {
             );
           } else {
             //_refreshController.refreshCompleted();
-            return Container(
-              child: Center(child: Text("Shwe Thiri Khit")),
-            );
+            return HomeView();
           }
         });
   }

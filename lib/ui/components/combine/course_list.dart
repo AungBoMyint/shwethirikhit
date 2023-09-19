@@ -34,7 +34,7 @@ class CourseList extends StatelessWidget {
                 crossAxisSpacing: 35, */
                 childAspectRatio: (snap.data!.width / snap.data!.height),
               ),
-              physics: BouncingScrollPhysics(),
+              physics: NeverScrollableScrollPhysics(),
               itemBuilder: (context, index) =>
                   CourseThumb(course: courses[index]),
               itemCount: courses.length);
