@@ -17,7 +17,7 @@ class _UserInfoState extends State<UserInfo> {
       child: (Provider.of<UserProvider>(context, listen: true).user == null)
           ? Container(
               child: Image.asset(
-                'assets/logotext.png',
+                'assets/logo.png',
                 height: 100,
               ),
 
@@ -37,7 +37,7 @@ class _UserInfoState extends State<UserInfo> {
               children: [
                 Container(
                   child: new Image.asset(
-                    'assets/images/appicon.png',
+                    'assets/logo.png',
                     height: 70.0,
                   ),
                 ),

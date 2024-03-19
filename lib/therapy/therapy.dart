@@ -8,6 +8,7 @@ import 'package:get/get.dart';
 import 'package:kzn/auth/controller/auth_controller.dart';
 import 'package:kzn/model/category.dart';
 import 'package:kzn/therapy/profile_page.dart';
+import 'package:kzn/therapy/therapy_controller.dart';
 import 'package:kzn/therapy/therapy_video.dart';
 import 'package:kzn/utils/utils.dart';
 import 'package:shimmer/shimmer.dart';
@@ -28,6 +29,18 @@ class Therapy extends StatefulWidget {
 }
 
 class _TherapyState extends State<Therapy> {
+  @override
+  void initState() {
+    Get.put(TherapyController());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Get.delete<TherapyController>();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     final AuthController _authController = Get.find();

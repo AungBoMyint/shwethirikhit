@@ -21,41 +21,54 @@ class TherapyController extends GetxController {
   }
 
   playVideo() => chewieController.value?.play();
+  void disposeVideo() {
+    chewieController.value?.videoPlayerController.dispose();
+    chewieController.value?.dispose();
+    chewieController.value = null;
+  }
+
   changeSelectedVideo(TherapyVideo v) async {
     isLoading.value = true;
     await Future.delayed(Duration.zero);
     selectedVideo.value = v;
-    if (chewieController.value?.isPlaying == true) {
-      chewieController.value?.pause();
-    }
-    chewieController.value?.videoPlayerController.dispose();
-    chewieController.value?.dispose();
-    chewieController.value = null;
-    chewieController.value = ChewieController(
-        deviceOrientationsAfterFullScreen: [
-          DeviceOrientation.portraitUp,
-        ],
-        deviceOrientationsOnEnterFullScreen: [
-          DeviceOrientation.landscapeRight,
-        ],
-        videoPlayerController: VideoPlayerController.network(v.videoURL),
-        aspectRatio: 16 / 9,
-        autoInitialize: true,
-        autoPlay: true,
-        looping: true,
-        errorBuilder: (context, errorMessage) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                errorMessage,
-                style: TextStyle(
-                  color: Colors.white,
+    disposeVideo(); // Dispose previous controller if any
+
+    try {
+      VideoPlayerController videoPlayerController =
+          VideoPlayerController.network(v.videoURL);
+      await videoPlayerController
+          .initialize(); // Ensure initialization before creating ChewieController
+
+      chewieController.value = ChewieController(
+          deviceOrientationsAfterFullScreen: [
+            DeviceOrientation.portraitUp,
+          ],
+          deviceOrientationsOnEnterFullScreen: [
+            DeviceOrientation.landscapeRight,
+          ],
+          videoPlayerController: videoPlayerController,
+          aspectRatio: 16 / 9,
+          autoInitialize: true,
+          autoPlay: true,
+          looping: true,
+          errorBuilder: (context, errorMessage) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  errorMessage,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            ),
-          );
-        });
-    isLoading.value = false;
+            );
+          });
+    } catch (e) {
+      isLoading.value = false;
+      return;
+    } finally {
+      isLoading.value = false;
+    }
   }
 }

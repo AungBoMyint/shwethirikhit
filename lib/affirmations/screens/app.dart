@@ -20,11 +20,11 @@ class Aff extends StatefulWidget {
 }
 
 class _AffState extends State<Aff> {
-  final AffHomeController affHomeController = Get.find();
   var Tabs = [];
   int currentTabIndex = 0;
 
   Widget audioProgressBar() {
+    final AffHomeController affHomeController = Get.find();
     return Obx(
       () {
         final theme = Theme.of(Get.context!);
@@ -57,6 +57,8 @@ class _AffState extends State<Aff> {
   }
 
   Widget miniPlayer(Music? music, bool isPlaying) {
+    final AffHomeController affHomeController = Get.find();
+
     if (music == null) {
       return SizedBox();
     }
@@ -122,13 +124,22 @@ class _AffState extends State<Aff> {
 
   @override
   initState() {
+    Get.put(AffHomeController());
     super.initState();
     Tabs = [AffHome(miniPlayer), Search(), YourLibrary()];
+  }
+
+  @override
+  void dispose() {
+    Get.delete<AffHomeController>();
+    super.dispose();
   }
 
   // UI Design Code Goes inside Build
   @override
   Widget build(BuildContext context) {
+    final AffHomeController affHomeController = Get.find();
+
     final size = MediaQuery.of(context).size;
     print("Lets Build it");
     return Scaffold(

@@ -32,7 +32,7 @@ class _BottomBarState extends State<BottomBar> {
   @override
   Widget build(BuildContext context) {
     final HomeController _homeController = Get.find();
-    final AffHomeController affHomeController = Get.find();
+    // final AffHomeController affHomeController = Get.find();
     return Scaffold(
       backgroundColor: Color(0xFFEBDFD5),
       body: Obx(() {
@@ -48,7 +48,7 @@ class _BottomBarState extends State<BottomBar> {
           ),
           child: BottomNavigationBar(
             onTap: (v) {
-              affHomeController.justPause();
+              /*  affHomeController.justPause();
               log("*****On Tap Call");
               //Everytime Nav change
               if (v != 1) {
@@ -56,7 +56,7 @@ class _BottomBarState extends State<BottomBar> {
                 Get.delete<VlogController>(force: true);
               } else {
                 Get.put(VlogController());
-              }
+              } */
               _homeController.changeCurrentIndex(v);
             },
             items: [

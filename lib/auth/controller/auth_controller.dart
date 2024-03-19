@@ -33,7 +33,6 @@ import '../validator/string_validator.dart';
 class AuthController extends GetxController {
   final _firebaseAuth = FirebaseAuth.instance;
   final box = Hive.box(LOGIN_BOX);
-  final VlogController vlogController = Get.find();
   var formIndex = 0.obs;
   Rxn<AuthUser> currentUser = Rxn<AuthUser>();
   StreamSubscription? userSubscription;
@@ -398,6 +397,7 @@ class AuthController extends GetxController {
     final lastDigit = phoneController.text.substring(2);
     final phoneNumber = "+959" + lastDigit;
     await _firebaseAuth.verifyPhoneNumber(
+      forceResendingToken: forceResentingToken,
       phoneNumber: phoneNumber,
       timeout: const Duration(seconds: 60),
       verificationCompleted: (PhoneAuthCredential credential) async {
@@ -414,7 +414,9 @@ class AuthController extends GetxController {
         errorSnap("$e");
       },
       codeSent: (String verificationId, int? resendToken) async {
+        log("Code Sent...........");
         if (!alreadySendCode) {
+          log("Already Send Code : False ...........");
           Navigator.of(globalKey.currentState!.context).push(
             MaterialPageRoute(
                 builder: (context) => SMSPage(
@@ -423,6 +425,7 @@ class AuthController extends GetxController {
                         startPhoneSignIn(forceResentingToken: resendToken);
                       },
                       submit: () async {
+                        log("Code is submitted.........");
                         alreadySendCode = true;
                         showLoading(context);
                         PhoneAuthCredential credential =

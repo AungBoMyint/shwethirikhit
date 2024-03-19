@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:kzn/controller/course_route_controller.dart';
 import 'package:kzn/data/constant.dart';
 import 'package:kzn/data/models/course.dart';
 import 'package:kzn/providers/course_provider.dart';
@@ -21,13 +23,16 @@ class MainRoute extends StatefulWidget {
 class _MainRouteState extends State<MainRoute> {
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
-
-    Provider.of<CourseProvider>(context, listen: false)
-        .getCourseListForOneTime();
-
+    final provider = Get.put(CourseProvider());
+    provider.getCourseListForOneTime();
     //Provider.of<UserProvider>(context,listen: false).login(username: "admin", password: "admin");
+  }
+
+  @override
+  void dispose() {
+    Get.delete<CourseProvider>();
+    super.dispose();
   }
 
   @override
@@ -123,25 +128,14 @@ class _MainRouteState extends State<MainRoute> {
 
   // 1 Course List Future Builder
   Widget _courseListFutureBuilder() {
-    return FutureBuilder(
-        future: Provider.of<CourseProvider>(context, listen: true).courseList,
-        builder: (BuildContext context, AsyncSnapshot<List<Course>> snapshot) {
-          if (snapshot.hasData) {
-            if (snapshot.data!.length == 0) {
-              return HomeView();
-            } else {
-              final courses = snapshot.data!.reversed.toList();
-              return CourseList(courses: courses);
-            }
-          } else if (snapshot.hasError) {
-            //_refreshController.refreshCompleted();
-            return Container(
-              child: Center(child: Text('error ${snapshot.error.toString()}')),
-            );
-          } else {
-            //_refreshController.refreshCompleted();
-            return HomeView();
-          }
-        });
+    final CourseProvider provider = Get.find();
+    return Obx(() {
+      if (provider.courseList.length == 0) {
+        return HomeView();
+      } else {
+        final courses = provider.courseList.reversed.toList();
+        return CourseList(courses: courses);
+      }
+    });
   }
 }

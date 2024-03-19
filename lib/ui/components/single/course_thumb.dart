@@ -7,6 +7,7 @@ import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:kzn/affirmations/screens/home.dart';
 import 'package:kzn/consultant_appointant/controller/home_controller.dart';
+import 'package:kzn/controller/course_route_controller.dart';
 import 'package:kzn/data/models/course.dart';
 import 'package:kzn/providers/course_provider.dart';
 import 'package:kzn/ui/components/single/course_thumb_img.dart';
@@ -28,6 +29,7 @@ class _CourseThumbState extends State<CourseThumb> {
   @override
   Widget build(BuildContext context) {
     final HomeController homeController = Get.find();
+    final CourseProvider provider = Get.find();
     final width = MediaQuery.of(context).size.width;
     return FutureBuilder<Size>(
         future: homeController.completer.future,
@@ -43,8 +45,7 @@ class _CourseThumbState extends State<CourseThumb> {
           return GestureDetector(
             onTap: () async {
               print("CourseThumb onTap");
-              Provider.of<CourseProvider>(context, listen: false)
-                  .setCourseDetail(widget.course);
+              provider.setCourseDetail(widget.course);
               Navigator.pushNamed(context, SubscriptionCheckRoute.routeName);
             },
             child: Stack(

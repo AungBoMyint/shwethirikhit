@@ -174,7 +174,7 @@ class _MusicPlayListState extends State<MusicPlayList> {
           /* physics: NeverScrollableScrollPhysics(), */
           children: [
             SizedBox(
-              height: size.width > 415 ? 180 : 100,
+              height: size.width > 415 ? 180 : 120,
               child: LayoutBuilder(builder: (context, constraints) {
                 final width = constraints.maxWidth;
                 return Padding(
@@ -208,36 +208,38 @@ class _MusicPlayListState extends State<MusicPlayList> {
                         const SizedBox(width: 20),
                         //Right Text
                         Expanded(
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                widget.category?.name ??
-                                    widget.type?.name ??
-                                    "",
-                                maxLines: 4,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  fontSize: 20,
-                                  fontWeight: FontWeight.bold,
-                                  letterSpacing: 1,
-                                  wordSpacing: 1,
-                                  color: Colors.white,
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  widget.category?.name ??
+                                      widget.type?.name ??
+                                      "",
+                                  maxLines: 4,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    letterSpacing: 1,
+                                    wordSpacing: 1,
+                                    color: Colors.white,
+                                  ),
                                 ),
-                              ),
-                              const SizedBox(height: 10),
-                              FutureBuilder<int>(
-                                future: musicCount(),
-                                builder:
-                                    (context, AsyncSnapshot<int> snapshot) {
-                                  return Text(
-                                    "${snapshot.data} songs",
-                                    style: TextStyle(color: Colors.white),
-                                  );
-                                },
-                              ),
-                            ],
+                                const SizedBox(height: 10),
+                                FutureBuilder<int>(
+                                  future: musicCount(),
+                                  builder:
+                                      (context, AsyncSnapshot<int> snapshot) {
+                                    return Text(
+                                      "${snapshot.data} songs",
+                                      style: TextStyle(color: Colors.white),
+                                    );
+                                  },
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],

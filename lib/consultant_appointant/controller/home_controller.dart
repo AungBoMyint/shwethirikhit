@@ -55,7 +55,7 @@ class HomeController extends GetxController {
     _vlogVideoListener();
   }
 
-  _vlogVideoListener() => vlogVideoQuery.snapshots().listen((event) async {
+  _vlogVideoListener() => vlogVideoQuery.get().then((event) async {
         if (event.docs.isEmpty) {
           vlogVideos.clear();
         } else {

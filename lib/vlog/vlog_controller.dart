@@ -8,6 +8,7 @@ import 'package:video_player/video_player.dart';
 import 'dart:developer';
 
 class VlogController extends GetxController {
+  var isLessonLoading = false.obs;
   Rxn<VlogVideo> selectedVideo = Rxn<VlogVideo>(null);
   final HomeController _homeController = Get.find();
   Rxn<ChewieController> chewieController = Rxn<ChewieController>(null);
@@ -15,39 +16,57 @@ class VlogController extends GetxController {
   Worker? worker;
 
   playVideo() => chewieController.value?.play();
-  changeSelectedVideo(VlogVideo v) {
-    selectedVideo.value = v;
-    if (chewieController.value?.isPlaying == true) {
-      chewieController.value?.pause();
-    }
+  void disposeVideo() {
     chewieController.value?.videoPlayerController.dispose();
     chewieController.value?.dispose();
     chewieController.value = null;
-    chewieController.value = ChewieController(
-        deviceOrientationsAfterFullScreen: [
-          DeviceOrientation.portraitUp,
-        ],
-        deviceOrientationsOnEnterFullScreen: [
-          DeviceOrientation.landscapeRight,
-        ],
-        videoPlayerController: VideoPlayerController.network(v.videoURL),
-        aspectRatio: 16 / 9,
-        autoInitialize: true,
-        autoPlay: false,
-        looping: true,
-        errorBuilder: (context, errorMessage) {
-          return Center(
-            child: Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Text(
-                errorMessage,
-                style: TextStyle(
-                  color: Colors.white,
+  }
+
+  Future<void> changeSelectedVideo(VlogVideo v) async {
+    selectedVideo.value = v;
+    if (isLessonLoading.isTrue) return;
+
+    isLessonLoading.value = true;
+    disposeVideo(); // Dispose previous controller if any
+
+    try {
+      VideoPlayerController videoPlayerController =
+          VideoPlayerController.network(v.videoURL);
+      await videoPlayerController
+          .initialize(); // Ensure initialization before creating ChewieController
+
+      chewieController.value = ChewieController(
+          deviceOrientationsAfterFullScreen: [
+            DeviceOrientation.portraitUp,
+          ],
+          deviceOrientationsOnEnterFullScreen: [
+            DeviceOrientation.landscapeRight,
+          ],
+          videoPlayerController: videoPlayerController,
+          aspectRatio: 16 / 9,
+          autoInitialize: true,
+          autoPlay: false,
+          looping: true,
+          errorBuilder: (context, errorMessage) {
+            return Center(
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(
+                  errorMessage,
+                  style: TextStyle(
+                    color: Colors.white,
+                  ),
                 ),
               ),
-            ),
-          );
-        });
+            );
+          });
+    } catch (e) {
+      isLessonLoading.value = false;
+      // Handle error
+      print("Error initializing video player: $e");
+    } finally {
+      isLessonLoading.value = false;
+    }
   }
 
   @override
@@ -77,34 +96,7 @@ class VlogController extends GetxController {
       selectedVideo.value = _homeController.vlogVideos.first;
       isLoading.value = false;
       debugPrint("Vlog Page Is Loading: ${isLoading.value}");
-      chewieController.value = ChewieController(
-          deviceOrientationsAfterFullScreen: [
-            DeviceOrientation.portraitUp,
-          ],
-          deviceOrientationsOnEnterFullScreen: [
-            DeviceOrientation.landscapeRight,
-          ],
-          videoPlayerController: VideoPlayerController.network(
-              _homeController.vlogVideos.first.videoURL),
-          aspectRatio: 16 / 9,
-          autoInitialize: true,
-          autoPlay: false,
-          looping: true,
-          errorBuilder: (context, errorMessage) {
-            return Center(
-              child: Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(
-                  errorMessage,
-                  style: TextStyle(
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            );
-          });
-      log("Vlog Page Is Loading: ${isLoading.value}");
-      log("Vlog Page ChewieController is Null: ${chewieController.value == null}");
+      changeSelectedVideo(_homeController.vlogVideos.first);
     }
   }
 }

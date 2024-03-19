@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:kzn/controller/course_route_controller.dart';
 import 'package:kzn/data/constant.dart';
 import 'package:kzn/data/models/course.dart';
 import 'package:kzn/providers/course_provider.dart';
@@ -17,6 +19,7 @@ class SubscriptionCheckRoute extends StatefulWidget {
 }
 
 class _SubscriptionCheckRouteState extends State<SubscriptionCheckRoute> {
+  final CourseProvider provider = Get.find();
   void _check() async {
     // check login
     String? accessKey =
@@ -29,8 +32,7 @@ class _SubscriptionCheckRouteState extends State<SubscriptionCheckRoute> {
       });
     } else {
       // check subscription
-      Course? course =
-          Provider.of<CourseProvider>(context, listen: false).course;
+      Course? course = provider.course.value;
       bool status =
           await Provider.of<SubscriptionProvider>(context, listen: false)
               .checkSubscription(course!.id, accessKey);

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:kzn/controller/course_route_controller.dart';
 import 'package:kzn/data/constant.dart';
 import 'package:kzn/providers/course_provider.dart';
 import 'package:kzn/ui/components/single/lesson_card.dart';
@@ -16,6 +18,14 @@ class CourseRoute extends StatefulWidget {
 }
 
 class _CourseRouteState extends State<CourseRoute> {
+  CourseProvider courseRouteController = Get.find();
+
+  @override
+  void dispose() {
+    courseRouteController.disposeVideo();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return SafeArea(
@@ -25,10 +35,12 @@ class _CourseRouteState extends State<CourseRoute> {
           elevation: 0,
           iconTheme: IconThemeData(color: Colors.black),
           backgroundColor: mainThemeColor,
-          title: Text(
-            Provider.of<CourseProvider>(context, listen: true).course!.name,
-            style: TextStyle(fontSize: 14.0, color: Colors.black),
-          ),
+          title: Obx(() {
+            return Text(
+              courseRouteController.course.value!.name,
+              style: TextStyle(fontSize: 14.0, color: Colors.black),
+            );
+          }),
           actions: [
             SizedBox(
               width: 25,
@@ -58,17 +70,14 @@ class _CourseRouteState extends State<CourseRoute> {
                 child: ListView.separated(
                     physics: BouncingScrollPhysics(),
                     itemBuilder: (context, index) => LessonCard(
-                          lesson:
-                              Provider.of<CourseProvider>(context, listen: true)
-                                  .course!
-                                  .lessonSet[index],
+                          lesson: courseRouteController
+                              .course.value!.lessonSet[index],
                         ),
-                    separatorBuilder: (context, index) => Divider(),
+                    separatorBuilder: (context, index) => Divider(
+                          height: 0,
+                        ),
                     itemCount:
-                        Provider.of<CourseProvider>(context, listen: true)
-                            .course!
-                            .lessonSet
-                            .length))
+                        courseRouteController.course.value!.lessonSet.length))
           ],
         ),
       ),

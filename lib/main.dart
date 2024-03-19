@@ -12,7 +12,6 @@ import 'package:kzn/auth/view/sms_page.dart';
 import 'package:kzn/consultant_appointant/controller/home_controller.dart';
 import 'package:kzn/consultant_appointant/screen/detail.dart';
 import 'package:kzn/data/constant.dart';
-import 'package:kzn/providers/course_provider.dart';
 import 'package:kzn/providers/subscription_provider.dart';
 import 'package:kzn/providers/user_provider.dart';
 import 'package:kzn/therapy/profile_page.dart';
@@ -26,12 +25,9 @@ import 'package:kzn/ui/routes/subscription_route.dart';
 import 'package:kzn/ui/routes/tnc_route.dart';
 import 'package:kzn/utils/fun.dart';
 import 'package:kzn/utils/utils.dart';
-import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:provider/provider.dart';
-import 'affirmations/controller/aff_home_controller.dart';
 import 'auth/controller/auth_controller.dart';
 import 'intro/intro_one_screen.dart';
-import 'therapy/therapy_controller.dart';
 import 'ui/routes/enroll_form_route.dart';
 import 'package:kzn/bottombar.dart';
 
@@ -73,7 +69,6 @@ Future<void> main() async {
     DeviceOrientation.portraitDown,
   ]).then((value) => runApp(MultiProvider(providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
-        ChangeNotifierProvider(create: (_) => CourseProvider()),
         ChangeNotifierProvider(create: (_) => SubscriptionProvider()),
         // ChangeNotifierProvider(create: (_) => VlogProvider()),
       ], child: MyApp())));
@@ -85,10 +80,12 @@ class MyApp extends StatelessWidget {
     /* Get.put(MainController());  */ //Make Globle,
 
     Get.put(HomeController());
-    Get.put(VlogController());
     Get.put(AuthController());
+    /* Get.put(CourseProvider());
+    Get.put(VlogController());
+    
     Get.put(TherapyController());
-    Get.put(AffHomeController());
+    Get.put(AffHomeController()); */
     return GetMaterialApp(
         navigatorKey: globalKey,
         debugShowCheckedModeBanner: false,
@@ -96,17 +93,6 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: Colors.blue,
         ),
-        /*  builder: (context, child) => ResponsiveBreakpoints.builder(
-              child: child!,
-              breakpoints: [
-                const Breakpoint(start: 0, end: 415, name: MOBILE),
-                const Breakpoint(start: 416, end: 524, name: TABLET),
-                const Breakpoint(start: 525, end: 800, name: "LTABLET"),
-                const Breakpoint(start: 801, end: 1920, name: DESKTOP),
-                const Breakpoint(start: 1921, end: double.infinity, name: '4K'),
-              ],
-            ), */
-        //home: IntroOneScreen(),
         initialRoute: getInitialRoute(),
         routes: {
           IntroOneScreen.routeName: (context) => IntroOneScreen(),

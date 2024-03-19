@@ -21,7 +21,8 @@ class HomeView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     int current = 0;
-    final isTablet = MediaQuery.of(context).size.width > 510;
+    final size = MediaQuery.of(context).size;
+    final isTablet = size.width > 510;
     final HomeController _homeController = Get.find();
     return ListView(
       shrinkWrap: true,
@@ -118,11 +119,13 @@ class HomeView extends StatelessWidget {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        Text(
-                          type.name,
-                          style: TextStyle(
-                            fontSize: 16,
-                            fontWeight: FontWeight.bold,
+                        Expanded(
+                          child: Text(
+                            type.name,
+                            style: TextStyle(
+                              fontSize: 16,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                         GestureDetector(

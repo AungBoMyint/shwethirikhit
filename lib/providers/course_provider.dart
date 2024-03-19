@@ -1,99 +1,120 @@
-import 'dart:convert';
+/* import 'dart:convert';
+import 'package:chewie/chewie.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:get/get_connect/sockets/src/socket_notifier.dart';
 import 'package:kzn/data/constant.dart';
 import 'package:kzn/data/models/course.dart';
 import 'package:kzn/data/models/lesson.dart';
+import 'package:video_player/video_player.dart';
 
-class CourseProvider extends ChangeNotifier{
-
+class CourseProvider extends ChangeNotifier {
   Course? course;
-  Future<Lesson>? lesson;
-
+  /* Future< */ Lesson /* > */ ? lesson;
+  bool isLoading = false;
+  ChewieController? chewieController;
   List<Course> courseListNormal = [];
   Future<List<Course>>? courseList;
   int? _lastCourseId;
   bool? courseLoading;
 
-  // 1. select all courses [public]
-  Future<void> getCourseListForOneTime()async{
-    print("CourseProvider->getCourseListForOneTime ");
+  void disposeVideoController() {
+    chewieController?.pause();
+    chewieController?.videoPlayerController.pause();
+    chewieController?.videoPlayerController.dispose();
+    chewieController?.dispose();
+    print("*********Dispose Video Controller");
+  }
 
-    try{
+  playVideo() => chewieController?.play();
+  changeSelectedVideo(Lesson v) {
+    lesson = v;
+    if (chewieController?.isPlaying == true) {
+      chewieController?.pause();
+    }
+    chewieController?.videoPlayerController.dispose();
+    chewieController?.dispose();
+    chewieController = null;
+    chewieController = ChewieController(
+        deviceOrientationsAfterFullScreen: [
+          DeviceOrientation.portraitUp,
+        ],
+        deviceOrientationsOnEnterFullScreen: [
+          DeviceOrientation.landscapeRight,
+        ],
+        videoPlayerController: VideoPlayerController.network(v.videoUrl),
+        aspectRatio: 16 / 9,
+        autoInitialize: true,
+        autoPlay: false,
+        looping: true,
+        errorBuilder: (context, errorMessage) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Text(
+                errorMessage,
+                style: TextStyle(
+                  color: Colors.white,
+                ),
+              ),
+            ),
+          );
+        });
+  }
+
+  // 1. select all courses [public]
+  Future<void> getCourseListForOneTime() async {
+    try {
       courseLoading = true;
-      print("courseEndpoint $courseEndpoint");
       var response = await Dio().get(courseEndpoint);
-      print(response);
-      print("CourseProvider->getCourseListForOneTime response");
-      print('Response status: ${response.statusCode}');
-      print('Response data: ${response.data}');
 
       Map<String, dynamic> dataResponse = response.data;
-      dynamic dataList =  dataResponse['results'];  // list of wp-content
-      print("dataList is ");
-      print(dataList);
+      dynamic dataList = dataResponse['results']; // list of wp-content
+
       courseListNormal = [];
 
-      for(int i=0; i<dataList.length; i++){
-        print("Goods => dataList[${i}]");
-        print(jsonEncode(dataList[i]));
-        print(dataList[i].runtimeType);
-
-        try{
-          print("try to parse Goods.fromJson");
+      for (int i = 0; i < dataList.length; i++) {
+        try {
           courseListNormal.add(Course.fromJson(dataList[i]));
           _lastCourseId = courseListNormal.last.id;
-        }catch(innerExp){
-          print('CourseProvider->getCourseListForOneTime innerExp $innerExp');
-        }
+        } catch (innerExp) {}
       }
 
-
       //goodsListForOneTime = goodsListCONSTANT;
-      print("courseListNormal");
-      print(courseListNormal);
-      courseList =  Future.delayed(Duration.zero,()=>courseListNormal);
-
+      courseList = Future.delayed(Duration.zero, () => courseListNormal);
 
       //return goodsListForOneTime;
 
       courseLoading = false;
-      Future.delayed(Duration(seconds: 1),(){
+      Future.delayed(Duration(seconds: 1), () {
         notifyListeners();
       });
-
-    }catch(exp){
-      print('CourseProvider->getCourseListForOneTime exp');
+    } catch (exp) {
       // customer = null;
       courseLoading = false;
-      print(exp);
       courseListNormal = [];
-      courseList =  Future.delayed(Duration.zero,()=>courseListNormal);
-      Future.delayed(Duration(seconds: 1),(){
+      courseList = Future.delayed(Duration.zero, () => courseListNormal);
+      Future.delayed(Duration(seconds: 1), () {
         notifyListeners();
       });
     }
-
-
   }
 
-  void setCourseDetail(Course detailCourse){
-    print("CourseProvider->setCourseDetail");
+  void setCourseDetail(Course detailCourse) {
     course = detailCourse;
-    try{
+    isLoading = true;
+    try {
       setLessonDetail(course!.lessonSet.first);
-    }
-    catch(exp){
-      print("no element");
-    }
+    } catch (exp) {}
+    isLoading = false;
     notifyListeners();
   }
 
-  void setLessonDetail(Lesson detailLesson){
-    print("CourseProvider->setLessonDetail");
-    lesson = Future.delayed(Duration.zero,()=>detailLesson);
+  void setLessonDetail(Lesson detailLesson) {
+    changeSelectedVideo(detailLesson);
     notifyListeners();
   }
-
-
 }
+ */

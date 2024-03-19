@@ -1,21 +1,38 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/rendering.dart';
 import 'package:get/get.dart';
 import 'package:kzn/utils/utils.dart';
 import 'package:kzn/vlog/vlog_controller.dart';
 import 'package:shimmer/shimmer.dart';
-import 'dart:developer';
 import '../consultant_appointant/controller/home_controller.dart';
 import '../data/constant.dart';
 import '../model/vlog_video.dart';
 
-class Vlog extends GetView<VlogController> {
-  final HomeController _homeController = Get.find();
+class Vlog extends StatefulWidget {
+  const Vlog({super.key});
 
+  @override
+  State<Vlog> createState() => _VlogState();
+}
+
+class _VlogState extends State<Vlog> {
+  @override
+  void initState() {
+    Get.put(VlogController());
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    Get.delete<VlogController>();
+    super.dispose();
+  }
+
+  final HomeController _homeController = Get.find();
   getLessonTile(
       String title, String img, String status, double width, VlogVideo video) {
+    final VlogController controller = Get.find();
     return InkWell(
       onTap: () => controller.changeSelectedVideo(video),
       child: Container(
@@ -85,15 +102,18 @@ class Vlog extends GetView<VlogController> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
+    final size = MediaQuery.of(context).size;
+    double width = size.width;
+    final VlogController controller = Get.find();
     return SafeArea(
       child: Scaffold(
         backgroundColor: logoColor,
         body: Column(
           children: [
-            Expanded(
-              flex: largerThanMobile(width) ? 4 : 3,
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              /* Expanded(
+              flex: largerThanMobile(width) ? 4 : 3, */
               child: AppBar(
                 excludeHeaderSemantics: true,
                 backgroundColor: Color(0xFFEAE1D7),
@@ -105,7 +125,7 @@ class Vlog extends GetView<VlogController> {
                   toolbarOpacity: 1,
                   child: FlexibleSpaceBar(
                     background: Obx(() {
-                      if (controller.isLoading.value &&
+                      if (controller.isLoading.value ||
                           (controller.chewieController.value == null)) {
                         return Shimmer.fromColors(
                           baseColor: Colors.grey.shade300,
@@ -125,12 +145,37 @@ class Vlog extends GetView<VlogController> {
               ),
             ),
             verticalSpace(10),
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: Obx(() {
+                if (controller.isLoading.value &&
+                    controller.selectedVideo.value == null) {
+                  return Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.white,
+                    child: Container(
+                      height: 20,
+                      width: 100,
+                      color: Colors.white,
+                    ),
+                  );
+                }
+                return Text(
+                  controller.selectedVideo.value!.title,
+                  style: TextStyle(
+                      color: Colors.white,
+                      fontFamily: 'Signika Negative',
+                      fontWeight: FontWeight.w700,
+                      fontSize: 16.0),
+                );
+              }),
+            ),
             Expanded(
               flex: 6,
               child: CustomScrollView(
                 slivers: <Widget>[
                   //Selected Video Title
-                  SliverToBoxAdapter(
+                  /*  SliverToBoxAdapter(
                     child: Padding(
                       padding: const EdgeInsets.all(8.0),
                       child: Obx(() {
@@ -157,7 +202,7 @@ class Vlog extends GetView<VlogController> {
                       }),
                     ),
                   ),
-
+ */
                   SliverList(
                       delegate: SliverChildBuilderDelegate(
                     (context, index) {

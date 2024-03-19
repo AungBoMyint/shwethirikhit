@@ -69,11 +69,25 @@ class _VideoInfoState extends State<VideoInfo> {
                                   TopAppBar(),
                                   verticalSpace(width > 415 ? 20 : 10),
                                   Expanded(
-                                    child: Chewie(
-                                      controller:
-                                          controller.chewieController.value!,
-                                    ),
-                                  )
+                                    child: Obx(() {
+                                      if (controller.isLoading.value ||
+                                          (controller.chewieController.value ==
+                                              null)) {
+                                        return Shimmer.fromColors(
+                                          baseColor: Colors.grey.shade300,
+                                          highlightColor: Colors.white,
+                                          child: Container(
+                                            width: width,
+                                            color: Colors.white,
+                                          ),
+                                        );
+                                      }
+                                      return Chewie(
+                                        controller:
+                                            controller.chewieController.value!,
+                                      );
+                                    }),
+                                  ),
                                 ],
                               )),
                   ),
